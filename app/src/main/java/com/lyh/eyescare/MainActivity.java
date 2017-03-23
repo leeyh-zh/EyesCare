@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private BackService curservice;
     private Camera camera;
 
+    private Boolean eyeProtectionMode = false;
+
     @BindView(R.id.tvpercent)
     TextView tvpercent;
     @BindView(R.id.spercent)

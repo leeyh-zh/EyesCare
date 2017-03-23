@@ -55,13 +55,15 @@ public class BackService extends Service {
         wmParams = new WindowManager.LayoutParams();
         // 获取的是WindowManagerImpl.CompatModeWrapper
         // 设置window type
-        wmParams.type = WindowManager.LayoutParams.TYPE_PHONE;
+        wmParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
         // 设置图片格式，效果为背景透明
         wmParams.format = PixelFormat.RGBA_8888;
         // 设置浮动窗口不可聚焦（实现操作除浮动窗口外的其他可见窗口的操作）
         wmParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                 | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;
+                | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                | WindowManager.LayoutParams.FLAG_FULLSCREEN
+                | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
         // 调整悬浮窗显示的停靠位置为左侧置顶
         wmParams.gravity = Gravity.LEFT | Gravity.TOP;
         // 以屏幕左上角为原点，设置x、y初始值，相对于gravity
