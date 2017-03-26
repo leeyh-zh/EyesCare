@@ -4,366 +4,192 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/settings_bg"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:orientation="horizontal"
-        android:paddingEnd="15dp"
-        android:paddingStart="15dp">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/background_color"/>
 
-        <TextView
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="护眼模式亮度:      "/>
+            android:layout_marginTop="8dp"
+            android:background="@drawable/settings_bg"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:orientation="horizontal"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="护眼模式亮度:      "/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvpercent"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="0%"/>
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/spercent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:max="255"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/list_divider_extra_color"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:background="@drawable/settings_bg"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:orientation="horizontal"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dip"
+                android:layout_marginEnd="9dp"
+                android:layout_marginTop="9dip"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/eyes_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:text="手动打开护眼模式"
+                    android:textColor="#000000"
+                    android:textSize="18sp"/>
+            </RelativeLayout>
+
+            <Switch
+                android:id="@+id/eyes_switch"
+                style="@style/SwitchStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:clickable="false"
+                android:focusable="false"/>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvpercent"
-            android:layout_width="fill_parent"
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/list_divider_extra_color"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="0%"/>
-    </LinearLayout>
+            android:background="@drawable/settings_bg"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:orientation="horizontal"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp">
 
-    <SeekBar
-        android:id="@+id/spercent"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:max="255"/>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dip"
+                android:layout_marginEnd="9dp"
+                android:layout_marginTop="9dip"
+                android:layout_weight="1">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/list_divider_extra_color"/>
+                <TextView
+                    android:id="@+id/light_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:text="手电筒"
+                    android:textColor="#000000"/>
+            </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/settings_bg"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:orientation="horizontal"
-        android:paddingEnd="15dp"
-        android:paddingStart="15dp">
+            <Switch
+                android:id="@+id/light_switch"
+                style="@style/SwitchStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:clickable="false"
+                android:focusable="false"/>
+        </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="0dp"
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/list_divider_extra_color"/>
+
+        <LinearLayout
+            android:id="@+id/color_setting"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="9dip"
-            android:layout_marginEnd="9dp"
-            android:layout_marginTop="9dip"
-            android:layout_weight="1">
+            android:background="@drawable/settings_bg"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:orientation="horizontal"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dip"
+                android:layout_marginEnd="9dp"
+                android:layout_marginTop="9dip"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/color_config_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:text="颜色调节"
+                    android:textColor="#000000"/>
+            </RelativeLayout>
 
             <TextView
-                android:id="@+id/eyes_title"
-                android:layout_width="match_parent"
+                android:id="@+id/color_config"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
                 android:fadingEdge="horizontal"
-                android:text="手动打开护眼模式"
-                android:textColor="#000000"
-                android:textSize="18sp"/>
-        </RelativeLayout>
-
-        <Switch
-            android:id="@+id/eyes_switch"
-            style="@style/SwitchStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:clickable="false"
-            android:focusable="false"/>
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/list_divider_extra_color"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/settings_bg"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:orientation="horizontal"
-        android:paddingEnd="15dp"
-        android:paddingStart="15dp">
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="9dip"
-            android:layout_marginEnd="9dp"
-            android:layout_marginTop="9dip"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/light_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:text="手电筒"
+                android:text="#000000"
                 android:textColor="#000000"/>
-        </RelativeLayout>
+        </LinearLayout>
 
-        <Switch
-            android:id="@+id/light_switch"
-            style="@style/SwitchStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:clickable="false"
-            android:focusable="false"/>
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/list_divider_extra_color"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/settings_bg"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:orientation="horizontal"
-        android:paddingEnd="15dp"
-        android:paddingStart="15dp">
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="9dip"
-            android:layout_marginEnd="9dp"
-            android:layout_marginTop="9dip"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/timer_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:text="护眼模式"
-                android:textColor="#000000"/>
-        </RelativeLayout>
-
-        <Switch
-            android:id="@+id/timer_switch"
-            style="@style/SwitchStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:clickable="false"
-            android:focusable="false"/>
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/list_divider_extra_color"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/settings_bg"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:orientation="horizontal"
-        android:paddingEnd="15dp"
-        android:paddingStart="15dp">
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="9dip"
-            android:layout_marginEnd="9dp"
-            android:layout_marginTop="9dip"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/save_config_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:text="护眼模式"
-                android:textColor="#000000"/>
-        </RelativeLayout>
-
-        <Switch
-            android:id="@+id/save_config_switch"
-            style="@style/SwitchStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:clickable="false"
-            android:focusable="false"/>
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/list_divider_extra_color"/>
-
-    <LinearLayout
-        android:id="@+id/color_setting"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/settings_bg"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:orientation="horizontal"
-        android:paddingEnd="15dp"
-        android:paddingStart="15dp">
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="9dip"
-            android:layout_marginEnd="9dp"
-            android:layout_marginTop="9dip"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/color_config_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:text="颜色调节"
-                android:textColor="#000000"/>
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/color_config"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="marquee"
-            android:fadingEdge="horizontal"
-            android:text="#000000"
-            android:textColor="#000000"/>
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/list_divider_extra_color"/>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="30dp"
-        android:layout_marginTop="8dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="R(红):  "
-            android:textColor="#ff0000"
-            android:textSize="20sp"/>
-
-        <TextView
-            android:id="@+id/tvr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="8dp"
-            android:text="0%"
-            android:textColor="#ff0000"
-            android:textSize="20sp"/>
-
-        <SeekBar
-            android:id="@+id/sr"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:max="255"
-            android:progressDrawable="@drawable/play_seekbar_bule_bg"
-            android:thumb="@drawable/slider_thumb_red"/>
-
-    </LinearLayout>
-
-
-
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="30dp"
-        android:layout_marginTop="8dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="G(绿):  "
-            android:textColor="#00ff00"
-            android:textSize="20sp"/>
-
-        <TextView
-            android:id="@+id/tvg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="8dp"
-            android:text="0%"
-            android:textColor="#00ff00"
-            android:textSize="20sp"/>
-
-        <SeekBar
-            android:id="@+id/sg"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:max="255"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="30dp"
-        android:layout_marginTop="8dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="B(蓝):  "
-            android:textColor="#0000ff"
-            android:textSize="20sp"/>
-
-        <TextView
-            android:id="@+id/tvb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="8dp"
-            android:text="0%"
-            android:textColor="#0000ff"
-            android:textSize="20sp"/>
-
-        <SeekBar
-            android:id="@+id/sb"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:max="255"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/list_divider_extra_color"/>
     </LinearLayout>
 </LinearLayout>

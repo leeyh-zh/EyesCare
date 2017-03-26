@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="settings_bg_pressed">#00E7E7E7</color>
     <color name="list_divider_extra_color">#ffcccccc</color>
+    <color name="transparent">#0000</color>
+    <color name="white">#fff</color>
 </resources>

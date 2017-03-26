@@ -1,108 +1,279 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="#EDEDED"
-              android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/background_color"
+        />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#FFFEFE"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:orientation="horizontal"
-        android:paddingEnd="15dp"
-        android:paddingStart="15dp">
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="9dip"
-            android:layout_marginEnd="9dp"
-            android:layout_marginTop="9dip"
-            android:layout_weight="1">
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:orientation="horizontal"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dip"
+                android:layout_marginEnd="9dp"
+                android:layout_marginTop="9dip"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:text="调节颜色"
+                    android:textColor="#000000"/>
+            </RelativeLayout>
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/tv_color_config"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
                 android:fadingEdge="horizontal"
-                android:text="调节颜色"
+                android:text="#000000"
                 android:textColor="#000000"/>
-        </RelativeLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="40px"
+            android:background="@color/list_divider_extra_color"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:text="护眼模式亮度：       "/>
+
+            <TextView
+                android:id="@+id/tv_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:text="0%"/>
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/alpha_seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="-8dp"
+            android:layout_marginStart="-8dp"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:max="255"
+            android:maxHeight="2dp"
+            android:paddingBottom="15dp"
+            android:paddingEnd="28dp"
+            android:paddingStart="28dp"
+            android:paddingTop="5dp"
+            android:progressDrawable="@drawable/play_seekbar_light_bg"
+            android:splitTrack="false"
+            android:thumb="@drawable/slider_thumb_light"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="20px"
+            android:background="@color/list_divider_extra_color"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:orientation="vertical">
+
+            <SeekBar
+                android:id="@+id/red_seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="-8dp"
+                android:layout_marginStart="-8dp"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:max="255"
+                android:maxHeight="2dp"
+                android:paddingEnd="28dp"
+                android:paddingStart="28dp"
+                android:paddingTop="15dp"
+                android:progressDrawable="@drawable/play_seekbar_red_bg"
+                android:splitTrack="false"
+                android:thumb="@drawable/slider_thumb_red"/>
+
+            <SeekBar
+                android:id="@+id/green_seedBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="-8dp"
+                android:layout_marginStart="-8dp"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:max="255"
+                android:maxHeight="2dp"
+                android:paddingEnd="28dp"
+                android:paddingStart="28dp"
+                android:paddingTop="15dp"
+                android:progressDrawable="@drawable/play_seekbar_greed_bg"
+                android:splitTrack="false"
+                android:thumb="@drawable/slider_thumb_green"/>
+
+            <SeekBar
+                android:id="@+id/bule_seedBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="-8dp"
+                android:layout_marginStart="-8dp"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:max="255"
+                android:maxHeight="2dp"
+                android:paddingBottom="15dp"
+                android:paddingEnd="28dp"
+                android:paddingStart="28dp"
+                android:paddingTop="15dp"
+                android:progressDrawable="@drawable/play_seekbar_bule_bg"
+                android:splitTrack="false"
+                android:thumb="@drawable/slider_thumb_bule"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="推荐颜色"
+                android:textColor="@android:color/black"/>
+
+            <HorizontalScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbarSize="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_no_color"
+                        android:layout_width="@dimen/color_button_size"
+                        android:layout_height="@dimen/color_button_size"
+                        android:padding="0dp"
+                        android:text="仅变暗"
+                        android:textSize="12sp"/>
+
+                    <Button
+                        android:id="@+id/btn_filter_blue"
+                        android:layout_width="@dimen/color_button_size"
+                        android:layout_height="@dimen/color_button_size"
+                        android:padding="0dp"
+                        android:text="滤蓝光"
+                        android:textSize="12sp"/>
+
+                    <Button
+                        android:id="@+id/btn_cool_colors"
+                        android:layout_width="@dimen/color_button_size"
+                        android:layout_height="@dimen/color_button_size"
+                        android:padding="0dp"
+                        android:text="冷色调"
+                        android:textSize="12sp"/>
+
+                    <Button
+                        android:id="@+id/btn_warm_tone"
+                        android:layout_width="@dimen/color_button_size"
+                        android:layout_height="@dimen/color_button_size"
+                        android:padding="0dp"
+                        android:text="暖色调"
+                        android:textSize="12sp"/>
+
+                    <Button
+                        android:id="@+id/btn_eye_green"
+
+                        android:layout_width="@dimen/color_button_size"
+                        android:layout_height="@dimen/color_button_size"
+                        android:padding="0dp"
+                        android:text="护眼绿"
+                        android:textSize="12sp"/>
+
+                    <Button
+                        android:id="@+id/btn_ink_blue"
+                        android:layout_width="@dimen/color_button_size"
+                        android:layout_height="@dimen/color_button_size"
+                        android:padding="0dp"
+                        android:text="水墨蓝"
+                        android:textSize="12sp"/>
+
+                    <Button
+                        android:id="@+id/btn_tea_black"
+                        android:layout_width="@dimen/color_button_size"
+                        android:layout_height="@dimen/color_button_size"
+                        android:padding="0dp"
+                        android:text="黑茶色"
+                        android:textSize="12sp"/>
+
+                    <Button
+                        android:id="@+id/btn_strawberry_powder"
+                        android:layout_width="@dimen/color_button_size"
+                        android:layout_height="@dimen/color_button_size"
+                        android:padding="0dp"
+                        android:text="草莓粉"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/color_config"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="marquee"
-            android:fadingEdge="horizontal"
-            android:text="#000000"
-            android:textColor="#000000"/>
+            android:background="@color/list_divider_extra_color"
+            android:paddingBottom="5dp"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
+            android:paddingTop="5dp"
+            android:text="真全屏模式为仅变暗不支持任何颜色，其他运行模式默认为滤蓝光的默认浓度"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/color_button_size"
+            android:background="@null"
+            android:text="关闭"/>
     </LinearLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="40px"
-        android:background="@color/list_divider_extra_color"/>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:background="#ffffff"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <SeekBar
-            android:id="@+id/red_seekBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="-8dp"
-            android:layout_marginStart="-8dp"
-            android:background="@android:color/transparent"
-            android:gravity="center"
-            android:maxHeight="2dp"
-            android:paddingEnd="28dp"
-            android:paddingStart="28dp"
-            android:paddingTop="15dp"
-            android:progressDrawable="@drawable/play_seekbar_red_bg"
-            android:splitTrack="false"
-            android:thumb="@drawable/slider_thumb_red"/>
-
-        <SeekBar
-            android:id="@+id/green_seedBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="-8dp"
-            android:layout_marginStart="-8dp"
-            android:background="@android:color/transparent"
-            android:gravity="center"
-            android:maxHeight="2dp"
-            android:paddingEnd="28dp"
-            android:paddingStart="28dp"
-            android:paddingTop="15dp"
-            android:progressDrawable="@drawable/play_seekbar_greed_bg"
-            android:splitTrack="false"
-            android:thumb="@drawable/slider_thumb_green"/>
-
-        <SeekBar
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:id="@+id/bule_seedBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="-8dp"
-            android:layout_marginStart="-8dp"
-            android:background="@android:color/transparent"
-            android:gravity="center"
-            android:maxHeight="2dp"
-            android:paddingEnd="28dp"
-            android:paddingStart="28dp"
-            android:progressDrawable="@drawable/play_seekbar_bule_bg"
-            android:splitTrack="false"
-            android:thumb="@drawable/slider_thumb_bule"/>
-    </LinearLayout>
-
 </LinearLayout>
