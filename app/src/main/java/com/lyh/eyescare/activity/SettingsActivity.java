@@ -1,38 +1,34 @@
 package com.lyh.eyescare.activity;
 
-import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Display;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.lyh.eyescare.ColorManager;
 import com.lyh.eyescare.R;
-import com.lyh.eyescare.constant.Status;
 import com.lyh.eyescare.service.BackService;
+import com.lyh.eyescare.service.EyesCareService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,6 +45,14 @@ public class SettingsActivity extends AppCompatActivity {
     TextView colorConfig;
     @BindView(R.id.color_setting)
     LinearLayout colorSetting;
+    @BindView(R.id.switch_eyes)
+    Switch switchEyes;
+    @BindView(R.id.switch_eyes_root)
+    LinearLayout switchEyesRoot;
+    @BindView(R.id.switch_light)
+    Switch switchLight;
+    @BindView(R.id.switch_light_root)
+    LinearLayout switchLightRoot;
     private int red;
     private int alpha;
     private int blue;
@@ -61,19 +65,15 @@ public class SettingsActivity extends AppCompatActivity {
     @BindView(R.id.tvpercent)
     TextView tvpercent;
     @BindView(R.id.spercent)
-    SeekBar spercent;
+    SeekBar alphaSeekBar;
     @BindView(R.id.eyes_title)
     TextView eyesTitle;
-    @BindView(R.id.eyes_switch)
-    Switch eyesSwitch;
     @BindView(R.id.light_title)
     TextView lightTitle;
-    @BindView(R.id.light_switch)
-    Switch lightSwitch;
 
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
-    private boolean eyeProtectionOpen ;
+    private boolean eyeProtectionOpen = false;
 
     private ServiceConnection conn = new ServiceConnection() {
         @Override
@@ -100,6 +100,13 @@ public class SettingsActivity extends AppCompatActivity {
             window.setNavigationBarColor(Color.TRANSPARENT);
         }
         setContentView(R.layout.activity_main_new);
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (!Settings.canDrawOverlays(this)) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivityForResult(intent, 1);
+            }
+        }
         ButterKnife.bind(this);
         initData();
         initView();
@@ -113,14 +120,16 @@ public class SettingsActivity extends AppCompatActivity {
         green = settings.getInt("green", 0);
         blue = settings.getInt("blue", 0);
         time = settings.getInt("time", 0);
-        eyeProtectionOpen = settings.getBoolean("eyeProtectionOpen",false);
+        eyeProtectionOpen = settings.getBoolean("eyeProtectionOpen", false);
         editor = settings.edit();
     }
 
     private void initView() {
+        switchEyes.setClickable(false);
+        switchLight.setClickable(false);
         tvpercent.setText("" + alpha * 100 / 255 + "%");
-        spercent.setProgress(alpha);
-        spercent.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        alphaSeekBar.setProgress(alpha);
+        alphaSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 alpha = progress;
@@ -128,6 +137,10 @@ public class SettingsActivity extends AppCompatActivity {
                 if (curservice != null) {
                     curservice.changeColor(Color.argb(alpha, red, green, blue));
                 }
+                if (eyeProtectionOpen) {
+                    ColorManager.changeColor(Color.argb(alpha, red, green, blue));
+                }
+                editor.putInt("alpha", alpha).commit();
             }
 
             @Override
@@ -142,38 +155,49 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void statusSettings() {
-
-        eyesSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        switchEyesRoot.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Intent intent = new Intent(SettingsActivity.this, BackService.class);
+            public void onClick(View v) {
+                switchEyes.setChecked(!switchEyes.isChecked());
+                if (switchEyes.isChecked()) {
+                    checkAccessibility();
+//                    Intent intent = new Intent(SettingsActivity.this, BackService.class);
+//                    intent.putExtra("color", Color.argb(alpha, red, green, blue));
+//                    startService(intent);
+//                    intent.putExtra("status", 1);
+//                    PendingIntent pendingIntent = PendingIntent.getService(SettingsActivity.this,
+//                            0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//                    bindService(intent, conn, Context.BIND_AUTO_CREATE);
+                    Intent intent = new Intent(SettingsActivity.this, EyesCareService.class);
+                    intent.putExtra("status", EyesCareService.TYPE_OPEN);
                     intent.putExtra("color", Color.argb(alpha, red, green, blue));
                     startService(intent);
-                    intent.putExtra("status", 1);
-                    PendingIntent pendingIntent = PendingIntent.getService(SettingsActivity.this,
-                            0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    bindService(intent, conn, Context.BIND_AUTO_CREATE);
-                    editor.putBoolean("eyeProtectionOpen",true);
+                    ColorManager.changeColor(Color.argb(alpha, red, green, blue));
+                    editor.putBoolean("eyeProtectionOpen", true);
+                    editor.commit();
                 } else {
-                    Intent intent = new Intent(SettingsActivity.this, BackService.class);
-                    PendingIntent pendIntent = PendingIntent.getBroadcast(SettingsActivity.this,
-                            0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    if (curservice != null) {
-                        unbindService(conn);
-                        stopService(intent);
-                        curservice = null;
-                    }
-                    editor.putBoolean("eyeProtectionOpen",false);
+//                    Intent intent = new Intent(SettingsActivity.this, BackService.class);
+//                    PendingIntent pendIntent = PendingIntent.getBroadcast(SettingsActivity.this,
+//                            0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//                    if (curservice != null) {
+//                        unbindService(conn);
+//                        stopService(intent);
+//                        curservice = null;
+//                    }
+                    Intent intent = new Intent(SettingsActivity.this, EyesCareService.class);
+                    intent.putExtra("status", EyesCareService.TYPE_CLOSE);
+                    startService(intent);
+                    editor.putBoolean("eyeProtectionOpen", false);
+                    editor.commit();
                 }
-                editor.commit();
             }
         });
 
-        lightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        switchLightRoot.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
+            public void onClick(View v) {
+                switchLight.setChecked(!switchLight.isChecked());
+                if (switchLight.isChecked()) {
                     camera = Camera.open();
                     camera.startPreview();
                     Camera.Parameters parameter = camera.getParameters();
@@ -190,84 +214,71 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        colorSetting.setOnClickListener(new View.OnClickListener() {
+
+        colorSetting.setOnClickListener(new View.OnClickListener()
+
+        {
 
             @Override
             public void onClick(View v) {
-               // getPopupWindow();
-                Intent intent = new Intent(SettingsActivity.this,ColorSettingActivity.class);
+                Intent intent = new Intent(SettingsActivity.this, ColorSettingActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
-                //finish();
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
     }
 
-    /***
-     * 获取PopupWindow实例
-     */
-    private void getPopupWindow() {
-
-        if (null != popupWindow) {
-            closePopupWindow();
-            return;
-        } else {
-            initPopuptWindow();
+    private void checkAccessibility() {
+        // 判断辅助功能是否开启
+        if (!isAccessibilitySettingsOn(this)) {
+            // 引导至辅助功能设置页面
+            startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
+            Toast.makeText(this, "请先开启FloatBall辅助功能", Toast.LENGTH_SHORT).show();
         }
     }
 
-    /**
-     * 关闭窗口
-     */
-    private void closePopupWindow() {
-        if (popupWindow != null && popupWindow.isShowing()) {
-            popupWindow.dismiss();
-            popupWindow = null;
-            //WindowManager.LayoutParams params = getWindow().getAttributes();
-            //params.alpha = 1f;
-            //getWindow().setAttributes(params);
+    public static boolean isAccessibilitySettingsOn(Context context) {
+        int accessibilityEnabled = 0;
+        try {
+            accessibilityEnabled = Settings.Secure.getInt(context.getContentResolver(),
+                    Settings.Secure.ACCESSIBILITY_ENABLED);
+        } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
         }
-    }
 
-    private void initPopuptWindow() {
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.color_popupwindow, null);
-        WindowManager windowManager = getWindowManager();
-        Display display = windowManager.getDefaultDisplay();
-        popupWindow = new PopupWindow(popupView, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT, true);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#F8F8F8")));
-        popupWindow.setFocusable(true);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.update();
-        //popupWindow.setAnimationStyle(R.style.colorPopupWindow);
-        //ColorDrawable dw = new ColorDrawable(0xb0000000);
-        //popupWindow.setBackgroundDrawable(dw);
-        //WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
-        //layoutParams.alpha = 0.95f; //0.0-1.0
-        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//让窗口背景后面的任何东西变暗
-        //getWindow().setAttributes(layoutParams);
-        popupWindow.showAtLocation(colorSetting, Gravity.BOTTOM, 0, 0);
-        popupView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                closePopupWindow();
-                return false;
+        if (accessibilityEnabled == 1) {
+            String services = Settings.Secure.getString(context.getContentResolver(),
+                    Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+            if (services != null) {
+                return services.toLowerCase().contains(context.getPackageName().toLowerCase());
             }
-        });
+        }
+
+        return false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        alpha = settings.getInt("alpha", 0);
+        red = settings.getInt("red", 0);
+        green = settings.getInt("green", 0);
+        blue = settings.getInt("blue", 0);
+        alphaSeekBar.setProgress(alpha);
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        int status = intent.getIntExtra("status", 0);
-        if (status == Status.STOP) {
-            if (curservice != null) {
-                unbindService(conn);
-            }
-            Intent intentv = new Intent(SettingsActivity.this, BackService.class);
-            stopService(intentv);
-            curservice = null;
-        }
+//        int status = intent.getIntExtra("status", 0);
+//        if (status == Status.STOP) {
+//            if (curservice != null) {
+//                unbindService(conn);
+//            }
+//            Intent intentv = new Intent(SettingsActivity.this, BackService.class);
+//            stopService(intentv);
+//            curservice = null;
+//        }
     }
 
     @Override
@@ -281,12 +292,12 @@ public class SettingsActivity extends AppCompatActivity {
         int itemId = item.getItemId();
         switch (itemId) {
             case R.id.close:
-                if (curservice != null) {
-                    unbindService(conn);
-                }
-                Intent intent = new Intent(SettingsActivity.this, BackService.class);
-                stopService(intent);
-                curservice = null;
+//                if (curservice != null) {
+//                    unbindService(conn);
+//                }
+//                Intent intent = new Intent(SettingsActivity.this, BackService.class);
+//                stopService(intent);
+//                curservice = null;
                 finish();
                 break;
             default:

@@ -1,8 +1,6 @@
 package com.lyh.eyescare.activity;
 
 import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -19,9 +17,10 @@ import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.lyh.eyescare.ColorManager;
 import com.lyh.eyescare.R;
+import com.lyh.eyescare.constant.Colors;
 import com.lyh.eyescare.service.BackService;
 import com.lyh.eyescare.view.CustomPopWindow;
 
@@ -73,6 +72,7 @@ public class ColorSettingActivity extends AppCompatActivity {
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
     private boolean eyeProtectionOpen;
+    private ColorManager mColorManager;
 
     private ServiceConnection conn = new ServiceConnection() {
         @Override
@@ -118,12 +118,20 @@ public class ColorSettingActivity extends AppCompatActivity {
         red = settings.getInt("red", 0);
         green = settings.getInt("green", 0);
         blue = settings.getInt("blue", 0);
+//        if (eyeProtectionOpen) {
+//            Intent intent = new Intent(this, BackService.class);
+//            intent.putExtra("color", Color.argb(alpha, red, green, blue));
+//            startService(intent);
+//            intent.putExtra("status", 1);
+//            bindService(intent, conn, Context.BIND_AUTO_CREATE);
+//        }
         if (eyeProtectionOpen) {
-            Intent intent = new Intent(this, BackService.class);
-            intent.putExtra("color", Color.argb(alpha, red, green, blue));
-            startService(intent);
-            intent.putExtra("status", 1);
-            bindService(intent, conn, Context.BIND_AUTO_CREATE);
+//            Intent intent = new Intent(ColorSettingActivity.this, EyesCareService.class);
+//            Bundle data = new Bundle();
+//            intent.putExtras(data);
+//            intent.putExtra("color", Color.argb(alpha, red, green, blue));
+//            startService(intent);
+            ColorManager.changeColor(Color.argb(alpha, red, green, blue));
         }
     }
 
@@ -143,8 +151,12 @@ public class ColorSettingActivity extends AppCompatActivity {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             alpha = progress;
-            if (curservice != null) {
-                curservice.changeColor(Color.argb(alpha, red, green, blue));
+//            if (curservice != null) {
+//                curservice.changeColor(Color.argb(alpha, red, green, blue));
+//            }
+            editor.putInt("alpha", alpha).commit();
+            if (eyeProtectionOpen) {
+                ColorManager.changeColor(Color.argb(alpha, red, green, blue));
             }
         }
 
@@ -161,9 +173,14 @@ public class ColorSettingActivity extends AppCompatActivity {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             red = progress;
-            if (curservice != null) {
-                curservice.changeColor(Color.argb(alpha, red, green, blue));
+//            if (curservice != null) {
+//                curservice.changeColor(Color.argb(alpha, red, green, blue));
+//            }
+            editor.putInt("red", red).commit();
+            if (eyeProtectionOpen) {
+                ColorManager.changeColor(Color.argb(alpha, red, green, blue));
             }
+
         }
 
         @Override
@@ -179,8 +196,12 @@ public class ColorSettingActivity extends AppCompatActivity {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             green = progress;
-            if (curservice != null) {
-                curservice.changeColor(Color.argb(alpha, red, green, blue));
+//            if (curservice != null) {
+//                curservice.changeColor(Color.argb(alpha, red, green, blue));
+//            }
+            editor.putInt("green", green).commit();
+            if (eyeProtectionOpen) {
+                ColorManager.changeColor(Color.argb(alpha, red, green, blue));
             }
         }
 
@@ -197,8 +218,12 @@ public class ColorSettingActivity extends AppCompatActivity {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             blue = progress;
-            if (curservice != null) {
-                curservice.changeColor(Color.argb(alpha, red, green, blue));
+//            if (curservice != null) {
+//                curservice.changeColor(Color.argb(alpha, red, green, blue));
+//            }
+            editor.putInt("blue", blue).commit();
+            if (eyeProtectionOpen) {
+                ColorManager.changeColor(Color.argb(alpha, red, green, blue));
             }
         }
 
@@ -255,6 +280,8 @@ public class ColorSettingActivity extends AppCompatActivity {
         popWindow.showAsDropDown(button, 0, -(button.getHeight() / 4 + popWindow.getHeight()));
     }
 
+    private int[] filterBlue;
+
     private void handleLogic(View contentView, final int id) {
         Button.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -265,22 +292,21 @@ public class ColorSettingActivity extends AppCompatActivity {
                 String showContent = "";
                 switch (v.getId()) {
                     case R.id.menu1:
-                        showContent = "点击 Item菜单1";
+                        settingRGB(id, R.id.menu1);
                         break;
                     case R.id.menu2:
-                        showContent = "点击 Item菜单2";
+                        settingRGB(id, R.id.menu2);
                         break;
                     case R.id.menu3:
-                        showContent = "点击 Item菜单3";
+                        settingRGB(id, R.id.menu3);
                         break;
                     case R.id.menu4:
-                        showContent = "点击 Item菜单4";
+                        settingRGB(id, R.id.menu4);
                         break;
                     case R.id.menu5:
-                        showContent = "点击 Item菜单5";
+                        settingRGB(id, R.id.menu5);
                         break;
                 }
-                Toast.makeText(ColorSettingActivity.this, showContent + " = " + id, Toast.LENGTH_SHORT).show();
             }
         };
         contentView.findViewById(R.id.menu1).setOnClickListener(listener);
@@ -290,11 +316,76 @@ public class ColorSettingActivity extends AppCompatActivity {
         contentView.findViewById(R.id.menu5).setOnClickListener(listener);
     }
 
+    private void settingRGB(int color, int button) {
+        int i = 0;
+        if (button == R.id.menu1) {
+            i = 0;
+        } else if (button == R.id.menu2) {
+            i = 1;
+        } else if (button == R.id.menu3) {
+            i = 2;
+        } else if (button == R.id.menu4) {
+            i = 3;
+        } else if (button == R.id.menu5) {
+            i = 4;
+        }
+        if (color == R.id.btn_filter_blue) {
+            red = Colors.FilterBlue[i][0];
+            green = Colors.FilterBlue[i][1];
+            blue = Colors.FilterBlue[i][2];
+        } else if (color == R.id.btn_cool_colors) {
+            red = Colors.CoolColors[i][0];
+            green = Colors.CoolColors[i][1];
+            blue = Colors.CoolColors[i][2];
+        } else if (color == R.id.btn_warm_tone) {
+            red = Colors.WarmTone[i][0];
+            green = Colors.WarmTone[i][1];
+            blue = Colors.WarmTone[i][2];
+        } else if (color == R.id.btn_eye_green) {
+            red = Colors.EyeGreen[i][0];
+            green = Colors.EyeGreen[i][1];
+            blue = Colors.EyeGreen[i][2];
+        } else if (color == R.id.btn_ink_blue) {
+            red = Colors.InkBlue[i][0];
+            green = Colors.InkBlue[i][1];
+            blue = Colors.InkBlue[i][2];
+        } else if (color == R.id.btn_tea_black) {
+            red = Colors.TeaBlack[i][0];
+            green = Colors.TeaBlack[i][1];
+            blue = Colors.TeaBlack[i][2];
+        } else if (color == R.id.btn_strawberry_powder) {
+            red = Colors.StrawberryPowder[i][0];
+            green = Colors.StrawberryPowder[i][1];
+            blue = Colors.StrawberryPowder[i][2];
+        }
+        redSeekBar.setProgress(red);
+        greenSeedBar.setProgress(green);
+        buleSeedBar.setProgress(blue);
+        if (eyeProtectionOpen) {
+            ColorManager.changeColor(Color.argb(alpha, red, green, blue));
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        editor.putInt("alpha", alpha);
+        editor.putInt("red", red);
+        editor.putInt("green", green);
+        editor.putInt("blue", blue);
+        editor.commit();
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
 //        Intent intent = new Intent(this,SettingsActivity.class);
 //        startActivity(intent);
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+        editor.putInt("alpha", alpha);
+        editor.putInt("red", red);
+        editor.putInt("green", green);
+        editor.putInt("blue", blue);
+        editor.commit();
     }
 }

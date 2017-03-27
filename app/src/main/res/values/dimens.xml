@@ -8,4 +8,5 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="space_12">12sp</dimen>
     <dimen name="indicator_txt_margin_top">4dp</dimen>
+    <dimen name="seekbar_height">40dp</dimen>
 </resources>

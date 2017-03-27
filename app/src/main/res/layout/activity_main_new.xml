@@ -19,11 +19,10 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:background="@drawable/settings_bg"
             android:clickable="true"
             android:gravity="center_vertical"
-            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:minHeight="@dimen/seekbar_height"
             android:orientation="horizontal"
             android:paddingEnd="15dp"
             android:paddingStart="15dp">
@@ -49,8 +48,7 @@
         <SeekBar
             android:id="@+id/spercent"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_height="@dimen/seekbar_height"
             android:max="255"/>
 
         <ImageView
@@ -59,6 +57,7 @@
             android:background="@color/list_divider_extra_color"/>
 
         <LinearLayout
+            android:id="@+id/switch_eyes_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/settings_bg"
@@ -84,12 +83,12 @@
                     android:ellipsize="marquee"
                     android:fadingEdge="horizontal"
                     android:text="手动打开护眼模式"
-                    android:textColor="#000000"
-                    android:textSize="18sp"/>
+                    android:textSize="15sp"
+                    android:textColor="#000000"/>
             </RelativeLayout>
 
             <Switch
-                android:id="@+id/eyes_switch"
+                android:id="@+id/switch_eyes"
                 style="@style/SwitchStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -104,6 +103,7 @@
             android:background="@color/list_divider_extra_color"/>
 
         <LinearLayout
+            android:id="@+id/switch_light_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/settings_bg"
@@ -129,11 +129,12 @@
                     android:ellipsize="marquee"
                     android:fadingEdge="horizontal"
                     android:text="手电筒"
+                    android:textSize="15sp"
                     android:textColor="#000000"/>
             </RelativeLayout>
 
             <Switch
-                android:id="@+id/light_switch"
+                android:id="@+id/switch_light"
                 style="@style/SwitchStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
