@@ -7,4 +7,5 @@
     <color name="list_divider_extra_color">#ffcccccc</color>
     <color name="transparent">#0000</color>
     <color name="white">#fff</color>
+    <color name="black">#000</color>
 </resources>

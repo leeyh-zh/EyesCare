@@ -64,4 +64,22 @@ public class ColorManager {
             mColorView.setBackgroundColor(color);
         }
     }
+
+    public static String toHexEncoding(int red,int green,int bule) {
+        String R, G, B;
+        StringBuffer sb = new StringBuffer();
+        R = Integer.toHexString(red).toUpperCase();
+        G = Integer.toHexString(green).toUpperCase();
+        B = Integer.toHexString(bule).toUpperCase();
+        //判断获取到的R,G,B值的长度 如果长度等于1 给R,G,B值的前边添0
+        R = R.length() == 1 ? "0" + R : R;
+        G = G.length() == 1 ? "0" + G : G;
+        B = B.length() == 1 ? "0" + B : B;
+
+        sb.append("#");
+        sb.append(R);
+        sb.append(G);
+        sb.append(B);
+        return sb.toString();
+    }
 }

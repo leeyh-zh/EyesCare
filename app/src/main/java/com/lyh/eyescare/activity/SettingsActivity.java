@@ -53,10 +53,12 @@ public class SettingsActivity extends AppCompatActivity {
     Switch switchLight;
     @BindView(R.id.switch_light_root)
     LinearLayout switchLightRoot;
+
     private int red;
     private int alpha;
     private int blue;
     private int green;
+    private String tvColor;
     private int time;
     private BackService curservice;
     private Camera camera;
@@ -119,15 +121,14 @@ public class SettingsActivity extends AppCompatActivity {
         red = settings.getInt("red", 0);
         green = settings.getInt("green", 0);
         blue = settings.getInt("blue", 0);
-        time = settings.getInt("time", 0);
+        tvColor = settings.getString("tvColor","0x000000");
         eyeProtectionOpen = settings.getBoolean("eyeProtectionOpen", false);
         editor = settings.edit();
     }
 
     private void initView() {
-        switchEyes.setClickable(false);
-        switchLight.setClickable(false);
         tvpercent.setText("" + alpha * 100 / 255 + "%");
+        colorConfig.setText(tvColor);
         alphaSeekBar.setProgress(alpha);
         alphaSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -158,9 +159,14 @@ public class SettingsActivity extends AppCompatActivity {
         switchEyesRoot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchEyes.setChecked(!switchEyes.isChecked());
-                if (switchEyes.isChecked()) {
-                    checkAccessibility();
+                if (!switchEyes.isChecked()) {
+                    if (!isAccessibilitySettingsOn(SettingsActivity.this)) {
+                        // 引导至辅助功能设置页面
+                        startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
+                        Toast.makeText(SettingsActivity.this, "请先开启EyesCare辅助功能", Toast.LENGTH_SHORT).show();
+                    } else {
+                        //checkAccessibility();
+
 //                    Intent intent = new Intent(SettingsActivity.this, BackService.class);
 //                    intent.putExtra("color", Color.argb(alpha, red, green, blue));
 //                    startService(intent);
@@ -168,13 +174,15 @@ public class SettingsActivity extends AppCompatActivity {
 //                    PendingIntent pendingIntent = PendingIntent.getService(SettingsActivity.this,
 //                            0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 //                    bindService(intent, conn, Context.BIND_AUTO_CREATE);
-                    Intent intent = new Intent(SettingsActivity.this, EyesCareService.class);
-                    intent.putExtra("status", EyesCareService.TYPE_OPEN);
-                    intent.putExtra("color", Color.argb(alpha, red, green, blue));
-                    startService(intent);
-                    ColorManager.changeColor(Color.argb(alpha, red, green, blue));
-                    editor.putBoolean("eyeProtectionOpen", true);
-                    editor.commit();
+                        Intent intent = new Intent(SettingsActivity.this, EyesCareService.class);
+                        intent.putExtra("status", EyesCareService.TYPE_OPEN);
+                        intent.putExtra("color", Color.argb(alpha, red, green, blue));
+                        startService(intent);
+                        editor.putBoolean("eyeProtectionOpen", true);
+                        editor.commit();
+                        ColorManager.changeColor(Color.argb(alpha, red, green, blue));
+                        switchEyes.setChecked(true);
+                    }
                 } else {
 //                    Intent intent = new Intent(SettingsActivity.this, BackService.class);
 //                    PendingIntent pendIntent = PendingIntent.getBroadcast(SettingsActivity.this,
@@ -189,6 +197,7 @@ public class SettingsActivity extends AppCompatActivity {
                     startService(intent);
                     editor.putBoolean("eyeProtectionOpen", false);
                     editor.commit();
+                    switchEyes.setChecked(false);
                 }
             }
         });
@@ -264,6 +273,8 @@ public class SettingsActivity extends AppCompatActivity {
         red = settings.getInt("red", 0);
         green = settings.getInt("green", 0);
         blue = settings.getInt("blue", 0);
+        tvColor = settings.getString("tvColor","0x000000");
+        colorConfig.setText(tvColor);
         alphaSeekBar.setProgress(alpha);
     }
 

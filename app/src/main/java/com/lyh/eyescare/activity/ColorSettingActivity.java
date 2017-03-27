@@ -68,6 +68,7 @@ public class ColorSettingActivity extends AppCompatActivity {
     private int red;
     private int blue;
     private int green;
+    private String tvColor;
     private BackService curservice;
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
@@ -118,6 +119,7 @@ public class ColorSettingActivity extends AppCompatActivity {
         red = settings.getInt("red", 0);
         green = settings.getInt("green", 0);
         blue = settings.getInt("blue", 0);
+        tvColor = settings.getString("tvColor","0x000000");
 //        if (eyeProtectionOpen) {
 //            Intent intent = new Intent(this, BackService.class);
 //            intent.putExtra("color", Color.argb(alpha, red, green, blue));
@@ -137,9 +139,11 @@ public class ColorSettingActivity extends AppCompatActivity {
 
     private void initView() {
         alphaSeekBar.setProgress(alpha);
+        tvLight.setText("" + alpha * 100 / 255 + "%");
         redSeekBar.setProgress(red);
         greenSeedBar.setProgress(green);
         buleSeedBar.setProgress(blue);
+        tvColorConfig.setText(ColorManager.toHexEncoding(red, green, blue));
         alphaSeekBar.setOnSeekBarChangeListener(alphaChange);
         redSeekBar.setOnSeekBarChangeListener(redChange);
         greenSeedBar.setOnSeekBarChangeListener(greenChange);
@@ -154,6 +158,7 @@ public class ColorSettingActivity extends AppCompatActivity {
 //            if (curservice != null) {
 //                curservice.changeColor(Color.argb(alpha, red, green, blue));
 //            }
+            tvLight.setText("" + alpha * 100 / 255 + "%");
             editor.putInt("alpha", alpha).commit();
             if (eyeProtectionOpen) {
                 ColorManager.changeColor(Color.argb(alpha, red, green, blue));
@@ -176,7 +181,10 @@ public class ColorSettingActivity extends AppCompatActivity {
 //            if (curservice != null) {
 //                curservice.changeColor(Color.argb(alpha, red, green, blue));
 //            }
-            editor.putInt("red", red).commit();
+            tvColorConfig.setText(ColorManager.toHexEncoding(red, green, blue));
+            editor.putInt("red", red);
+            editor.putString("tvColor",ColorManager.toHexEncoding(red, green, blue));
+            editor.commit();
             if (eyeProtectionOpen) {
                 ColorManager.changeColor(Color.argb(alpha, red, green, blue));
             }
@@ -199,7 +207,10 @@ public class ColorSettingActivity extends AppCompatActivity {
 //            if (curservice != null) {
 //                curservice.changeColor(Color.argb(alpha, red, green, blue));
 //            }
-            editor.putInt("green", green).commit();
+            tvColorConfig.setText(ColorManager.toHexEncoding(red, green, blue));
+            editor.putInt("green", green);
+            editor.putString("tvColor",ColorManager.toHexEncoding(red, green, blue));
+            editor.commit();
             if (eyeProtectionOpen) {
                 ColorManager.changeColor(Color.argb(alpha, red, green, blue));
             }
@@ -221,7 +232,10 @@ public class ColorSettingActivity extends AppCompatActivity {
 //            if (curservice != null) {
 //                curservice.changeColor(Color.argb(alpha, red, green, blue));
 //            }
-            editor.putInt("blue", blue).commit();
+            tvColorConfig.setText(ColorManager.toHexEncoding(red, green, blue));
+            editor.putInt("blue", blue);
+            editor.putString("tvColor",ColorManager.toHexEncoding(red, green, blue));
+            editor.commit();
             if (eyeProtectionOpen) {
                 ColorManager.changeColor(Color.argb(alpha, red, green, blue));
             }
@@ -361,6 +375,9 @@ public class ColorSettingActivity extends AppCompatActivity {
         redSeekBar.setProgress(red);
         greenSeedBar.setProgress(green);
         buleSeedBar.setProgress(blue);
+        tvColorConfig.setText(ColorManager.toHexEncoding(red, green, blue));
+        editor.putString("tvColor",ColorManager.toHexEncoding(red, green, blue));
+        editor.commit();
         if (eyeProtectionOpen) {
             ColorManager.changeColor(Color.argb(alpha, red, green, blue));
         }
@@ -373,6 +390,7 @@ public class ColorSettingActivity extends AppCompatActivity {
         editor.putInt("red", red);
         editor.putInt("green", green);
         editor.putInt("blue", blue);
+        editor.putString("tvColor",ColorManager.toHexEncoding(red, green, blue));
         editor.commit();
     }
 
@@ -386,6 +404,7 @@ public class ColorSettingActivity extends AppCompatActivity {
         editor.putInt("red", red);
         editor.putInt("green", green);
         editor.putInt("blue", blue);
+        editor.putString("tvColor",ColorManager.toHexEncoding(red, green, blue));
         editor.commit();
     }
 }

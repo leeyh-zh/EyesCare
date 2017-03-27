@@ -11,9 +11,9 @@
         android:background="@drawable/background_color"/>
 
     <LinearLayout
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <LinearLayout
@@ -47,8 +47,9 @@
 
         <SeekBar
             android:id="@+id/spercent"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/seekbar_height"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
             android:max="255"/>
 
         <ImageView
@@ -83,8 +84,8 @@
                     android:ellipsize="marquee"
                     android:fadingEdge="horizontal"
                     android:text="手动打开护眼模式"
-                    android:textSize="15sp"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000"
+                    android:textSize="15sp"/>
             </RelativeLayout>
 
             <Switch
@@ -94,6 +95,7 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:clickable="false"
+                android:enabled="false"
                 android:focusable="false"/>
         </LinearLayout>
 
@@ -129,8 +131,8 @@
                     android:ellipsize="marquee"
                     android:fadingEdge="horizontal"
                     android:text="手电筒"
-                    android:textSize="15sp"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000"
+                    android:textSize="15sp"/>
             </RelativeLayout>
 
             <Switch
@@ -140,6 +142,7 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:clickable="false"
+                android:enabled="false"
                 android:focusable="false"/>
         </LinearLayout>
 
