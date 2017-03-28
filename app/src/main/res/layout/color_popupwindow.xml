@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <View
+        android:id="@+id/exit"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -67,10 +68,10 @@
                     android:textColor="#000000"/>
 
                 <TextView
-                    android:layout_alignParentRight="true"
                     android:id="@+id/tv_color_config"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
                     android:gravity="right"
                     android:text="#000000"
                     android:textColor="#000000"/>
@@ -186,65 +187,80 @@
                         android:id="@+id/btn_no_color"
                         android:layout_width="@dimen/color_button_size"
                         android:layout_height="@dimen/color_button_size"
+                        android:backgroundTint="#434343"
                         android:padding="0dp"
                         android:text="仅变暗"
+                        android:textColor="@color/white"
                         android:textSize="12sp"/>
 
                     <Button
                         android:id="@+id/btn_filter_blue"
                         android:layout_width="@dimen/color_button_size"
                         android:layout_height="@dimen/color_button_size"
+                        android:backgroundTint="#435D6B"
                         android:padding="0dp"
                         android:text="滤蓝光"
+                        android:textColor="@color/white"
                         android:textSize="12sp"/>
 
                     <Button
                         android:id="@+id/btn_cool_colors"
                         android:layout_width="@dimen/color_button_size"
                         android:layout_height="@dimen/color_button_size"
+                        android:backgroundTint="#5D4743"
                         android:padding="0dp"
                         android:text="冷色调"
+                        android:textColor="@color/white"
                         android:textSize="12sp"/>
 
                     <Button
                         android:id="@+id/btn_warm_tone"
                         android:layout_width="@dimen/color_button_size"
                         android:layout_height="@dimen/color_button_size"
+                        android:backgroundTint="#43475D"
                         android:padding="0dp"
                         android:text="暖色调"
+                        android:textColor="@color/white"
                         android:textSize="12sp"/>
 
                     <Button
                         android:id="@+id/btn_eye_green"
-
                         android:layout_width="@dimen/color_button_size"
                         android:layout_height="@dimen/color_button_size"
+                        android:backgroundTint="#456043"
                         android:padding="0dp"
                         android:text="护眼绿"
+                        android:textColor="@color/white"
                         android:textSize="12sp"/>
 
                     <Button
                         android:id="@+id/btn_ink_blue"
                         android:layout_width="@dimen/color_button_size"
                         android:layout_height="@dimen/color_button_size"
+                        android:backgroundTint="#815443"
                         android:padding="0dp"
                         android:text="水墨蓝"
+                        android:textColor="@color/white"
                         android:textSize="12sp"/>
 
                     <Button
                         android:id="@+id/btn_tea_black"
                         android:layout_width="@dimen/color_button_size"
                         android:layout_height="@dimen/color_button_size"
+                        android:backgroundTint="#43557E"
                         android:padding="0dp"
                         android:text="黑茶色"
+                        android:textColor="@color/white"
                         android:textSize="12sp"/>
 
                     <Button
                         android:id="@+id/btn_strawberry_powder"
                         android:layout_width="@dimen/color_button_size"
                         android:layout_height="@dimen/color_button_size"
+                        android:backgroundTint="#5E4478"
                         android:padding="0dp"
                         android:text="草莓粉"
+                        android:textColor="@color/white"
                         android:textSize="12sp"/>
                 </LinearLayout>
             </HorizontalScrollView>
@@ -260,10 +276,5 @@
             android:paddingTop="5dp"
             android:text="真全屏模式为仅变暗不支持任何颜色，其他运行模式默认为滤蓝光的默认浓度"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/color_button_size"
-            android:background="@null"
-            android:text="关闭"/>
     </LinearLayout>
 </LinearLayout>

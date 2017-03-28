@@ -3,6 +3,7 @@ package com.lyh.eyescare;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.view.Gravity;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
@@ -16,10 +17,11 @@ public class ColorManager {
     private static WindowManager mWindowManager;
     private static LinearLayout mColorView;
     private static WindowManager.LayoutParams mLayoutParams;
+
     public static void addColorView(Context context) {
-        if (mColorView == null){
+        if (mColorView == null) {
             mWindowManager = getWindowManager(context);
-            mColorView = (LinearLayout) LinearLayout.inflate(context,R.layout.float_layout, null);
+            mColorView = (LinearLayout) LinearLayout.inflate(context, R.layout.float_layout, null);
             mLayoutParams = new WindowManager.LayoutParams();
             // 获取的是WindowManagerImpl.CompatModeWrapper
             // 设置window type
@@ -32,6 +34,9 @@ public class ColorManager {
                     | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
                     | WindowManager.LayoutParams.FLAG_FULLSCREEN
                     | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
+            mColorView.setFitsSystemWindows(true);
+            mColorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
             // 调整悬浮窗显示的停靠位置为左侧置顶
             mLayoutParams.gravity = Gravity.LEFT | Gravity.TOP;
             // 以屏幕左上角为原点，设置x、y初始值，相对于gravity
@@ -59,13 +64,13 @@ public class ColorManager {
         return mWindowManager;
     }
 
-    public static void changeColor(int color){
+    public static void changeColor(int color) {
         if (mColorView != null) {
             mColorView.setBackgroundColor(color);
         }
     }
 
-    public static String toHexEncoding(int red,int green,int bule) {
+    public static String toHexEncoding(int red, int green, int bule) {
         String R, G, B;
         StringBuffer sb = new StringBuffer();
         R = Integer.toHexString(red).toUpperCase();

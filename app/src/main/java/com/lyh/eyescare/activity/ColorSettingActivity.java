@@ -1,12 +1,9 @@
 package com.lyh.eyescare.activity;
 
-import android.content.ComponentName;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -20,7 +17,7 @@ import android.widget.TextView;
 
 import com.lyh.eyescare.ColorManager;
 import com.lyh.eyescare.R;
-import com.lyh.eyescare.constant.Colors;
+import com.lyh.eyescare.constant.Constants;
 import com.lyh.eyescare.service.BackService;
 import com.lyh.eyescare.view.CustomPopWindow;
 
@@ -63,6 +60,8 @@ public class ColorSettingActivity extends AppCompatActivity {
     Button btnStrawberryPowder;
     @BindView(R.id.scrollView)
     HorizontalScrollView scrollView;
+    @BindView(R.id.exit)
+    View exit;
 
     private int alpha;
     private int red;
@@ -74,18 +73,6 @@ public class ColorSettingActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private boolean eyeProtectionOpen;
     private ColorManager mColorManager;
-
-    private ServiceConnection conn = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            BackService.LocalService binder = (BackService.LocalService) service;
-            curservice = binder.getService();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-        }
-    };
     private CustomPopWindow customPopWindow;
     private CustomPopWindow popWindow;
 
@@ -112,27 +99,15 @@ public class ColorSettingActivity extends AppCompatActivity {
 
 
     private void initData() {
-        settings = getSharedPreferences("settings", MODE_PRIVATE);
-        eyeProtectionOpen = settings.getBoolean("eyeProtectionOpen", false);
+        settings = getSharedPreferences(Constants.SETTINGS, MODE_PRIVATE);
+        eyeProtectionOpen = settings.getBoolean(Constants.EYESHIELD, false);
         editor = settings.edit();
-        alpha = settings.getInt("alpha", 0);
-        red = settings.getInt("red", 0);
-        green = settings.getInt("green", 0);
-        blue = settings.getInt("blue", 0);
-        tvColor = settings.getString("tvColor","0x000000");
-//        if (eyeProtectionOpen) {
-//            Intent intent = new Intent(this, BackService.class);
-//            intent.putExtra("color", Color.argb(alpha, red, green, blue));
-//            startService(intent);
-//            intent.putExtra("status", 1);
-//            bindService(intent, conn, Context.BIND_AUTO_CREATE);
-//        }
+        alpha = settings.getInt(Constants.ALPHA, 0);
+        red = settings.getInt(Constants.RED, 0);
+        green = settings.getInt(Constants.GREEN, 0);
+        blue = settings.getInt(Constants.BLUE, 0);
+        tvColor = settings.getString(Constants.COLORVALUE, Constants.DEFAULTVALUE);
         if (eyeProtectionOpen) {
-//            Intent intent = new Intent(ColorSettingActivity.this, EyesCareService.class);
-//            Bundle data = new Bundle();
-//            intent.putExtras(data);
-//            intent.putExtra("color", Color.argb(alpha, red, green, blue));
-//            startService(intent);
             ColorManager.changeColor(Color.argb(alpha, red, green, blue));
         }
     }
@@ -155,11 +130,8 @@ public class ColorSettingActivity extends AppCompatActivity {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             alpha = progress;
-//            if (curservice != null) {
-//                curservice.changeColor(Color.argb(alpha, red, green, blue));
-//            }
             tvLight.setText("" + alpha * 100 / 255 + "%");
-            editor.putInt("alpha", alpha).commit();
+            editor.putInt(Constants.ALPHA, alpha).commit();
             if (eyeProtectionOpen) {
                 ColorManager.changeColor(Color.argb(alpha, red, green, blue));
             }
@@ -178,12 +150,9 @@ public class ColorSettingActivity extends AppCompatActivity {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             red = progress;
-//            if (curservice != null) {
-//                curservice.changeColor(Color.argb(alpha, red, green, blue));
-//            }
             tvColorConfig.setText(ColorManager.toHexEncoding(red, green, blue));
-            editor.putInt("red", red);
-            editor.putString("tvColor",ColorManager.toHexEncoding(red, green, blue));
+            editor.putInt(Constants.RED, red);
+            editor.putString(Constants.COLORVALUE, ColorManager.toHexEncoding(red, green, blue));
             editor.commit();
             if (eyeProtectionOpen) {
                 ColorManager.changeColor(Color.argb(alpha, red, green, blue));
@@ -204,12 +173,9 @@ public class ColorSettingActivity extends AppCompatActivity {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             green = progress;
-//            if (curservice != null) {
-//                curservice.changeColor(Color.argb(alpha, red, green, blue));
-//            }
             tvColorConfig.setText(ColorManager.toHexEncoding(red, green, blue));
-            editor.putInt("green", green);
-            editor.putString("tvColor",ColorManager.toHexEncoding(red, green, blue));
+            editor.putInt(Constants.GREEN, green);
+            editor.putString(Constants.COLORVALUE, ColorManager.toHexEncoding(red, green, blue));
             editor.commit();
             if (eyeProtectionOpen) {
                 ColorManager.changeColor(Color.argb(alpha, red, green, blue));
@@ -229,12 +195,9 @@ public class ColorSettingActivity extends AppCompatActivity {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             blue = progress;
-//            if (curservice != null) {
-//                curservice.changeColor(Color.argb(alpha, red, green, blue));
-//            }
             tvColorConfig.setText(ColorManager.toHexEncoding(red, green, blue));
-            editor.putInt("blue", blue);
-            editor.putString("tvColor",ColorManager.toHexEncoding(red, green, blue));
+            editor.putInt(Constants.BLUE, blue);
+            editor.putString(Constants.COLORVALUE, ColorManager.toHexEncoding(red, green, blue));
             editor.commit();
             if (eyeProtectionOpen) {
                 ColorManager.changeColor(Color.argb(alpha, red, green, blue));
@@ -294,8 +257,6 @@ public class ColorSettingActivity extends AppCompatActivity {
         popWindow.showAsDropDown(button, 0, -(button.getHeight() / 4 + popWindow.getHeight()));
     }
 
-    private int[] filterBlue;
-
     private void handleLogic(View contentView, final int id) {
         Button.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -344,39 +305,39 @@ public class ColorSettingActivity extends AppCompatActivity {
             i = 4;
         }
         if (color == R.id.btn_filter_blue) {
-            red = Colors.FilterBlue[i][0];
-            green = Colors.FilterBlue[i][1];
-            blue = Colors.FilterBlue[i][2];
+            red = Constants.FilterBlue[i][0];
+            green = Constants.FilterBlue[i][1];
+            blue = Constants.FilterBlue[i][2];
         } else if (color == R.id.btn_cool_colors) {
-            red = Colors.CoolColors[i][0];
-            green = Colors.CoolColors[i][1];
-            blue = Colors.CoolColors[i][2];
+            red = Constants.CoolColors[i][0];
+            green = Constants.CoolColors[i][1];
+            blue = Constants.CoolColors[i][2];
         } else if (color == R.id.btn_warm_tone) {
-            red = Colors.WarmTone[i][0];
-            green = Colors.WarmTone[i][1];
-            blue = Colors.WarmTone[i][2];
+            red = Constants.WarmTone[i][0];
+            green = Constants.WarmTone[i][1];
+            blue = Constants.WarmTone[i][2];
         } else if (color == R.id.btn_eye_green) {
-            red = Colors.EyeGreen[i][0];
-            green = Colors.EyeGreen[i][1];
-            blue = Colors.EyeGreen[i][2];
+            red = Constants.EyeGreen[i][0];
+            green = Constants.EyeGreen[i][1];
+            blue = Constants.EyeGreen[i][2];
         } else if (color == R.id.btn_ink_blue) {
-            red = Colors.InkBlue[i][0];
-            green = Colors.InkBlue[i][1];
-            blue = Colors.InkBlue[i][2];
+            red = Constants.InkBlue[i][0];
+            green = Constants.InkBlue[i][1];
+            blue = Constants.InkBlue[i][2];
         } else if (color == R.id.btn_tea_black) {
-            red = Colors.TeaBlack[i][0];
-            green = Colors.TeaBlack[i][1];
-            blue = Colors.TeaBlack[i][2];
+            red = Constants.TeaBlack[i][0];
+            green = Constants.TeaBlack[i][1];
+            blue = Constants.TeaBlack[i][2];
         } else if (color == R.id.btn_strawberry_powder) {
-            red = Colors.StrawberryPowder[i][0];
-            green = Colors.StrawberryPowder[i][1];
-            blue = Colors.StrawberryPowder[i][2];
+            red = Constants.StrawberryPowder[i][0];
+            green = Constants.StrawberryPowder[i][1];
+            blue = Constants.StrawberryPowder[i][2];
         }
         redSeekBar.setProgress(red);
         greenSeedBar.setProgress(green);
         buleSeedBar.setProgress(blue);
         tvColorConfig.setText(ColorManager.toHexEncoding(red, green, blue));
-        editor.putString("tvColor",ColorManager.toHexEncoding(red, green, blue));
+        editor.putString(Constants.COLORVALUE, ColorManager.toHexEncoding(red, green, blue));
         editor.commit();
         if (eyeProtectionOpen) {
             ColorManager.changeColor(Color.argb(alpha, red, green, blue));
@@ -384,27 +345,37 @@ public class ColorSettingActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+            }
+        });
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        editor.putInt("alpha", alpha);
-        editor.putInt("red", red);
-        editor.putInt("green", green);
-        editor.putInt("blue", blue);
-        editor.putString("tvColor",ColorManager.toHexEncoding(red, green, blue));
+        editor.putInt(Constants.ALPHA, alpha);
+        editor.putInt(Constants.RED, red);
+        editor.putInt(Constants.GREEN, green);
+        editor.putInt(Constants.BLUE, blue);
+        editor.putString(Constants.COLORVALUE, ColorManager.toHexEncoding(red, green, blue));
         editor.commit();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-//        Intent intent = new Intent(this,SettingsActivity.class);
-//        startActivity(intent);
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-        editor.putInt("alpha", alpha);
-        editor.putInt("red", red);
-        editor.putInt("green", green);
-        editor.putInt("blue", blue);
-        editor.putString("tvColor",ColorManager.toHexEncoding(red, green, blue));
+        editor.putInt(Constants.ALPHA, alpha);
+        editor.putInt(Constants.RED, red);
+        editor.putInt(Constants.GREEN, green);
+        editor.putInt(Constants.BLUE, blue);
+        editor.putString(Constants.COLORVALUE, ColorManager.toHexEncoding(red, green, blue));
         editor.commit();
     }
 }
