@@ -44,8 +44,8 @@
             android:id="@+id/spercent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="15dp"
-            android:max="255"/>
+            android:max="255"
+            android:paddingBottom="15dp"/>
 
         <ImageView
             android:layout_width="match_parent"
@@ -190,5 +190,84 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/list_divider_extra_color"/>
+
+        <LinearLayout
+            android:id="@+id/switch_custom_setting_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/settings_bg"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:orientation="horizontal"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dip"
+                android:layout_marginEnd="9dp"
+                android:layout_marginTop="9dip"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/custom_setting_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:text="启动APP自定义护眼配置"
+                    android:textColor="#000000"
+                    android:textSize="15sp"/>
+            </RelativeLayout>
+
+            <Switch
+                android:id="@+id/switch_custom_setting"
+                style="@style/SwitchStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:clickable="false"
+                android:enabled="false"
+                android:focusable="false"/>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/list_divider_extra_color"/>
+
+        <LinearLayout
+            android:id="@+id/app_color_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/settings_bg"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:orientation="horizontal"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dip"
+                android:layout_marginEnd="9dp"
+                android:layout_marginTop="9dip"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:text="编辑APP护眼配置"
+                    android:textColor="#000000"
+                    android:textSize="15sp"/>
+            </RelativeLayout>
+
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

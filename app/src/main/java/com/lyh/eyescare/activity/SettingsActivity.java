@@ -33,6 +33,7 @@ import com.lyh.eyescare.service.EyesCareService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.lyh.eyescare.constant.Constants.DEFAULTVALUE;
 
@@ -66,6 +67,14 @@ public class SettingsActivity extends AppCompatActivity {
     TextView lightTitle;
     @BindView(R.id.exit)
     View exit;
+    @BindView(R.id.custom_setting_title)
+    TextView mCustomSettingTitle;
+    @BindView(R.id.switch_custom_setting)
+    Switch mSwitchCustomSetting;
+    @BindView(R.id.switch_custom_setting_root)
+    LinearLayout mSwitchCustomSettingRoot;
+    @BindView(R.id.app_color_setting)
+    LinearLayout mAppColorSetting;
 
     private int red;
     private int alpha;
@@ -138,62 +147,62 @@ public class SettingsActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-        switchEyesRoot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!switchEyes.isChecked()) {
-                    if (!isAccessibilitySettingsOn(SettingsActivity.this)) {
-                        Toast.makeText(SettingsActivity.this, "请先开启EyesCare辅助功能", Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
-                    } else {
-                        startEyeshield();
-                        switchEyes.setChecked(true);
-                    }
-                } else {
-                    stopEyeshield();
-                    switchEyes.setChecked(false);
-                }
-            }
-        });
+//        switchEyesRoot.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!switchEyes.isChecked()) {
+//                    if (!isAccessibilitySettingsOn(SettingsActivity.this)) {
+//                        Toast.makeText(SettingsActivity.this, "请先开启EyesCare辅助功能", Toast.LENGTH_LONG).show();
+//                        startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
+//                    } else {
+//                        startEyeshield();
+//                        switchEyes.setChecked(true);
+//                    }
+//                } else {
+//                    stopEyeshield();
+//                    switchEyes.setChecked(false);
+//                }
+//            }
+//        });
 
-        switchLightRoot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//        switchLightRoot.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if (!switchLight.isChecked()) {
+//                    if (ContextCompat.checkSelfPermission(SettingsActivity.this, Manifest.permission.CAMERA)
+//                            != PackageManager.PERMISSION_GRANTED) {
+//                        ActivityCompat.requestPermissions(SettingsActivity.this, new String[]{Manifest.permission.CAMERA}, 1);
+//                    } else {
+//                        camera = Camera.open();
+//                        camera.startPreview();
+//                        Camera.Parameters parameter = camera.getParameters();
+//                        parameter.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+//                        camera.setParameters(parameter);
+//                        camera.startPreview();
+//                        switchLight.setChecked(true);
+//                    }
+//                } else {
+//                    Camera.Parameters parameter = camera.getParameters();
+//                    parameter.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+//                    camera.setParameters(parameter);
+//                    camera.stopPreview();
+//                    camera.release();
+//                    switchLight.setChecked(false);
+//                }
+//            }
+//        });
 
-                if (!switchLight.isChecked()) {
-                    if (ContextCompat.checkSelfPermission(SettingsActivity.this, Manifest.permission.CAMERA)
-                            != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(SettingsActivity.this, new String[]{Manifest.permission.CAMERA}, 1);
-                    } else {
-                        camera = Camera.open();
-                        camera.startPreview();
-                        Camera.Parameters parameter = camera.getParameters();
-                        parameter.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-                        camera.setParameters(parameter);
-                        camera.startPreview();
-                        switchLight.setChecked(true);
-                    }
-                } else {
-                    Camera.Parameters parameter = camera.getParameters();
-                    parameter.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                    camera.setParameters(parameter);
-                    camera.stopPreview();
-                    camera.release();
-                    switchLight.setChecked(false);
-                }
-            }
-        });
 
-
-        colorSetting.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SettingsActivity.this, ColorSettingActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-            }
-        });
+//        colorSetting.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(SettingsActivity.this, ColorSettingActivity.class);
+//                startActivity(intent);
+//                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+//            }
+//        });
     }
 
     private void startEyeshield() {
@@ -241,7 +250,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (isAccessibilitySettingsOn(this) && eyeshield) {
             startEyeshield();
             switchEyes.setChecked(true);
-        }else {
+        } else {
             switchEyes.setChecked(false);
         }
         exit.setOnClickListener(new View.OnClickListener() {
@@ -292,5 +301,57 @@ public class SettingsActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick({R.id.switch_eyes_root, R.id.switch_light_root, R.id.switch_custom_setting_root, R.id.color_setting, R.id.app_color_setting})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.switch_eyes_root:
+                if (!switchEyes.isChecked()) {
+                    if (!isAccessibilitySettingsOn(SettingsActivity.this)) {
+                        Toast.makeText(SettingsActivity.this, "请先开启EyesCare辅助功能", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
+                    } else {
+                        startEyeshield();
+                        switchEyes.setChecked(true);
+                    }
+                } else {
+                    stopEyeshield();
+                    switchEyes.setChecked(false);
+                }
+                break;
+            case R.id.switch_light_root:
+                if (!switchLight.isChecked()) {
+                    if (ContextCompat.checkSelfPermission(SettingsActivity.this, Manifest.permission.CAMERA)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(SettingsActivity.this, new String[]{Manifest.permission.CAMERA}, 1);
+                    } else {
+                        camera = Camera.open();
+                        camera.startPreview();
+                        Camera.Parameters parameter = camera.getParameters();
+                        parameter.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                        camera.setParameters(parameter);
+                        camera.startPreview();
+                        switchLight.setChecked(true);
+                    }
+                } else {
+                    Camera.Parameters parameter = camera.getParameters();
+                    parameter.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                    camera.setParameters(parameter);
+                    camera.stopPreview();
+                    camera.release();
+                    switchLight.setChecked(false);
+                }
+                break;
+            case R.id.switch_custom_setting_root:
+                break;
+            case R.id.color_setting:
+                startActivity(new Intent(SettingsActivity.this, ColorSettingActivity.class));
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                break;
+            case R.id.app_color_setting:
+                startActivity(new Intent(SettingsActivity.this, CustomSettingActivity.class));
+                break;
+        }
     }
 }
