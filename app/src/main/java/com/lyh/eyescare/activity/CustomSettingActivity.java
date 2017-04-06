@@ -1,7 +1,6 @@
 package com.lyh.eyescare.activity;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -19,7 +18,6 @@ import com.lyh.eyescare.base.BaseActivity;
 import com.lyh.eyescare.bean.AppInfo;
 import com.lyh.eyescare.fragment.SysAppFragment;
 import com.lyh.eyescare.fragment.UserAppFragment;
-import com.lyh.eyescare.service.LoadAppListService;
 import com.lyh.eyescare.utils.SystemBarHelper;
 import com.lyh.eyescare.view.DialogSearch;
 
@@ -47,7 +45,6 @@ implements CustomContract.View,View.OnClickListener{
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
-        startService(new Intent(this, LoadAppListService.class));
 
         mEditSearch = (TextView) findViewById(R.id.edit_search);
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);

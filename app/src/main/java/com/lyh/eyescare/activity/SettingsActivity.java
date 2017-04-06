@@ -30,6 +30,7 @@ import com.lyh.eyescare.ColorManager;
 import com.lyh.eyescare.R;
 import com.lyh.eyescare.constant.Constants;
 import com.lyh.eyescare.service.EyesCareService;
+import com.lyh.eyescare.service.LoadAppListService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -109,6 +110,7 @@ public class SettingsActivity extends AppCompatActivity {
                 startActivityForResult(intent, 1);
             }
         }
+        startService(new Intent(this, LoadAppListService.class));
         settings = getSharedPreferences(Constants.SETTINGS, MODE_PRIVATE);
         editor = settings.edit();
         initStatus();

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -19,8 +20,6 @@ import com.lyh.eyescare.R;
 import com.lyh.eyescare.bean.AppInfo;
 import com.lyh.eyescare.manager.AppInfoManager;
 import com.lyh.eyescare.view.CustomPopWindow;
-
-import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +41,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MainViewHo
     private ImageView popIcon;
 
     private ContentValues values;
+    private final AppInfoManager appInfoManager;
 
     public CustomAdapter(Context mContext) {
         this.mContext = mContext;
         packageManager = mContext.getPackageManager();
         mAppInfoManager = new AppInfoManager(mContext);
+        appInfoManager = new AppInfoManager(mContext);
     }
 
     public void setInfos(List<AppInfo> appInfo) {
@@ -108,6 +109,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MainViewHo
                 .setOutsideTouchable(true)
                 .setBgDarkAlpha(0.5f)
                 .setAnimationStyle(R.style.AnimationBottomFade)
+                .setOnDissmissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        //DataSupport.updateAll(AppInfo.class, values, "packageName = ?", appInfo.getPackageName());
+                        //appInfoManager.updateAppStatus(appInfo.getPackageName(),values);
+                        //setInfos(appInfoManager.getAllAppInfos());
+                    }
+                })
                 .size(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                 .enableBackgroundDark(true)
                 .create()
@@ -138,7 +147,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MainViewHo
                     holder.mCustomPattern.setTextColor(mContext.getResources().getColor(R.color.on_color));
                     values.put("isCustomPattern", true);
                 }
-                DataSupport.updateAll(AppInfo.class, values, "packageName = ?", appInfo.getPackageName());
             }
         });
 
@@ -156,7 +164,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MainViewHo
                     holder.mCustomLight.setTextColor(mContext.getResources().getColor(R.color.on_color));
                     values.put("isCustomLight", true);
                 }
-                DataSupport.updateAll(AppInfo.class, values, "packageName = ?", appInfo.getPackageName());
             }
         });
 
@@ -174,7 +181,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MainViewHo
                     holder.mCustomColor.setTextColor(mContext.getResources().getColor(R.color.on_color));
                     values.put("isCustomColor", true);
                 }
-                DataSupport.updateAll(AppInfo.class, values, "packageName = ?", appInfo.getPackageName());
             }
         });
     }

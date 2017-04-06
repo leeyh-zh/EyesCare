@@ -100,6 +100,10 @@ public class AppInfoManager {
         DataSupport.updateAll(AppInfo.class, values, "packageName = ?", packageName);
     }
 
+    public void updateAppStatus(String packageName, ContentValues values) {
+        DataSupport.updateAll(AppInfo.class, values, "packageName = ?", packageName);
+    }
+
     /**
      * 更改是否启动自定义设置
      */
