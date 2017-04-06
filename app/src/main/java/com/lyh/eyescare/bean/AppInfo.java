@@ -14,7 +14,7 @@ public class AppInfo extends DataSupport implements Parcelable {
     private long id;
     private String packageName;
     private String appName;
-    private boolean isEyesCare;  //是否开启自定义
+    private boolean isCustomPattern;  //是否开启自定义
     private boolean isCustomLight;  //是否开启自定义
     private boolean isCustomColor;  //是否开启自定义
     private ApplicationInfo applicationInfo;
@@ -23,9 +23,9 @@ public class AppInfo extends DataSupport implements Parcelable {
 
     public AppInfo(String packageName) {
         this.packageName = packageName;
-        isEyesCare = true;
-        isCustomLight = false;
-        isCustomColor = false;
+        this.isCustomPattern = true;
+        this.isCustomLight = false;
+        this.isCustomColor = false;
     }
 
     public long getId() {
@@ -52,12 +52,12 @@ public class AppInfo extends DataSupport implements Parcelable {
         this.appName = appName;
     }
 
-    public boolean isEyesCare() {
-        return isEyesCare;
+    public boolean isCustomPattern() {
+        return isCustomPattern;
     }
 
-    public void setEyesCare(boolean eyesCare) {
-        isEyesCare = eyesCare;
+    public void setCustomPattern(boolean customPattern) {
+        isCustomPattern = customPattern;
     }
 
     public boolean isCustomLight() {
@@ -104,7 +104,7 @@ public class AppInfo extends DataSupport implements Parcelable {
         id = in.readLong();
         packageName = in.readString();
         appName = in.readString();
-        isEyesCare = in.readByte() != 0;
+        isCustomPattern = in.readByte() != 0;
         isCustomLight = in.readByte() != 0;
         isCustomColor = in.readByte() != 0;
         applicationInfo = in.readParcelable(ApplicationInfo.class.getClassLoader());
@@ -117,7 +117,7 @@ public class AppInfo extends DataSupport implements Parcelable {
         dest.writeLong(id);
         dest.writeString(packageName);
         dest.writeString(appName);
-        dest.writeByte((byte) (isEyesCare ? 1 : 0));
+        dest.writeByte((byte) (isCustomPattern ? 1 : 0));
         dest.writeByte((byte) (isCustomLight ? 1 : 0));
         dest.writeByte((byte) (isCustomColor ? 1 : 0));
         dest.writeParcelable(applicationInfo, flags);

@@ -7,6 +7,8 @@
     <color name="list_divider_extra_color">#ffcccccc</color>
     <color name="transparent">#0000</color>
     <color name="black">#000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#FFFFFF</color>
     <color name="line_color">#eaeaea</color>
+    <color name="off_color">#ee4433</color>
+    <color name="on_color">#03a9f4</color>
 </resources>

@@ -66,4 +66,10 @@
         <item name="android:backgroundDimAmount">0.4</item>
         <item name="android:windowCloseOnTouchOutside">false</item>
     </style>
+
+    <style name="AnimationBottomFade">
+        <item name="android:windowEnterAnimation">@anim/item_pop_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/item_pop_out_bottom</item>
+    </style>
+
 </resources>

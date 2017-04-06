@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="49dp"
-                android:background="@color/white">
+<RelativeLayout
+    android:id="@+id/custom_item"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="49dp"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/app_icon"
@@ -24,9 +26,9 @@
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/switch_compat"
             android:gravity="center_vertical"
-            android:textSize="15sp"
+            android:paddingLeft="10dp"
             android:textColor="@color/black"
-            android:paddingLeft="10dp"/>
+            android:textSize="15sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,10 +43,11 @@
                 android:text="护眼模式"/>
 
             <TextView
-                android:textColor="#03a9f4"
+                android:id="@+id/tv_custom_pattern"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ON"/>
+                android:text="@string/text_on"
+                android:textColor="@color/on_color"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -53,9 +56,11 @@
                 android:text="自定义亮度"/>
 
             <TextView
+                android:id="@+id/tv_custom_light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ON"/>
+                android:text="@string/text_off"
+                android:textColor="@color/off_color"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -64,10 +69,11 @@
                 android:text="自定义颜色"/>
 
             <TextView
-                android:textColor="#ee4433"
+                android:id="@+id/tv_custom_color"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ON"/>
+                android:text="@string/text_off"
+                android:textColor="@color/off_color"/>
 
         </LinearLayout>
 

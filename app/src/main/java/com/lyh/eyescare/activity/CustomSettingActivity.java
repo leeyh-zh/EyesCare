@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -31,7 +30,6 @@ public class CustomSettingActivity extends BaseActivity
 implements CustomContract.View,View.OnClickListener{
 
     private RelativeLayout mTopLayout;
-    private ImageView mBtnSetting;
     private TextView mEditSearch;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
@@ -51,7 +49,6 @@ implements CustomContract.View,View.OnClickListener{
     protected void initViews(Bundle savedInstanceState) {
         startService(new Intent(this, LoadAppListService.class));
 
-        mBtnSetting = (ImageView) findViewById(R.id.btn_setting);
         mEditSearch = (TextView) findViewById(R.id.edit_search);
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mViewPager = (ViewPager) findViewById(R.id.view_pager);

@@ -47,7 +47,7 @@ public class CustomPopWindow implements PopupWindow.OnDismissListener{
 
     private float mBackgroundDrakValue = 0;// 背景变暗的值，0 - 1
 
-    private CustomPopWindow(Context context){
+    public CustomPopWindow(Context context){
         mContext = context;
     }
 
