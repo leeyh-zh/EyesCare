@@ -21,12 +21,54 @@ public class AppInfo extends DataSupport implements Parcelable {
     private boolean isSysApp; //是否是系统应用
     private String topTitle;
 
+    private int alpha;
+    private int red;
+    private int green;
+    private int bule;
+
     public AppInfo(String packageName) {
         this.packageName = packageName;
-        this.isCustomPattern = true;
-        this.isCustomLight = false;
-        this.isCustomColor = false;
+        isCustomPattern = true;
+        isCustomLight = false;
+        isCustomColor = false;
+        alpha = 26;
+        red = 54;
+        green = 36;
+        bule = 0;
     }
+
+    public int getAlpha() {
+        return alpha;
+    }
+
+    public void setAlpha(int alpha) {
+        this.alpha = alpha;
+    }
+
+    public int getRed() {
+        return red;
+    }
+
+    public void setRed(int red) {
+        this.red = red;
+    }
+
+    public int getGreen() {
+        return green;
+    }
+
+    public void setGreen(int green) {
+        this.green = green;
+    }
+
+    public int getBule() {
+        return bule;
+    }
+
+    public void setBule(int bule) {
+        this.bule = bule;
+    }
+
 
     public long getId() {
         return id;

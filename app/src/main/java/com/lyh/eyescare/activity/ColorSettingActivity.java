@@ -15,7 +15,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.lyh.eyescare.ColorManager;
+import com.lyh.eyescare.manager.ColorManager;
 import com.lyh.eyescare.R;
 import com.lyh.eyescare.constant.Constants;
 import com.lyh.eyescare.service.BackService;
@@ -62,6 +62,7 @@ public class ColorSettingActivity extends AppCompatActivity {
     HorizontalScrollView scrollView;
     @BindView(R.id.exit)
     View exit;
+
 
     private int alpha;
     private int red;

@@ -26,7 +26,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lyh.eyescare.ColorManager;
+import com.lyh.eyescare.manager.ColorManager;
 import com.lyh.eyescare.R;
 import com.lyh.eyescare.constant.Constants;
 import com.lyh.eyescare.service.EyesCareService;

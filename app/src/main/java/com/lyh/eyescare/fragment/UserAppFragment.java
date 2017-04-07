@@ -42,7 +42,7 @@ public class UserAppFragment extends BaseFragment {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         data = getArguments().getParcelableArrayList("data");
-        mCustomAdapter = new CustomAdapter(getContext());
+        mCustomAdapter = new CustomAdapter(getActivity());
         mRecyclerView.setAdapter(mCustomAdapter);
         list = new ArrayList<>();
         for (AppInfo info : data) {

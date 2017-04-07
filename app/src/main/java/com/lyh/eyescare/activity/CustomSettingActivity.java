@@ -110,6 +110,9 @@ implements CustomContract.View,View.OnClickListener{
         private List<Fragment> fragmentList = new ArrayList<>();
         private List<String> titles = new ArrayList<>();
 
+        public customPagerAdapter(FragmentManager fm){
+            super(fm);
+        }
 
         public customPagerAdapter(FragmentManager fm, List<Fragment> fragmentList, List<String> titles) {
             super(fm);

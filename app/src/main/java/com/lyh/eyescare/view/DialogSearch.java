@@ -1,6 +1,7 @@
 package com.lyh.eyescare.view;
 
 import android.animation.AnimatorSet;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -29,13 +30,13 @@ import java.util.List;
 
 public class DialogSearch extends BaseDialog implements CustomContract.View {
 
-    private Context mContext;
+    private Activity mContext;
     private EditText mEditSearch;
     private RecyclerView mRecyclerView;
     private CustomAdapter mCustomAdapter;
     private CustomPresenter mCustomPresenter;
 
-    public DialogSearch(@NonNull Context context) {
+    public DialogSearch(@NonNull Activity context) {
         super(context);
         mContext = context;
     }

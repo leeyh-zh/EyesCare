@@ -1,4 +1,4 @@
-package com.lyh.eyescare;
+package com.lyh.eyescare.manager;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
@@ -6,6 +6,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+
+import com.lyh.eyescare.R;
 
 /**
  * Created by lyh on 2017/3/27.

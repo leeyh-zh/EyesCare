@@ -10,7 +10,7 @@ import android.support.v4.app.NotificationCompat;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.RemoteViews;
 
-import com.lyh.eyescare.ColorManager;
+import com.lyh.eyescare.manager.ColorManager;
 import com.lyh.eyescare.ColorView;
 import com.lyh.eyescare.R;
 import com.lyh.eyescare.activity.SettingsActivity;
