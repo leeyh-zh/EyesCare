@@ -2,396 +2,411 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:background="@color/white"
+              android:background="@color/transparent"
               android:orientation="vertical">
 
-    <LinearLayout
+    <View
+        android:id="@+id/exit"
         android:layout_width="match_parent"
-        android:layout_height="49dp"
-        android:orientation="horizontal"
-        android:padding="6dp">
-
-        <ImageView
-            android:id="@+id/item_pop_icon"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:src="@mipmap/ic_launcher"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:paddingLeft="6dp">
-
-            <TextView
-                android:id="@+id/item_pop_appname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="AppName"
-                android:textColor="@color/black"
-                android:textSize="15sp"/>
-
-            <TextView
-                android:id="@+id/item_pop_packagename"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="package"
-                android:textSize="12sp"/>
-        </LinearLayout>
-    </LinearLayout>
-
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/list_divider_extra_color"/>
-
-    <LinearLayout
-        android:id="@+id/item_custom_pattern"
-        android:layout_width="match_parent"
-        android:layout_height="49dp"
-        android:background="@drawable/settings_bg"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingEnd="15dp"
-        android:paddingStart="15dp">
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="9dip"
-            android:layout_marginEnd="9dp"
-            android:layout_marginTop="9dp"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="使用护眼模式"
-                android:textColor="@color/black"
-                android:textSize="15sp"/>
-        </RelativeLayout>
-
-        <Switch
-            android:id="@+id/item_custom_pattern_switch"
-            style="@style/SwitchStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:clickable="false"
-            android:enabled="false"
-            android:focusable="false"/>
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/list_divider_extra_color"/>
-
-    <LinearLayout
-        android:id="@+id/item_custom_light"
-        android:layout_width="match_parent"
-        android:layout_height="49dp"
-        android:background="@drawable/settings_bg"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingEnd="15dp"
-        android:paddingStart="15dp">
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="9dip"
-            android:layout_marginEnd="9dp"
-            android:layout_marginTop="9dip"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/tv_light_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="亮度"
-                android:textColor="@color/black"
-                android:textSize="15sp"/>
-
-
-            <TextView
-                android:id="@+id/tv_light_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="18dp"
-                android:layout_toRightOf="@id/tv_light_title"
-                android:text="0%"
-                android:textColor="@color/black"
-                android:textSize="15sp"/>
-
-            <SeekBar
-                android:id="@+id/alpha_seekBar"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginEnd="-8dp"
-                android:layout_marginStart="-8dp"
-                android:layout_marginTop="2dp"
-                android:background="@android:color/transparent"
-                android:gravity="center_vertical"
-                android:max="255"
-                android:maxHeight="2dp"
-                android:progressDrawable="@drawable/play_seekbar_light_bg"
-                android:splitTrack="false"
-                android:thumb="@drawable/slider_thumb_light"/>
-
-        </RelativeLayout>
-
-        <Switch
-            android:id="@+id/item_custom_light_switch"
-            style="@style/SwitchStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:clickable="false"
-            android:focusable="false"/>
-    </LinearLayout>
-
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/list_divider_extra_color"/>
-
-    <LinearLayout
-        android:id="@+id/item_custom_color"
-        android:layout_width="match_parent"
-        android:layout_height="49dp"
-        android:background="@drawable/settings_bg"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingEnd="15dp"
-        android:paddingStart="15dp">
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="9dip"
-            android:layout_marginEnd="15dp"
-            android:layout_marginTop="9dip"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="自定义护眼颜色"
-                android:textColor="@color/black"
-                android:textSize="15sp"/>
-
-            <TextView
-                android:id="@+id/tv_color_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="#362400"
-                android:textColor="@color/black"
-                android:textSize="15sp"/>
-        </RelativeLayout>
-
-        <Switch
-            android:id="@+id/item_custom_color_switch"
-            style="@style/SwitchStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:clickable="false"
-            android:enabled="false"
-            android:focusable="false"/>
-    </LinearLayout>
-
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="@color/list_divider_extra_color"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/background_color"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/white"
         android:orientation="vertical">
 
-
-        <SeekBar
-            android:id="@+id/red_seekBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="-8dp"
-            android:layout_marginStart="-8dp"
-            android:background="@android:color/transparent"
-            android:gravity="center"
-            android:max="255"
-            android:maxHeight="2dp"
-            android:paddingEnd="28dp"
-            android:paddingStart="28dp"
-            android:paddingTop="15dp"
-            android:progressDrawable="@drawable/play_seekbar_red_bg"
-            android:splitTrack="false"
-            android:thumb="@drawable/slider_thumb_red"/>
-
-        <SeekBar
-            android:id="@+id/green_seedBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="-8dp"
-            android:layout_marginStart="-8dp"
-            android:background="@android:color/transparent"
-            android:gravity="center"
-            android:max="255"
-            android:maxHeight="2dp"
-            android:paddingEnd="28dp"
-            android:paddingStart="28dp"
-            android:paddingTop="15dp"
-            android:progressDrawable="@drawable/play_seekbar_greed_bg"
-            android:splitTrack="false"
-            android:thumb="@drawable/slider_thumb_green"/>
-
-        <SeekBar
-            android:id="@+id/bule_seedBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="-8dp"
-            android:layout_marginStart="-8dp"
-            android:background="@android:color/transparent"
-            android:gravity="center"
-            android:max="255"
-            android:maxHeight="2dp"
-            android:paddingBottom="15dp"
-            android:paddingEnd="28dp"
-            android:paddingStart="28dp"
-            android:paddingTop="15dp"
-            android:progressDrawable="@drawable/play_seekbar_bule_bg"
-            android:splitTrack="false"
-            android:thumb="@drawable/slider_thumb_bule"/>
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_height="49dp"
+            android:orientation="horizontal"
+            android:padding="6dp">
+
+            <ImageView
+                android:id="@+id/item_pop_icon"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="4dp"
+                android:src="@mipmap/ic_launcher"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingLeft="10dp">
+
+                <TextView
+                    android:id="@+id/item_pop_appname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AppName"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"/>
+
+                <TextView
+                    android:id="@+id/item_pop_packagename"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="package"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/list_divider_extra_color"/>
+
+        <LinearLayout
+            android:id="@+id/item_custom_pattern"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:background="@drawable/settings_bg"
+            android:clickable="true"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingEnd="15dp"
             android:paddingStart="15dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="推荐颜色"
-                android:textColor="@android:color/black"/>
+                android:layout_marginBottom="9dip"
+                android:layout_marginEnd="9dp"
+                android:layout_marginTop="9dp"
+                android:layout_weight="1">
 
-            <HorizontalScrollView
-                android:id="@+id/scrollView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbarSize="2dp">
-
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:text="使用护眼模式"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"/>
+            </RelativeLayout>
 
-                    <Button
-                        android:id="@+id/btn_no_color"
-                        android:layout_width="@dimen/color_button_size"
-                        android:layout_height="@dimen/color_button_size"
-                        android:backgroundTint="#434343"
-                        android:padding="0dp"
-                        android:text="仅变暗"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"/>
-
-                    <Button
-                        android:id="@+id/btn_filter_blue"
-                        android:layout_width="@dimen/color_button_size"
-                        android:layout_height="@dimen/color_button_size"
-                        android:backgroundTint="#435D6B"
-                        android:padding="0dp"
-                        android:text="滤蓝光"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"/>
-
-                    <Button
-                        android:id="@+id/btn_cool_colors"
-                        android:layout_width="@dimen/color_button_size"
-                        android:layout_height="@dimen/color_button_size"
-                        android:backgroundTint="#5D4743"
-                        android:padding="0dp"
-                        android:text="冷色调"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"/>
-
-                    <Button
-                        android:id="@+id/btn_warm_tone"
-                        android:layout_width="@dimen/color_button_size"
-                        android:layout_height="@dimen/color_button_size"
-                        android:backgroundTint="#43475D"
-                        android:padding="0dp"
-                        android:text="暖色调"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"/>
-
-                    <Button
-                        android:id="@+id/btn_eye_green"
-                        android:layout_width="@dimen/color_button_size"
-                        android:layout_height="@dimen/color_button_size"
-                        android:backgroundTint="#456043"
-                        android:padding="0dp"
-                        android:text="护眼绿"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"/>
-
-                    <Button
-                        android:id="@+id/btn_ink_blue"
-                        android:layout_width="@dimen/color_button_size"
-                        android:layout_height="@dimen/color_button_size"
-                        android:backgroundTint="#815443"
-                        android:padding="0dp"
-                        android:text="水墨蓝"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"/>
-
-                    <Button
-                        android:id="@+id/btn_tea_black"
-                        android:layout_width="@dimen/color_button_size"
-                        android:layout_height="@dimen/color_button_size"
-                        android:backgroundTint="#43557E"
-                        android:padding="0dp"
-                        android:text="黑茶色"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"/>
-
-                    <Button
-                        android:id="@+id/btn_strawberry_powder"
-                        android:layout_width="@dimen/color_button_size"
-                        android:layout_height="@dimen/color_button_size"
-                        android:backgroundTint="#5E4478"
-                        android:padding="0dp"
-                        android:text="草莓粉"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"/>
-                </LinearLayout>
-            </HorizontalScrollView>
+            <Switch
+                android:id="@+id/item_custom_pattern_switch"
+                style="@style/SwitchStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:clickable="false"
+                android:enabled="false"
+                android:focusable="false"/>
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/list_divider_extra_color"/>
+
+        <LinearLayout
+            android:id="@+id/item_custom_light"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:background="@drawable/settings_bg"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dip"
+                android:layout_marginEnd="9dp"
+                android:layout_marginTop="9dip"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tv_light_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="亮度"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"/>
+
+
+                <TextView
+                    android:id="@+id/tv_light_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:layout_toRightOf="@id/tv_light_title"
+                    android:text="0%"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"/>
+
+                <SeekBar
+                    android:id="@+id/alpha_seekBar"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="-8dp"
+                    android:layout_marginStart="-8dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center_vertical"
+                    android:max="255"
+                    android:maxHeight="2dp"
+                    android:progressDrawable="@drawable/play_seekbar_light_bg"
+                    android:splitTrack="false"
+                    android:thumb="@drawable/slider_thumb_light"/>
+
+            </RelativeLayout>
+
+            <Switch
+                android:id="@+id/item_custom_light_switch"
+                style="@style/SwitchStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:clickable="false"
+                android:focusable="false"/>
+        </LinearLayout>
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/list_divider_extra_color"/>
+
+        <LinearLayout
+            android:id="@+id/item_custom_color"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:background="@drawable/settings_bg"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dip"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="9dip"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="自定义护眼颜色"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"/>
+
+                <TextView
+                    android:id="@+id/tv_color_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="#362400"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"/>
+            </RelativeLayout>
+
+            <Switch
+                android:id="@+id/item_custom_color_switch"
+                style="@style/SwitchStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:clickable="false"
+                android:enabled="false"
+                android:focusable="false"/>
+        </LinearLayout>
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@color/list_divider_extra_color"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <SeekBar
+                android:id="@+id/red_seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="-8dp"
+                android:layout_marginStart="-8dp"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:max="255"
+                android:maxHeight="2dp"
+                android:paddingEnd="28dp"
+                android:paddingStart="28dp"
+                android:paddingTop="15dp"
+                android:progressDrawable="@drawable/play_seekbar_red_bg"
+                android:splitTrack="false"
+                android:thumb="@drawable/slider_thumb_red"/>
+
+            <SeekBar
+                android:id="@+id/green_seedBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="-8dp"
+                android:layout_marginStart="-8dp"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:max="255"
+                android:maxHeight="2dp"
+                android:paddingEnd="28dp"
+                android:paddingStart="28dp"
+                android:paddingTop="15dp"
+                android:progressDrawable="@drawable/play_seekbar_greed_bg"
+                android:splitTrack="false"
+                android:thumb="@drawable/slider_thumb_green"/>
+
+            <SeekBar
+                android:id="@+id/bule_seedBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="-8dp"
+                android:layout_marginStart="-8dp"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:max="255"
+                android:maxHeight="2dp"
+                android:paddingBottom="15dp"
+                android:paddingEnd="28dp"
+                android:paddingStart="28dp"
+                android:paddingTop="15dp"
+                android:progressDrawable="@drawable/play_seekbar_bule_bg"
+                android:splitTrack="false"
+                android:thumb="@drawable/slider_thumb_bule"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingEnd="15dp"
+                android:paddingStart="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="推荐颜色"
+                    android:textColor="@android:color/black"/>
+
+                <HorizontalScrollView
+                    android:id="@+id/scrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbarSize="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn_no_color"
+                            android:layout_width="@dimen/color_button_size"
+                            android:layout_height="@dimen/color_button_size"
+                            android:backgroundTint="#434343"
+                            android:padding="0dp"
+                            android:text="仅变暗"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"/>
+
+                        <Button
+                            android:id="@+id/btn_filter_blue"
+                            android:layout_width="@dimen/color_button_size"
+                            android:layout_height="@dimen/color_button_size"
+                            android:backgroundTint="#435D6B"
+                            android:padding="0dp"
+                            android:text="滤蓝光"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"/>
+
+                        <Button
+                            android:id="@+id/btn_cool_colors"
+                            android:layout_width="@dimen/color_button_size"
+                            android:layout_height="@dimen/color_button_size"
+                            android:backgroundTint="#5D4743"
+                            android:padding="0dp"
+                            android:text="冷色调"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"/>
+
+                        <Button
+                            android:id="@+id/btn_warm_tone"
+                            android:layout_width="@dimen/color_button_size"
+                            android:layout_height="@dimen/color_button_size"
+                            android:backgroundTint="#43475D"
+                            android:padding="0dp"
+                            android:text="暖色调"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"/>
+
+                        <Button
+                            android:id="@+id/btn_eye_green"
+                            android:layout_width="@dimen/color_button_size"
+                            android:layout_height="@dimen/color_button_size"
+                            android:backgroundTint="#456043"
+                            android:padding="0dp"
+                            android:text="护眼绿"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"/>
+
+                        <Button
+                            android:id="@+id/btn_ink_blue"
+                            android:layout_width="@dimen/color_button_size"
+                            android:layout_height="@dimen/color_button_size"
+                            android:backgroundTint="#815443"
+                            android:padding="0dp"
+                            android:text="水墨蓝"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"/>
+
+                        <Button
+                            android:id="@+id/btn_tea_black"
+                            android:layout_width="@dimen/color_button_size"
+                            android:layout_height="@dimen/color_button_size"
+                            android:backgroundTint="#43557E"
+                            android:padding="0dp"
+                            android:text="黑茶色"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"/>
+
+                        <Button
+                            android:id="@+id/btn_strawberry_powder"
+                            android:layout_width="@dimen/color_button_size"
+                            android:layout_height="@dimen/color_button_size"
+                            android:backgroundTint="#5E4478"
+                            android:padding="0dp"
+                            android:text="草莓粉"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@color/list_divider_extra_color"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="关闭"
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
     </LinearLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="@color/list_divider_extra_color"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:text="关闭"
-        android:textColor="@color/black"
-        android:textSize="15sp"/>
 </LinearLayout>

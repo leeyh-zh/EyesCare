@@ -31,6 +31,9 @@
             android:name=".activity.ColorSettingActivity"
             android:theme="@style/translucent"/>
         <activity android:name=".activity.CustomSettingActivity"/>
+        <activity
+            android:name=".activity.CustomItemSettingActivity"
+            android:theme="@style/translucent"/>
 
         <service
             android:name="com.lyh.eyescare.service.BackService"

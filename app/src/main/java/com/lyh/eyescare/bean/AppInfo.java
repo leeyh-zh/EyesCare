@@ -37,6 +37,71 @@ public class AppInfo extends DataSupport implements Parcelable {
         bule = 0;
     }
 
+    protected AppInfo(Parcel in) {
+        id = in.readLong();
+        packageName = in.readString();
+        appName = in.readString();
+        isCustomPattern = in.readByte() != 0;
+        isCustomLight = in.readByte() != 0;
+        isCustomColor = in.readByte() != 0;
+        applicationInfo = in.readParcelable(ApplicationInfo.class.getClassLoader());
+        isSysApp = in.readByte() != 0;
+        topTitle = in.readString();
+        alpha = in.readInt();
+        red = in.readInt();
+        green = in.readInt();
+        bule = in.readInt();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(packageName);
+        dest.writeString(appName);
+        dest.writeByte((byte) (isCustomPattern ? 1 : 0));
+        dest.writeByte((byte) (isCustomLight ? 1 : 0));
+        dest.writeByte((byte) (isCustomColor ? 1 : 0));
+        dest.writeParcelable(applicationInfo, flags);
+        dest.writeByte((byte) (isSysApp ? 1 : 0));
+        dest.writeString(topTitle);
+        dest.writeInt(alpha);
+        dest.writeInt(red);
+        dest.writeInt(green);
+        dest.writeInt(bule);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<AppInfo> CREATOR = new Creator<AppInfo>() {
+        @Override
+        public AppInfo createFromParcel(Parcel in) {
+            return new AppInfo(in);
+        }
+
+        @Override
+        public AppInfo[] newArray(int size) {
+            return new AppInfo[size];
+        }
+    };
+
+    @Override
+    public String toString() {
+        return "AppInfo{" +
+                "packageName='" + packageName + '\'' +
+                ", appName='" + appName + '\'' +
+                ", isCustomPattern=" + isCustomPattern +
+                ", isCustomLight=" + isCustomLight +
+                ", isCustomColor=" + isCustomColor +
+                ", alpha=" + alpha +
+                ", red=" + red +
+                ", green=" + green +
+                ", bule=" + bule +
+                '}';
+    }
+
     public int getAlpha() {
         return alpha;
     }
@@ -142,45 +207,5 @@ public class AppInfo extends DataSupport implements Parcelable {
         this.topTitle = topTitle;
     }
 
-    protected AppInfo(Parcel in) {
-        id = in.readLong();
-        packageName = in.readString();
-        appName = in.readString();
-        isCustomPattern = in.readByte() != 0;
-        isCustomLight = in.readByte() != 0;
-        isCustomColor = in.readByte() != 0;
-        applicationInfo = in.readParcelable(ApplicationInfo.class.getClassLoader());
-        isSysApp = in.readByte() != 0;
-        topTitle = in.readString();
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(id);
-        dest.writeString(packageName);
-        dest.writeString(appName);
-        dest.writeByte((byte) (isCustomPattern ? 1 : 0));
-        dest.writeByte((byte) (isCustomLight ? 1 : 0));
-        dest.writeByte((byte) (isCustomColor ? 1 : 0));
-        dest.writeParcelable(applicationInfo, flags);
-        dest.writeByte((byte) (isSysApp ? 1 : 0));
-        dest.writeString(topTitle);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<AppInfo> CREATOR = new Creator<AppInfo>() {
-        @Override
-        public AppInfo createFromParcel(Parcel in) {
-            return new AppInfo(in);
-        }
-
-        @Override
-        public AppInfo[] newArray(int size) {
-            return new AppInfo[size];
-        }
-    };
 }

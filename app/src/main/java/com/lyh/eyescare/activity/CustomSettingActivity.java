@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -37,7 +38,7 @@ implements CustomContract.View,View.OnClickListener{
 
     private List<String> titles ;
     private List<Fragment> fragmentList ;
-
+    private ProgressBar mProgressBar;
     @Override
     public int getLayoutId() {
         return R.layout.activity_custom_setting;
@@ -50,8 +51,10 @@ implements CustomContract.View,View.OnClickListener{
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mTopLayout = (RelativeLayout) findViewById(R.id.top_layout);
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mTopLayout.setPadding(0, SystemBarHelper.getStatusBarHeight(this), 0, 0);
         mCustomPresenter = new CustomPresenter(this,this);
+        mProgressBar.setVisibility(View.VISIBLE);
         mCustomPresenter.loadAppInfo(this);
     }
 
@@ -82,6 +85,7 @@ implements CustomContract.View,View.OnClickListener{
 
     @Override
     public void loadAppInfoSuccess(List<AppInfo> list) {
+        //mProgressBar.setVisibility(View.GONE);
         int sysNum = 0;
         int userNum = 0;
         for (AppInfo appInfo:list){

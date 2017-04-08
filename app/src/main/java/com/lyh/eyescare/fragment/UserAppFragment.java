@@ -1,12 +1,15 @@
 package com.lyh.eyescare.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.lyh.eyescare.R;
+import com.lyh.eyescare.activity.CustomItemSettingActivity;
 import com.lyh.eyescare.adapter.CustomAdapter;
 import com.lyh.eyescare.base.BaseFragment;
 import com.lyh.eyescare.bean.AppInfo;
@@ -51,5 +54,29 @@ public class UserAppFragment extends BaseFragment {
             }
         }
         mCustomAdapter.setInfos(list);
+        mCustomAdapter.setOnItemClickListener(new CustomAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position, AppInfo data) {
+                mPosition = position;
+                Log.d("11113", data.toString());
+                Log.d("11113", "position = " + position);
+                Intent intent = new Intent(UserAppFragment.this.getContext(), CustomItemSettingActivity.class);
+                intent.putExtra("appInfo", data);
+                Log.d("1111", "onItemClick  position = " + position);
+                startActivityForResult(intent, 2);
+            }
+        });
+    }
+   int mPosition;
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2) {
+            AppInfo appInfo = data.getParcelableExtra("appInfo");
+            list.set(mPosition,appInfo);
+            Log.d("1111","set" + list.get(mPosition).toString());
+            mCustomAdapter.setInfos(list);
+            mCustomAdapter.notifyItemChanged(mPosition);
+        }
     }
 }

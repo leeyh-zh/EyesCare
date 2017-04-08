@@ -353,6 +353,7 @@ public class SettingsActivity extends AppCompatActivity {
                 break;
             case R.id.app_color_setting:
                 startActivity(new Intent(SettingsActivity.this, CustomSettingActivity.class));
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 break;
         }
     }

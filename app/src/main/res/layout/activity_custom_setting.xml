@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <include
         layout="@layout/layout_toolbar"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
     <RelativeLayout
         android:id="@+id/top_layout"
@@ -29,8 +29,15 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textColorHint="#9F9F9F"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
     </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="visible"/>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
@@ -38,13 +45,13 @@
         android:layout_height="32dp"
         android:background="@color/white"
         app:tabIndicatorColor="#EFEFF0"
-        app:tabMode="fixed" />
+        app:tabMode="fixed"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 
 </LinearLayout>
