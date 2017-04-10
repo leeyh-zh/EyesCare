@@ -55,6 +55,7 @@ public class CustomPresenter implements CustomContract.Presenter {
         protected List<AppInfo> doInBackground(Void... params) {
             List<AppInfo> appInfos = mAppInfoManager.getAllAppInfos();
             Iterator<AppInfo> infoIterator = appInfos.iterator();
+            mView.showProgressBar(true);
             while (infoIterator.hasNext()) {
                 AppInfo appInfo = infoIterator.next();
                 try {
@@ -84,6 +85,7 @@ public class CustomPresenter implements CustomContract.Presenter {
         protected void onPostExecute(List<AppInfo> appInfoList) {
             super.onPostExecute(appInfoList);
             mView.loadAppInfoSuccess(appInfoList);
+            mView.showProgressBar(false);
         }
     }
 

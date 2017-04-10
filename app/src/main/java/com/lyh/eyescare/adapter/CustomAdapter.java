@@ -112,6 +112,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.AppInfoVie
         //setInfos(list);
     }
 
+    @Override
+    public void showProgressBar(boolean show) {
+
+    }
+
     public class AppInfoViewHolder extends RecyclerView.ViewHolder {
         private RelativeLayout customItem;
         private ImageView mAppIcon;

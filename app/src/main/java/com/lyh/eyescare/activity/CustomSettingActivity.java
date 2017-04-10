@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomSettingActivity extends BaseActivity
-implements CustomContract.View,View.OnClickListener{
+        implements CustomContract.View, View.OnClickListener {
 
     private RelativeLayout mTopLayout;
     private TextView mEditSearch;
@@ -36,9 +36,10 @@ implements CustomContract.View,View.OnClickListener{
     private CustomPresenter mCustomPresenter;
     private DialogSearch mDialogSearch;
 
-    private List<String> titles ;
-    private List<Fragment> fragmentList ;
+    private List<String> titles;
+    private List<Fragment> fragmentList;
     private ProgressBar mProgressBar;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_custom_setting;
@@ -53,8 +54,7 @@ implements CustomContract.View,View.OnClickListener{
         mTopLayout = (RelativeLayout) findViewById(R.id.top_layout);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mTopLayout.setPadding(0, SystemBarHelper.getStatusBarHeight(this), 0, 0);
-        mCustomPresenter = new CustomPresenter(this,this);
-        mProgressBar.setVisibility(View.VISIBLE);
+        mCustomPresenter = new CustomPresenter(this, this);
         mCustomPresenter.loadAppInfo(this);
     }
 
@@ -76,7 +76,7 @@ implements CustomContract.View,View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.edit_search:
                 mDialogSearch.show();
                 break;
@@ -85,10 +85,9 @@ implements CustomContract.View,View.OnClickListener{
 
     @Override
     public void loadAppInfoSuccess(List<AppInfo> list) {
-        //mProgressBar.setVisibility(View.GONE);
         int sysNum = 0;
         int userNum = 0;
-        for (AppInfo appInfo:list){
+        for (AppInfo appInfo : list) {
             if (appInfo.isSysApp()) {
                 sysNum++;
             } else {
@@ -108,13 +107,18 @@ implements CustomContract.View,View.OnClickListener{
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
+    @Override
+    public void showProgressBar(boolean show) {
+        //mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
 
     public class customPagerAdapter extends FragmentStatePagerAdapter {
 
         private List<Fragment> fragmentList = new ArrayList<>();
         private List<String> titles = new ArrayList<>();
 
-        public customPagerAdapter(FragmentManager fm){
+        public customPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 

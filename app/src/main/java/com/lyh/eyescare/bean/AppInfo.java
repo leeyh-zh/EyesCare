@@ -24,7 +24,7 @@ public class AppInfo extends DataSupport implements Parcelable {
     private int alpha;
     private int red;
     private int green;
-    private int bule;
+    private int blue;
 
     public AppInfo(String packageName) {
         this.packageName = packageName;
@@ -34,7 +34,7 @@ public class AppInfo extends DataSupport implements Parcelable {
         alpha = 26;
         red = 54;
         green = 36;
-        bule = 0;
+        blue = 0;
     }
 
     protected AppInfo(Parcel in) {
@@ -50,7 +50,7 @@ public class AppInfo extends DataSupport implements Parcelable {
         alpha = in.readInt();
         red = in.readInt();
         green = in.readInt();
-        bule = in.readInt();
+        blue = in.readInt();
     }
 
     @Override
@@ -67,7 +67,7 @@ public class AppInfo extends DataSupport implements Parcelable {
         dest.writeInt(alpha);
         dest.writeInt(red);
         dest.writeInt(green);
-        dest.writeInt(bule);
+        dest.writeInt(blue);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class AppInfo extends DataSupport implements Parcelable {
                 ", alpha=" + alpha +
                 ", red=" + red +
                 ", green=" + green +
-                ", bule=" + bule +
+                ", bule=" + blue +
                 '}';
     }
 
@@ -127,11 +127,11 @@ public class AppInfo extends DataSupport implements Parcelable {
     }
 
     public int getBule() {
-        return bule;
+        return blue;
     }
 
     public void setBule(int bule) {
-        this.bule = bule;
+        this.blue = bule;
     }
 
 

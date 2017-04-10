@@ -149,72 +149,32 @@ public class SettingsActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-//        switchEyesRoot.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (!switchEyes.isChecked()) {
-//                    if (!isAccessibilitySettingsOn(SettingsActivity.this)) {
-//                        Toast.makeText(SettingsActivity.this, "请先开启EyesCare辅助功能", Toast.LENGTH_LONG).show();
-//                        startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
-//                    } else {
-//                        startEyeshield();
-//                        switchEyes.setChecked(true);
-//                    }
-//                } else {
-//                    stopEyeshield();
-//                    switchEyes.setChecked(false);
-//                }
-//            }
-//        });
-
-//        switchLightRoot.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                if (!switchLight.isChecked()) {
-//                    if (ContextCompat.checkSelfPermission(SettingsActivity.this, Manifest.permission.CAMERA)
-//                            != PackageManager.PERMISSION_GRANTED) {
-//                        ActivityCompat.requestPermissions(SettingsActivity.this, new String[]{Manifest.permission.CAMERA}, 1);
-//                    } else {
-//                        camera = Camera.open();
-//                        camera.startPreview();
-//                        Camera.Parameters parameter = camera.getParameters();
-//                        parameter.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-//                        camera.setParameters(parameter);
-//                        camera.startPreview();
-//                        switchLight.setChecked(true);
-//                    }
-//                } else {
-//                    Camera.Parameters parameter = camera.getParameters();
-//                    parameter.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-//                    camera.setParameters(parameter);
-//                    camera.stopPreview();
-//                    camera.release();
-//                    switchLight.setChecked(false);
-//                }
-//            }
-//        });
-
-
-//        colorSetting.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(SettingsActivity.this, ColorSettingActivity.class);
-//                startActivity(intent);
-//                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-//            }
-//        });
     }
 
     private void startEyeshield() {
         Intent intent = new Intent(SettingsActivity.this, EyesCareService.class);
         intent.putExtra(Constants.STATUS, EyesCareService.TYPE_OPEN);
-        intent.putExtra("color", Color.argb(alpha, red, green, blue));
+        intent.putExtra(Constants.COLOR, Color.argb(alpha, red, green, blue));
         startService(intent);
         editor.putBoolean(Constants.EYESHIELD, true);
         editor.commit();
         ColorManager.changeColor(Color.argb(alpha, red, green, blue));
+    }
+
+    private void startCustomEyeshield() {
+        Intent intent = new Intent(SettingsActivity.this, EyesCareService.class);
+        intent.putExtra(Constants.STATUS, EyesCareService.TYPE_CUSTOM_OPEN);
+        startService(intent);
+        editor.putBoolean(Constants.CUSTOM_EYESHIELD, true);
+        editor.commit();
+    }
+
+    private void stopCustomEyeshield() {
+        Intent intent = new Intent(SettingsActivity.this, EyesCareService.class);
+        intent.putExtra(Constants.STATUS, EyesCareService.TYPE_CUSTOM_CLOSE);
+        startService(intent);
+        editor.putBoolean(Constants.CUSTOM_EYESHIELD, false);
+        editor.commit();
     }
 
     private void stopEyeshield() {
@@ -346,6 +306,13 @@ public class SettingsActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.switch_custom_setting_root:
+                if (!mSwitchCustomSetting.isChecked()) {
+                    mSwitchCustomSetting.setChecked(true);
+                    startCustomEyeshield();
+                } else {
+                    mSwitchCustomSetting.setChecked(false);
+                    stopCustomEyeshield();
+                }
                 break;
             case R.id.color_setting:
                 startActivity(new Intent(SettingsActivity.this, ColorSettingActivity.class));

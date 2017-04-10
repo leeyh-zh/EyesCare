@@ -54,6 +54,11 @@ public class DialogSearch extends BaseDialog implements CustomContract.View {
     }
 
     @Override
+    public void showProgressBar(boolean show) {
+
+    }
+
+    @Override
     protected float setWidthScale() {
         return 1;
     }

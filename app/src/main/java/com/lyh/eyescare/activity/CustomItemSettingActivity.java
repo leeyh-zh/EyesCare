@@ -18,7 +18,6 @@ import android.widget.CompoundButton;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -250,6 +249,9 @@ public class CustomItemSettingActivity extends AppCompatActivity {
                 mRedSeekBar.setProgress(0);
                 mGreenSeedBar.setProgress(0);
                 mBuleSeedBar.setProgress(0);
+                mValues.put(Constants.RED, 0);
+                mValues.put(Constants.GREEN, 0);
+                mValues.put(Constants.BLUE, 0);
                 break;
             case R.id.btn_filter_blue:
                 showPopTop(mBtnFilterBlue);
@@ -275,8 +277,8 @@ public class CustomItemSettingActivity extends AppCompatActivity {
             case R.id.exit:
                 Log.d("1111", "exit: intent");
                 Intent intent = new Intent();
-                intent.putExtra("appInfo",mAppInfo);
-                setResult(2,intent);
+                intent.putExtra("appInfo", mAppInfo);
+                setResult(2, intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 finish();
                 break;
@@ -395,6 +397,9 @@ public class CustomItemSettingActivity extends AppCompatActivity {
         mGreenSeedBar.setProgress(green);
         mBuleSeedBar.setProgress(blue);
         mColorValue.setText(ColorManager.toHexEncoding(red, green, blue));
+        mValues.put(Constants.RED, red);
+        mValues.put(Constants.GREEN, green);
+        mValues.put(Constants.BLUE, blue);
     }
 
     @Override
@@ -404,9 +409,14 @@ public class CustomItemSettingActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        DataSupport.updateAll(AppInfo.class, mValues, "packageName = ?", mAppInfo.getPackageName());
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        DataSupport.updateAll(AppInfo.class, mValues, "packageName = ?", mAppInfo.getPackageName());
 //        Intent intent = new Intent();
 //        intent.putExtra("appInfo",mAppInfo);
 //        setResult(2,intent);
@@ -416,8 +426,8 @@ public class CustomItemSettingActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent();
-        intent.putExtra("appInfo","111123234");
-        setResult(2,intent);
+        intent.putExtra("appInfo", "111123234");
+        setResult(2, intent);
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
         super.onBackPressed();
     }

@@ -52,4 +52,6 @@ public class SysAppFragment extends BaseFragment {
         }
         mCustomAdapter.setInfos(list);
     }
+
+
 }

@@ -67,16 +67,23 @@ public class UserAppFragment extends BaseFragment {
             }
         });
     }
-   int mPosition;
+
+    int mPosition;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 2) {
             AppInfo appInfo = data.getParcelableExtra("appInfo");
-            list.set(mPosition,appInfo);
-            Log.d("1111","set" + list.get(mPosition).toString());
+            list.set(mPosition, appInfo);
+            //list.notifyAll();
+            for (AppInfo appInfo1 : list) {
+                Log.d("1111", appInfo1.getAppName() + appInfo1.isCustomPattern() + " " + appInfo1.isCustomLight() + " " + appInfo1.isCustomColor());
+            }
+            Log.d("1111", "set" + list.get(mPosition).toString());
             mCustomAdapter.setInfos(list);
-            mCustomAdapter.notifyItemChanged(mPosition);
+            mCustomAdapter.notifyDataSetChanged();
+            //mCustomAdapter.notifyItemChanged(mPosition);
         }
     }
 }
