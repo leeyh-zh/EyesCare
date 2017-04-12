@@ -67,10 +67,8 @@ public class CustomPresenter implements CustomContract.Presenter {
                         appInfo.setApplicationInfo(applicationInfo);
                         if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
                             appInfo.setSysApp(true);
-                            appInfo.setTopTitle("系统应用");
                         } else {
                             appInfo.setSysApp(false);
-                            appInfo.setTopTitle("用户应用");
                         }
                     }
                 } catch (PackageManager.NameNotFoundException e) {
@@ -111,10 +109,8 @@ public class CustomPresenter implements CustomContract.Presenter {
                         info.setApplicationInfo(applicationInfo);
                         if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
                             info.setSysApp(true);
-                            info.setTopTitle("系统应用");
                         } else {
                             info.setSysApp(false);
-                            info.setTopTitle("用户应用");
                         }
                     }
                 } catch (PackageManager.NameNotFoundException e) {

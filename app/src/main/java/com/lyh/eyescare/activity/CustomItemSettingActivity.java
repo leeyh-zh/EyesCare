@@ -426,7 +426,7 @@ public class CustomItemSettingActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent();
-        intent.putExtra("appInfo", "111123234");
+        intent.putExtra("appInfo", mAppInfo);
         setResult(2, intent);
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
         super.onBackPressed();

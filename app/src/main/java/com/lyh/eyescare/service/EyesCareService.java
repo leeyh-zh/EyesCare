@@ -9,7 +9,10 @@ import android.app.usage.UsageEvents;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
@@ -48,6 +51,7 @@ public class EyesCareService extends AccessibilityService {
     private ArrayList<AppInfo> list;
     private int mStatus;
     private int mColor;
+    private Message mMessage;
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
@@ -57,8 +61,6 @@ public class EyesCareService extends AccessibilityService {
     @Override
     public void onCreate() {
         super.onCreate();
-        mActivityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-
     }
 
     @Override
@@ -68,6 +70,7 @@ public class EyesCareService extends AccessibilityService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        mActivityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         list = new ArrayList<>();
         mAppInfoManager = new AppInfoManager(getApplicationContext());
         if (intent != null) {
@@ -81,12 +84,23 @@ public class EyesCareService extends AccessibilityService {
                 ColorManager.removeColorView(this);
             }
         }
-        Log.d("1111", "onStartCommand");
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 while (true) {
-                    Log.d("1111", "packageName" + getLauncherTopApp(EyesCareService.this, mActivityManager));
+                    list = (ArrayList<AppInfo>) mAppInfoManager.getAllAppInfos();
+                    Log.d("1111", "packageName = " + getLauncherTopApp(EyesCareService.this, mActivityManager));
+                    for (AppInfo appInfo : list) {
+                        if (appInfo.getPackageName().equals(getLauncherTopApp(EyesCareService.this, mActivityManager))) {
+                            mMessage = mHandler.obtainMessage();
+                            mColor = Color.argb(appInfo.getAlpha(), appInfo.getRed(), appInfo.getGreen(), appInfo.getBule());
+                            mMessage.what = 0;
+                            mMessage.obj = mColor;
+                            mHandler.sendMessage(mMessage);
+                        }
+                    }
+
                 }
             }
         }).start();
@@ -94,18 +108,17 @@ public class EyesCareService extends AccessibilityService {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void getData() {
-        while (true) {
-            Log.d("1111", "packageName" + getLauncherTopApp(EyesCareService.this, mActivityManager));
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    mColor = (int) msg.obj;
+                    ColorManager.changeColor(mColor);
+            }
         }
-    }
-
-
-    @Override
-    protected void onServiceConnected() {
-        Log.d("1111", "onServiceConnected");
-        super.onServiceConnected();
-    }
+    };
 
     /**
      * 获取栈顶应用包名
@@ -133,7 +146,6 @@ public class EyesCareService extends AccessibilityService {
             if (!android.text.TextUtils.isEmpty(result)) {
                 return result;
             }
-            Log.d("1111","result");
         }
         return "";
     }

@@ -26,11 +26,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lyh.eyescare.manager.ColorManager;
 import com.lyh.eyescare.R;
 import com.lyh.eyescare.constant.Constants;
+import com.lyh.eyescare.manager.ColorManager;
 import com.lyh.eyescare.service.EyesCareService;
 import com.lyh.eyescare.service.LoadAppListService;
+import com.lyh.eyescare.utils.AppUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +45,7 @@ import static com.lyh.eyescare.constant.Constants.DEFAULTVALUE;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private static final int RESULT_ACTION_USAGE_ACCESS_SETTINGS = 1;
     @BindView(R.id.color_config_title)
     TextView colorConfigTitle;
     @BindView(R.id.color_config)
@@ -110,11 +112,28 @@ public class SettingsActivity extends AppCompatActivity {
                 startActivityForResult(intent, 1);
             }
         }
+
+        if (!AppUtil.isStatAccessPermissionSet(this)) {
+            Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+            startActivityForResult(intent, RESULT_ACTION_USAGE_ACCESS_SETTINGS);
+        }
+
         startService(new Intent(this, LoadAppListService.class));
         settings = getSharedPreferences(Constants.SETTINGS, MODE_PRIVATE);
         editor = settings.edit();
         initStatus();
         statusSettings();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_ACTION_USAGE_ACCESS_SETTINGS) {
+            if (AppUtil.isStatAccessPermissionSet(this)) {
+            } else {
+                Toast.makeText(this, "没有权限", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void initStatus() {

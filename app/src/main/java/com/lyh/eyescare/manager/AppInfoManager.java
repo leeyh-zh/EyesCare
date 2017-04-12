@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.util.Log;
 
 import com.lyh.eyescare.bean.AppInfo;
 
@@ -63,6 +64,12 @@ public class AppInfoManager {
             ApplicationInfo applicationInfo = mPackageManager.getApplicationInfo(appInfo.getPackageName(), PackageManager.GET_UNINSTALLED_PACKAGES);
             String appName = mPackageManager.getApplicationLabel(applicationInfo).toString();
             appInfo.setAppName(appName);
+            appInfo.setApplicationInfo(applicationInfo);
+            if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
+                appInfo.setSysApp(true);
+            } else {
+                appInfo.setSysApp(false);
+            }
             appInfoList.add(appInfo);
         }
         appInfoList = clearRepeatAppInfo(appInfoList);

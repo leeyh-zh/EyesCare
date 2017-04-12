@@ -19,7 +19,6 @@ public class AppInfo extends DataSupport implements Parcelable {
     private boolean isCustomColor;  //是否开启自定义
     private ApplicationInfo applicationInfo;
     private boolean isSysApp; //是否是系统应用
-    private String topTitle;
 
     private int alpha;
     private int red;
@@ -46,7 +45,6 @@ public class AppInfo extends DataSupport implements Parcelable {
         isCustomColor = in.readByte() != 0;
         applicationInfo = in.readParcelable(ApplicationInfo.class.getClassLoader());
         isSysApp = in.readByte() != 0;
-        topTitle = in.readString();
         alpha = in.readInt();
         red = in.readInt();
         green = in.readInt();
@@ -63,7 +61,6 @@ public class AppInfo extends DataSupport implements Parcelable {
         dest.writeByte((byte) (isCustomColor ? 1 : 0));
         dest.writeParcelable(applicationInfo, flags);
         dest.writeByte((byte) (isSysApp ? 1 : 0));
-        dest.writeString(topTitle);
         dest.writeInt(alpha);
         dest.writeInt(red);
         dest.writeInt(green);
@@ -95,6 +92,7 @@ public class AppInfo extends DataSupport implements Parcelable {
                 ", isCustomPattern=" + isCustomPattern +
                 ", isCustomLight=" + isCustomLight +
                 ", isCustomColor=" + isCustomColor +
+                ", isSysApp =" + isSysApp +
                 ", alpha=" + alpha +
                 ", red=" + red +
                 ", green=" + green +
@@ -198,14 +196,4 @@ public class AppInfo extends DataSupport implements Parcelable {
     public void setSysApp(boolean sysApp) {
         isSysApp = sysApp;
     }
-
-    public String getTopTitle() {
-        return topTitle;
-    }
-
-    public void setTopTitle(String topTitle) {
-        this.topTitle = topTitle;
-    }
-
-
 }

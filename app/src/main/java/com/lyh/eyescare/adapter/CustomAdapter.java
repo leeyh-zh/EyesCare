@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.AppInfoVie
         AppInfo appInfo = mAppInfo.get(position);
         holder.itemView.setTag(appInfo);
         itemPosition = position;
+        Log.d("1111","onBindViewHolder");
         initData(appInfo, holder, position);
     }
 
