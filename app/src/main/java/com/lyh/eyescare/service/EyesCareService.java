@@ -60,6 +60,7 @@ public class EyesCareService extends AccessibilityService {
     private int red;
     private int green;
     private int bule;
+    private String currentPackageName;
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
@@ -111,28 +112,27 @@ public class EyesCareService extends AccessibilityService {
             while (customOpen) {
                 try {
                     Thread.sleep(500);
-                    String packageName = getLauncherTopApp(EyesCareService.this, mActivityManager);
-                    Log.d("1111", "packageName = " + packageName);
-                    if (TextUtils.isEmpty(packageName)) {
-                        return;
-                    }
-                    list = mAppInfoManager.getAllAppInfos();
+                    currentPackageName = getLauncherTopApp(EyesCareService.this,
+                            mActivityManager);
+                    Log.d("1111","currentPackageName = " + currentPackageName);
+
                     if (mSpUtil.getBoolean(Constants.EYESHIELD, false)) {
-                        for (AppInfo appInfo : list) {
-                            if (getLauncherTopApp(EyesCareService.this, mActivityManager).equals(appInfo.getPackageName())) {
-                                if (appInfo.isCustomPattern()) {
-                                    if (appInfo.isCustomLight() && appInfo.isCustomColor()) {
-                                        mColor = Color.argb(appInfo.getAlpha(), appInfo.getRed(), appInfo.getGreen(), appInfo.getBule());
+                        list = mAppInfoManager.getAllAppInfos();
+                        for (int i = 0; i < list.size(); i++) {
+                            if (currentPackageName.equals(list.get(i).getPackageName())) {
+                                if (list.get(i).isCustomPattern()) {
+                                    if (list.get(i).isCustomLight() && list.get(i).isCustomColor()) {
+                                        mColor = Color.argb(list.get(i).getAlpha(), list.get(i).getRed(), list.get(i).getGreen(), list.get(i).getBule());
                                     } else {
-                                        if (appInfo.isCustomLight()) {
-                                            alpha = appInfo.getAlpha();
+                                        if (list.get(i).isCustomLight()) {
+                                            alpha = list.get(i).getAlpha();
                                         } else {
                                             alpha = mSpUtil.getInt(Constants.ALPHA, 26);
                                         }
-                                        if (appInfo.isCustomColor()) {
-                                            red = appInfo.getRed();
-                                            green = appInfo.getGreen();
-                                            bule = appInfo.getBule();
+                                        if (list.get(i).isCustomColor()) {
+                                            red = list.get(i).getRed();
+                                            green = list.get(i).getGreen();
+                                            bule = list.get(i).getBule();
                                         } else {
                                             red = mSpUtil.getInt(Constants.RED, 54);
                                             green = mSpUtil.getInt(Constants.GREEN, 36);
@@ -141,7 +141,9 @@ public class EyesCareService extends AccessibilityService {
                                         mColor = Color.argb(alpha, red, green, bule);
                                     }
                                 }
-                            } else {
+                                break;
+                            } else if (!TextUtils.isEmpty(currentPackageName) &&
+                                    !currentPackageName.equals(list.get(i).getPackageName())) {
                                 alpha = mSpUtil.getInt(Constants.ALPHA, 26);
                                 red = mSpUtil.getInt(Constants.RED, 54);
                                 green = mSpUtil.getInt(Constants.GREEN, 36);
