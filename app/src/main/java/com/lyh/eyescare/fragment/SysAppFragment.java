@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
+import com.lyh.eyescare.CustomContract;
+import com.lyh.eyescare.CustomPresenter;
 import com.lyh.eyescare.R;
 import com.lyh.eyescare.activity.CustomItemSettingActivity;
 import com.lyh.eyescare.adapter.CustomAdapter;
@@ -22,7 +23,7 @@ import java.util.List;
  * Created by xian on 2017/3/1.
  */
 
-public class SysAppFragment extends BaseFragment {
+public class SysAppFragment extends BaseFragment implements CustomContract.View {
 
     public static SysAppFragment newInstance(List<AppInfo> list) {
         SysAppFragment sysAppFragment = new SysAppFragment();
@@ -35,7 +36,7 @@ public class SysAppFragment extends BaseFragment {
     private RecyclerView mRecyclerView;
     private List<AppInfo> data, list, updateList;
     private CustomAdapter mCustomAdapter;
-    private AppInfoManager mAppInfoManager;
+    private CustomPresenter mCustomPresenter;
 
     @Override
     protected int getContentViewId() {
@@ -44,17 +45,22 @@ public class SysAppFragment extends BaseFragment {
 
     @Override
     protected void init(View rootView) {
-        mAppInfoManager = new AppInfoManager(getContext());
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         data = getArguments().getParcelableArrayList("data");
         mCustomAdapter = new CustomAdapter(getActivity());
+        mCustomPresenter = new CustomPresenter(this, getContext());
         mRecyclerView.setAdapter(mCustomAdapter);
-        showRecycleView(data);
+        list = new ArrayList<>();
+        for (AppInfo info : data) {
+            if (info.isSysApp()) {
+                list.add(info);
+            }
+        }
+        mCustomAdapter.setInfos(list);
         mCustomAdapter.setOnItemClickListener(new CustomAdapter.OnRecyclerViewItemClickListener() {
             @Override
-            public void onItemClick(View view, int position, AppInfo data) {
-                mPosition = position;
+            public void onItemClick(View view, AppInfo data) {
                 Intent intent = new Intent(SysAppFragment.this.getContext(), CustomItemSettingActivity.class);
                 intent.putExtra("appInfo", data);
                 startActivityForResult(intent, 2);
@@ -62,32 +68,27 @@ public class SysAppFragment extends BaseFragment {
         });
     }
 
-    private void showRecycleView(List<AppInfo> infoList) {
-        Log.d("11112","list infoList = " + infoList.size());
-        list = new ArrayList<>();
-        for (AppInfo info : infoList) {
-            if (info.isSysApp()) {
-                list.add(info);
-            }
-        }
-        Log.d("11112","list size = " + list.size());
-        mCustomAdapter.setInfos(list);
-    }
-
-    int mPosition;
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 2) {
-            updateList = new ArrayList<>();
-            updateList = mAppInfoManager.getAllAppInfos();
-            List<AppInfo> newList = new ArrayList<>();
-            //showRecycleView(updateList);
-//            mCustomAdapter.setInfos(list);
-//            mCustomAdapter.notifyDataSetChanged();
-            //mCustomAdapter.notifyItemChanged(mPosition);
+            mCustomPresenter.loadAppInfo(getContext());
         }
     }
 
+    @Override
+    public void loadAppInfoSuccess(List<AppInfo> list) {
+        updateList = new ArrayList<>();
+        for (AppInfo info : list) {
+            if (info.isSysApp()) {
+                updateList.add(info);
+            }
+        }
+       mCustomAdapter.setInfos(updateList);
+    }
+
+    @Override
+    public void showProgressBar(boolean show) {
+
+    }
 }

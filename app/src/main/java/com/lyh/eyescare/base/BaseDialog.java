@@ -59,7 +59,6 @@ public abstract class BaseDialog extends Dialog {
 
         WindowManager.LayoutParams layoutParams = window.getAttributes();
         layoutParams.width = width;
-        layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
         window.setAttributes(layoutParams);
 
         enterAnim = setEnterAnim();

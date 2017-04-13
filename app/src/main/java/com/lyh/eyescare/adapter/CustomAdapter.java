@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.AppInfoVie
 
     private final AppInfoManager appInfoManager;
     private CustomPresenter mCustomPresenter;
-    private int itemPosition;
 
     public CustomAdapter(Activity mContext) {
         this.mContext = mContext;
@@ -57,8 +55,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.AppInfoVie
     public void onBindViewHolder(AppInfoViewHolder holder, int position) {
         AppInfo appInfo = mAppInfo.get(position);
         holder.itemView.setTag(appInfo);
-        itemPosition = position;
-        Log.d("1111","onBindViewHolder");
         initData(appInfo, holder, position);
     }
 
@@ -66,8 +62,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.AppInfoVie
     public void onClick(View view) {
         if (mOnItemClickListener != null) {
             //注意这里使用getTag方法获取数据
-            mOnItemClickListener.onItemClick(view, itemPosition, (AppInfo) view.getTag());
+            mOnItemClickListener.onItemClick(view, (AppInfo) view.getTag());
         }
+
     }
 
     /**
@@ -77,7 +74,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.AppInfoVie
 
     //define interface
     public static interface OnRecyclerViewItemClickListener {
-        void onItemClick(View view, int position, AppInfo data);
+        void onItemClick(View view, AppInfo data);
     }
 
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {

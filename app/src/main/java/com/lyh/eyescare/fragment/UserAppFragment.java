@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
+import com.lyh.eyescare.CustomContract;
+import com.lyh.eyescare.CustomPresenter;
 import com.lyh.eyescare.R;
 import com.lyh.eyescare.activity.CustomItemSettingActivity;
 import com.lyh.eyescare.adapter.CustomAdapter;
@@ -17,11 +18,7 @@ import com.lyh.eyescare.bean.AppInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by xian on 2017/3/1.
- */
-
-public class UserAppFragment extends BaseFragment {
+public class UserAppFragment extends BaseFragment implements CustomContract.View {
 
     public static UserAppFragment newInstance(List<AppInfo> list) {
         UserAppFragment userAppFragment = new UserAppFragment();
@@ -32,8 +29,9 @@ public class UserAppFragment extends BaseFragment {
     }
 
     private RecyclerView mRecyclerView;
-    private List<AppInfo> data, list;
+    private List<AppInfo> data, list,updateList;
     private CustomAdapter mCustomAdapter;
+    private CustomPresenter mCustomPresenter;
 
     @Override
     protected int getContentViewId() {
@@ -46,6 +44,7 @@ public class UserAppFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         data = getArguments().getParcelableArrayList("data");
         mCustomAdapter = new CustomAdapter(getActivity());
+        mCustomPresenter = new CustomPresenter(this,getContext());
         mRecyclerView.setAdapter(mCustomAdapter);
         list = new ArrayList<>();
         for (AppInfo info : data) {
@@ -56,34 +55,35 @@ public class UserAppFragment extends BaseFragment {
         mCustomAdapter.setInfos(list);
         mCustomAdapter.setOnItemClickListener(new CustomAdapter.OnRecyclerViewItemClickListener() {
             @Override
-            public void onItemClick(View view, int position, AppInfo data) {
-                mPosition = position;
-                Log.d("11113", data.toString());
-                Log.d("11113", "position = " + position);
+            public void onItemClick(View view, AppInfo data) {
                 Intent intent = new Intent(UserAppFragment.this.getContext(), CustomItemSettingActivity.class);
                 intent.putExtra("appInfo", data);
-                Log.d("1111", "onItemClick  position = " + position);
                 startActivityForResult(intent, 2);
             }
         });
     }
 
-    int mPosition;
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 2) {
-            AppInfo appInfo = data.getParcelableExtra("appInfo");
-            list.set(mPosition, appInfo);
-            //list.notifyAll();
-            for (AppInfo appInfo1 : list) {
-                Log.d("1111", appInfo1.getAppName() + appInfo1.isCustomPattern() + " " + appInfo1.isCustomLight() + " " + appInfo1.isCustomColor());
-            }
-            Log.d("1111", "set" + list.get(mPosition).toString());
-            mCustomAdapter.setInfos(list);
-            mCustomAdapter.notifyDataSetChanged();
-            //mCustomAdapter.notifyItemChanged(mPosition);
+            mCustomPresenter.loadAppInfo(getContext());
         }
+    }
+
+    @Override
+    public void loadAppInfoSuccess(List<AppInfo> list) {
+        updateList = new ArrayList<>();
+        for (AppInfo info : list) {
+            if (!info.isSysApp()) {
+                updateList.add(info);
+            }
+        }
+        mCustomAdapter.setInfos(updateList);
+    }
+
+    @Override
+    public void showProgressBar(boolean show) {
+
     }
 }

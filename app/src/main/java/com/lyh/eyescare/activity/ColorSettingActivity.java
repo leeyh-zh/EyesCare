@@ -1,6 +1,5 @@
 package com.lyh.eyescare.activity;
 
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,10 +14,11 @@ import android.widget.HorizontalScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.lyh.eyescare.manager.ColorManager;
 import com.lyh.eyescare.R;
 import com.lyh.eyescare.constant.Constants;
+import com.lyh.eyescare.manager.ColorManager;
 import com.lyh.eyescare.service.BackService;
+import com.lyh.eyescare.utils.SpUtil;
 import com.lyh.eyescare.view.CustomPopWindow;
 
 import butterknife.BindView;
@@ -70,12 +70,11 @@ public class ColorSettingActivity extends AppCompatActivity {
     private int green;
     private String tvColor;
     private BackService curservice;
-    private SharedPreferences settings;
-    private SharedPreferences.Editor editor;
     private boolean eyeProtectionOpen;
     private ColorManager mColorManager;
     private CustomPopWindow customPopWindow;
     private CustomPopWindow popWindow;
+    private SpUtil mSpUtil;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,14 +99,13 @@ public class ColorSettingActivity extends AppCompatActivity {
 
 
     private void initData() {
-        settings = getSharedPreferences(Constants.SETTINGS, MODE_PRIVATE);
-        eyeProtectionOpen = settings.getBoolean(Constants.EYESHIELD, false);
-        editor = settings.edit();
-        alpha = settings.getInt(Constants.ALPHA, 0);
-        red = settings.getInt(Constants.RED, 0);
-        green = settings.getInt(Constants.GREEN, 0);
-        blue = settings.getInt(Constants.BLUE, 0);
-        tvColor = settings.getString(Constants.COLORVALUE, Constants.DEFAULTVALUE);
+        mSpUtil = SpUtil.getInstance();
+        eyeProtectionOpen = mSpUtil.getBoolean(Constants.EYESHIELD, false);
+        alpha = mSpUtil.getInt(Constants.ALPHA, 0);
+        red = mSpUtil.getInt(Constants.RED, 0);
+        green = mSpUtil.getInt(Constants.GREEN, 0);
+        blue = mSpUtil.getInt(Constants.BLUE, 0);
+        tvColor = mSpUtil.getString(Constants.COLORVALUE, Constants.DEFAULTVALUE);
         if (eyeProtectionOpen) {
             ColorManager.changeColor(Color.argb(alpha, red, green, blue));
         }
@@ -132,7 +130,7 @@ public class ColorSettingActivity extends AppCompatActivity {
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             alpha = progress;
             tvLight.setText("" + alpha * 100 / 255 + "%");
-            editor.putInt(Constants.ALPHA, alpha).commit();
+            mSpUtil.putInt(Constants.ALPHA, alpha);
             if (eyeProtectionOpen) {
                 ColorManager.changeColor(Color.argb(alpha, red, green, blue));
             }
@@ -152,9 +150,8 @@ public class ColorSettingActivity extends AppCompatActivity {
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             red = progress;
             tvColorConfig.setText(ColorManager.toHexEncoding(red, green, blue));
-            editor.putInt(Constants.RED, red);
-            editor.putString(Constants.COLORVALUE, ColorManager.toHexEncoding(red, green, blue));
-            editor.commit();
+            mSpUtil.putInt(Constants.RED, red);
+            mSpUtil.putString(Constants.COLORVALUE, ColorManager.toHexEncoding(red, green, blue));
             if (eyeProtectionOpen) {
                 ColorManager.changeColor(Color.argb(alpha, red, green, blue));
             }
@@ -175,9 +172,8 @@ public class ColorSettingActivity extends AppCompatActivity {
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             green = progress;
             tvColorConfig.setText(ColorManager.toHexEncoding(red, green, blue));
-            editor.putInt(Constants.GREEN, green);
-            editor.putString(Constants.COLORVALUE, ColorManager.toHexEncoding(red, green, blue));
-            editor.commit();
+            mSpUtil.putInt(Constants.GREEN, green);
+            mSpUtil.putString(Constants.COLORVALUE, ColorManager.toHexEncoding(red, green, blue));
             if (eyeProtectionOpen) {
                 ColorManager.changeColor(Color.argb(alpha, red, green, blue));
             }
@@ -197,9 +193,8 @@ public class ColorSettingActivity extends AppCompatActivity {
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             blue = progress;
             tvColorConfig.setText(ColorManager.toHexEncoding(red, green, blue));
-            editor.putInt(Constants.BLUE, blue);
-            editor.putString(Constants.COLORVALUE, ColorManager.toHexEncoding(red, green, blue));
-            editor.commit();
+            mSpUtil.putInt(Constants.BLUE, blue);
+            mSpUtil.putString(Constants.COLORVALUE, ColorManager.toHexEncoding(red, green, blue));
             if (eyeProtectionOpen) {
                 ColorManager.changeColor(Color.argb(alpha, red, green, blue));
             }
@@ -338,8 +333,7 @@ public class ColorSettingActivity extends AppCompatActivity {
         greenSeedBar.setProgress(green);
         buleSeedBar.setProgress(blue);
         tvColorConfig.setText(ColorManager.toHexEncoding(red, green, blue));
-        editor.putString(Constants.COLORVALUE, ColorManager.toHexEncoding(red, green, blue));
-        editor.commit();
+        mSpUtil.putString(Constants.COLORVALUE, ColorManager.toHexEncoding(red, green, blue));
         if (eyeProtectionOpen) {
             ColorManager.changeColor(Color.argb(alpha, red, green, blue));
         }
@@ -360,23 +354,21 @@ public class ColorSettingActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        editor.putInt(Constants.ALPHA, alpha);
-        editor.putInt(Constants.RED, red);
-        editor.putInt(Constants.GREEN, green);
-        editor.putInt(Constants.BLUE, blue);
-        editor.putString(Constants.COLORVALUE, ColorManager.toHexEncoding(red, green, blue));
-        editor.commit();
+        mSpUtil.putInt(Constants.ALPHA, alpha);
+        mSpUtil.putInt(Constants.RED, red);
+        mSpUtil.putInt(Constants.GREEN, green);
+        mSpUtil.putInt(Constants.BLUE, blue);
+        mSpUtil.putString(Constants.COLORVALUE, ColorManager.toHexEncoding(red, green, blue));
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-        editor.putInt(Constants.ALPHA, alpha);
-        editor.putInt(Constants.RED, red);
-        editor.putInt(Constants.GREEN, green);
-        editor.putInt(Constants.BLUE, blue);
-        editor.putString(Constants.COLORVALUE, ColorManager.toHexEncoding(red, green, blue));
-        editor.commit();
+        mSpUtil.putInt(Constants.ALPHA, alpha);
+        mSpUtil.putInt(Constants.RED, red);
+        mSpUtil.putInt(Constants.GREEN, green);
+        mSpUtil.putInt(Constants.BLUE, blue);
+        mSpUtil.putString(Constants.COLORVALUE, ColorManager.toHexEncoding(red, green, blue));
     }
 }

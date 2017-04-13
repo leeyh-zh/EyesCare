@@ -2,6 +2,7 @@ package com.lyh.eyescare;
 
 import com.lyh.eyescare.base.BaseActivity;
 import com.lyh.eyescare.utils.SpUtil;
+import com.squareup.leakcanary.LeakCanary;
 
 import org.litepal.LitePalApplication;
 
@@ -20,6 +21,7 @@ public class MyApplication extends LitePalApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        LeakCanary.install(this);
         application = this;
         SpUtil.getInstance().init(application);
         activityList = new ArrayList<>();

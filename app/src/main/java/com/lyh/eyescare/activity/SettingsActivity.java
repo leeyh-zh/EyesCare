@@ -1,9 +1,9 @@
 package com.lyh.eyescare.activity;
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.hardware.Camera;
@@ -26,12 +26,20 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lyh.eyescare.CustomContract;
+import com.lyh.eyescare.CustomPresenter;
 import com.lyh.eyescare.R;
+import com.lyh.eyescare.bean.AppInfo;
 import com.lyh.eyescare.constant.Constants;
+import com.lyh.eyescare.manager.AppInfoManager;
 import com.lyh.eyescare.manager.ColorManager;
 import com.lyh.eyescare.service.EyesCareService;
 import com.lyh.eyescare.service.LoadAppListService;
 import com.lyh.eyescare.utils.AppUtil;
+import com.lyh.eyescare.utils.SpUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,7 +51,7 @@ import static com.lyh.eyescare.constant.Constants.DEFAULTVALUE;
  * Created by lyh on 2017/3/24.
  */
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements CustomContract.View {
 
     private static final int RESULT_ACTION_USAGE_ACCESS_SETTINGS = 1;
     @BindView(R.id.color_config_title)
@@ -86,10 +94,14 @@ public class SettingsActivity extends AppCompatActivity {
     private String colorValue;
     private Camera camera;
 
-    private SharedPreferences settings;
-    private SharedPreferences.Editor editor;
     private boolean eyeshield;
-    private boolean accessibility;
+    private boolean customEyeshield;
+
+    private ContentValues mValues;
+    private List<AppInfo> mAppInfos;
+    private AppInfoManager mAppInfoManager;
+    private CustomPresenter mCustomPresenter;
+    private SpUtil mSpUtil;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -118,9 +130,7 @@ public class SettingsActivity extends AppCompatActivity {
             startActivityForResult(intent, RESULT_ACTION_USAGE_ACCESS_SETTINGS);
         }
 
-        startService(new Intent(this, LoadAppListService.class));
-        settings = getSharedPreferences(Constants.SETTINGS, MODE_PRIVATE);
-        editor = settings.edit();
+        init();
         initStatus();
         statusSettings();
     }
@@ -136,13 +146,24 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    private void init() {
+        mSpUtil = SpUtil.getInstance();
+        startService(new Intent(this, LoadAppListService.class));
+        mAppInfoManager = new AppInfoManager(this);
+        mCustomPresenter = new CustomPresenter(this, this);
+        mCustomPresenter.loadAppInfo(this);
+        mAppInfos = new ArrayList<>();
+        mValues = new ContentValues();
+    }
+
     private void initStatus() {
-        alpha = settings.getInt(Constants.ALPHA, 0);
-        red = settings.getInt(Constants.RED, 54);
-        green = settings.getInt(Constants.GREEN, 36);
-        blue = settings.getInt(Constants.BLUE, 0);
-        colorValue = settings.getString(Constants.COLORVALUE, DEFAULTVALUE);
-        eyeshield = settings.getBoolean(Constants.EYESHIELD, false);
+        alpha = mSpUtil.getInt(Constants.ALPHA, 0);
+        red = mSpUtil.getInt(Constants.RED, 54);
+        green = mSpUtil.getInt(Constants.GREEN, 36);
+        blue = mSpUtil.getInt(Constants.BLUE, 0);
+        colorValue = mSpUtil.getString(Constants.COLORVALUE, DEFAULTVALUE);
+        eyeshield = mSpUtil.getBoolean(Constants.EYESHIELD, false);
+        customEyeshield = mSpUtil.getBoolean(Constants.CUSTOM_EYESHIELD, false);
         brightness.setText("" + alpha * 100 / 255 + "%");
         colorConfig.setText(colorValue);
         alphaSeekBar.setProgress(alpha);
@@ -157,7 +178,8 @@ public class SettingsActivity extends AppCompatActivity {
                 if (eyeshield) {
                     ColorManager.changeColor(Color.argb(alpha, red, green, blue));
                 }
-                editor.putInt("alpha", alpha).commit();
+                mSpUtil.putInt(Constants.ALPHA, alpha);
+                mValues.put(Constants.ALPHA, alpha);
             }
 
             @Override
@@ -175,8 +197,7 @@ public class SettingsActivity extends AppCompatActivity {
         intent.putExtra(Constants.STATUS, EyesCareService.TYPE_OPEN);
         intent.putExtra(Constants.COLOR, Color.argb(alpha, red, green, blue));
         startService(intent);
-        editor.putBoolean(Constants.EYESHIELD, true);
-        editor.commit();
+        mSpUtil.putBoolean(Constants.EYESHIELD, true);
         ColorManager.changeColor(Color.argb(alpha, red, green, blue));
     }
 
@@ -184,24 +205,21 @@ public class SettingsActivity extends AppCompatActivity {
         Intent intent = new Intent(SettingsActivity.this, EyesCareService.class);
         intent.putExtra(Constants.STATUS, EyesCareService.TYPE_CUSTOM_OPEN);
         startService(intent);
-        editor.putBoolean(Constants.CUSTOM_EYESHIELD, true);
-        editor.commit();
+        mSpUtil.putBoolean(Constants.CUSTOM_EYESHIELD, true);
     }
 
     private void stopCustomEyeshield() {
         Intent intent = new Intent(SettingsActivity.this, EyesCareService.class);
         intent.putExtra(Constants.STATUS, EyesCareService.TYPE_CUSTOM_CLOSE);
         startService(intent);
-        editor.putBoolean(Constants.CUSTOM_EYESHIELD, false);
-        editor.commit();
+        mSpUtil.putBoolean(Constants.CUSTOM_EYESHIELD, false);
     }
 
     private void stopEyeshield() {
         Intent intent = new Intent(SettingsActivity.this, EyesCareService.class);
         intent.putExtra(Constants.STATUS, EyesCareService.TYPE_CLOSE);
         startService(intent);
-        editor.putBoolean(Constants.EYESHIELD, false);
-        editor.commit();
+        mSpUtil.putBoolean(Constants.EYESHIELD, false);
     }
 
 
@@ -233,6 +251,13 @@ public class SettingsActivity extends AppCompatActivity {
             switchEyes.setChecked(true);
         } else {
             switchEyes.setChecked(false);
+        }
+        if (customEyeshield && eyeshield) {
+            mSwitchCustomSetting.setChecked(true);
+            startCustomEyeshield();
+        } else {
+            mSwitchCustomSetting.setChecked(false);
+            stopCustomEyeshield();
         }
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -326,10 +351,16 @@ public class SettingsActivity extends AppCompatActivity {
                 break;
             case R.id.switch_custom_setting_root:
                 if (!mSwitchCustomSetting.isChecked()) {
-                    mSwitchCustomSetting.setChecked(true);
-                    startCustomEyeshield();
+                    if (mSpUtil.getBoolean(Constants.EYESHIELD, false)) {
+                        mSwitchCustomSetting.setChecked(true);
+                        startCustomEyeshield();
+                    } else {
+                        mSwitchCustomSetting.setChecked(false);
+                        Toast.makeText(SettingsActivity.this, "请先开启护眼模式", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     mSwitchCustomSetting.setChecked(false);
+                    mSpUtil.putBoolean(Constants.CUSTOM_EYESHIELD, false);
                     stopCustomEyeshield();
                 }
                 break;
@@ -342,5 +373,15 @@ public class SettingsActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 break;
         }
+    }
+
+    @Override
+    public void loadAppInfoSuccess(List<AppInfo> list) {
+        mAppInfos = mAppInfoManager.getAllAppInfos();
+    }
+
+    @Override
+    public void showProgressBar(boolean show) {
+
     }
 }

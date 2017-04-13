@@ -1,6 +1,7 @@
 package com.lyh.eyescare.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -72,6 +73,22 @@ public class CustomSettingActivity extends BaseActivity
                 mCustomPresenter.loadAppInfo(CustomSettingActivity.this);
             }
         });
+        mDialogSearch.setOnDialogSearchListener(new DialogSearch.OnDialogSearchListener() {
+            @Override
+            public void onDialogSearchClick(AppInfo data) {
+                Intent intent = new Intent(CustomSettingActivity.this, CustomItemSettingActivity.class);
+                intent.putExtra("appInfo", data);
+                startActivityForResult(intent, 2);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2) {
+            mDialogSearch.updateDialogStatus();
+        }
     }
 
     @Override

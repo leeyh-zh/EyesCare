@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.RemoteViews;
@@ -25,6 +26,7 @@ import com.lyh.eyescare.bean.AppInfo;
 import com.lyh.eyescare.constant.Constants;
 import com.lyh.eyescare.manager.AppInfoManager;
 import com.lyh.eyescare.manager.ColorManager;
+import com.lyh.eyescare.utils.SpUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,10 +50,16 @@ public class EyesCareService extends AccessibilityService {
 
     private ActivityManager mActivityManager;
     private AppInfoManager mAppInfoManager;
-    private ArrayList<AppInfo> list;
+    private List<AppInfo> list;
     private int mStatus;
     private int mColor;
     private Message mMessage;
+    private boolean customOpen = false;
+    private SpUtil mSpUtil;
+    private int alpha;
+    private int red;
+    private int green;
+    private int bule;
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
@@ -72,6 +80,7 @@ public class EyesCareService extends AccessibilityService {
     public int onStartCommand(Intent intent, int flags, int startId) {
         mActivityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         list = new ArrayList<>();
+        mSpUtil = SpUtil.getInstance();
         mAppInfoManager = new AppInfoManager(getApplicationContext());
         if (intent != null) {
             mStatus = intent.getIntExtra(Constants.STATUS, TYPE_OPEN);
@@ -80,32 +89,77 @@ public class EyesCareService extends AccessibilityService {
                 ColorManager.addColorView(this);
                 ColorManager.changeColor(mColor);
                 showNotification();
-            } else {
+            } else if (mStatus == TYPE_CUSTOM_OPEN) {
+                customOpen = mSpUtil.getBoolean(Constants.CUSTOM_EYESHIELD, true);
+            } else if (mStatus == TYPE_CUSTOM_CLOSE) {
+                customOpen = mSpUtil.getBoolean(Constants.CUSTOM_EYESHIELD, false);
+            } else if (mStatus == TYPE_CLOSE) {
                 ColorManager.removeColorView(this);
+
             }
         }
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    list = (ArrayList<AppInfo>) mAppInfoManager.getAllAppInfos();
-                    Log.d("1111", "packageName = " + getLauncherTopApp(EyesCareService.this, mActivityManager));
-                    for (AppInfo appInfo : list) {
-                        if (appInfo.getPackageName().equals(getLauncherTopApp(EyesCareService.this, mActivityManager))) {
-                            mMessage = mHandler.obtainMessage();
-                            mColor = Color.argb(appInfo.getAlpha(), appInfo.getRed(), appInfo.getGreen(), appInfo.getBule());
-                            mMessage.what = 0;
-                            mMessage.obj = mColor;
-                            mHandler.sendMessage(mMessage);
-                        }
-                    }
-
-                }
-            }
-        }).start();
+        new Thread(new LauncherTopApp()).start();
 
         return super.onStartCommand(intent, flags, startId);
+    }
+
+
+    class LauncherTopApp implements Runnable {
+        @Override
+        public void run() {
+            while (customOpen) {
+                try {
+                    Thread.sleep(500);
+                    String packageName = getLauncherTopApp(EyesCareService.this, mActivityManager);
+                    Log.d("1111", "packageName = " + packageName);
+                    if (TextUtils.isEmpty(packageName)) {
+                        return;
+                    }
+                    list = mAppInfoManager.getAllAppInfos();
+                    if (mSpUtil.getBoolean(Constants.EYESHIELD, false)) {
+                        for (AppInfo appInfo : list) {
+                            if (getLauncherTopApp(EyesCareService.this, mActivityManager).equals(appInfo.getPackageName())) {
+                                if (appInfo.isCustomPattern()) {
+                                    if (appInfo.isCustomLight() && appInfo.isCustomColor()) {
+                                        mColor = Color.argb(appInfo.getAlpha(), appInfo.getRed(), appInfo.getGreen(), appInfo.getBule());
+                                    } else {
+                                        if (appInfo.isCustomLight()) {
+                                            alpha = appInfo.getAlpha();
+                                        } else {
+                                            alpha = mSpUtil.getInt(Constants.ALPHA, 26);
+                                        }
+                                        if (appInfo.isCustomColor()) {
+                                            red = appInfo.getRed();
+                                            green = appInfo.getGreen();
+                                            bule = appInfo.getBule();
+                                        } else {
+                                            red = mSpUtil.getInt(Constants.RED, 54);
+                                            green = mSpUtil.getInt(Constants.GREEN, 36);
+                                            bule = mSpUtil.getInt(Constants.BLUE, 0);
+                                        }
+                                        mColor = Color.argb(alpha, red, green, bule);
+                                    }
+                                }
+                            } else {
+                                alpha = mSpUtil.getInt(Constants.ALPHA, 26);
+                                red = mSpUtil.getInt(Constants.RED, 54);
+                                green = mSpUtil.getInt(Constants.GREEN, 36);
+                                bule = mSpUtil.getInt(Constants.BLUE, 0);
+                                mColor = Color.argb(alpha, red, green, bule);
+                            }
+                        }
+                        mMessage = mHandler.obtainMessage();
+                        mMessage.what = 0;
+                        mMessage.obj = mColor;
+                        mHandler.sendMessage(mMessage);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    Log.d("1111", "run: 未知错误");
+                }
+            }
+        }
     }
 
     private Handler mHandler = new Handler() {

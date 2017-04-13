@@ -10,7 +10,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -73,6 +75,17 @@ public class DialogSearch extends BaseDialog implements CustomContract.View {
         return null;
     }
 
+    private OnDialogSearchListener mOnDialogSearchListener;
+
+    //define interface
+    public static interface OnDialogSearchListener {
+        void onDialogSearchClick(AppInfo data);
+    }
+
+    public void setOnDialogSearchListener(OnDialogSearchListener listener) {
+        this.mOnDialogSearchListener = listener;
+    }
+
     @Override
     protected void init() {
         mCustomPresenter = new CustomPresenter(this, mContext);
@@ -81,6 +94,14 @@ public class DialogSearch extends BaseDialog implements CustomContract.View {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mCustomAdapter = new CustomAdapter(mContext);
         mRecyclerView.setAdapter(mCustomAdapter);
+        mCustomAdapter.setOnItemClickListener(new CustomAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, AppInfo data) {
+                if (mOnDialogSearchListener !=null){
+                    mOnDialogSearchListener.onDialogSearchClick(data);
+                }
+            }
+        });
         setCanceledOnTouchOutside(true);
         setOnShowListener(new OnShowListener() {
             @Override
@@ -117,6 +138,20 @@ public class DialogSearch extends BaseDialog implements CustomContract.View {
                 }
             }
         });
+    }
+
+    public void updateDialogStatus(){
+        Log.d("1111","mEditSearch = " + mEditSearch.getText().toString());
+        if (mEditSearch.length() == 0) {
+            mCustomAdapter.setInfos(new ArrayList<AppInfo>());
+        } else {
+            mCustomPresenter.searchAppInfo(mEditSearch.getText().toString(), new CustomPresenter.ISearchResultListener() {
+                @Override
+                public void onSearchResult(List<AppInfo> appInfos) {
+                    mCustomAdapter.setInfos(appInfos);
+                }
+            });
+        }
     }
 
     @Override
