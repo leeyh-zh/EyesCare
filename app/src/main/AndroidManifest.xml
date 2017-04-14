@@ -54,10 +54,6 @@
 
         <service android:name=".service.LoadAppListService"/>
 
-        <uses-permission android:name="android.permission.GET_TASKS"/>
-        <uses-permission
-            android:name="android.permission.PACKAGE_USAGE_STATS"
-            tools:ignore="ProtectedPermissions"/>
     </application>
 
 </manifest>

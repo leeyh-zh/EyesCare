@@ -1,9 +1,11 @@
 package com.lyh.eyescare.activity;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.hardware.Camera;
@@ -15,6 +17,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -102,7 +105,7 @@ public class SettingsActivity extends AppCompatActivity implements CustomContrac
     private AppInfoManager mAppInfoManager;
     private CustomPresenter mCustomPresenter;
     private SpUtil mSpUtil;
-
+    private MyBroadCast receiver;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,6 +132,14 @@ public class SettingsActivity extends AppCompatActivity implements CustomContrac
             Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
             startActivityForResult(intent, RESULT_ACTION_USAGE_ACCESS_SETTINGS);
         }
+
+        receiver = new MyBroadCast();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("a");
+        filter.addAction("b");
+        filter.addAction("c");
+        filter.addAction("d");
+        registerReceiver(receiver, filter);
 
         init();
         initStatus();
@@ -384,4 +395,26 @@ public class SettingsActivity extends AppCompatActivity implements CustomContrac
     public void showProgressBar(boolean show) {
 
     }
+
+    class MyBroadCast extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction().equals("a")){
+                Log.d("11111","111111111");
+            }
+            if(intent.getAction().equals("b")){
+                Log.d("11111","2222222222222");
+            }
+            if(intent.getAction().equals("c")){
+                Log.d("11111","3333333333");
+            }
+            if(intent.getAction().equals("d")){
+                Log.d("11111","4444444444444");
+            }
+
+        }
+
+    }
+
 }
