@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="护目镜"/>
+            android:text="护目镜[未启用]"/>
 
 
     </LinearLayout>
@@ -37,31 +37,24 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/clear_notification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:src="@mipmap/flash_light_on"/>
-
-        <ImageView
-            android:id="@+id/switch_color"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:src="@mipmap/flash_light_off"/>
-
-        <ImageView
             android:id="@+id/switch_light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:src="@mipmap/switch_goggles_off"/>
+            android:src="@mipmap/flash_light_off_72"/>
 
         <ImageView
             android:id="@+id/switch_goggles"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:src="@mipmap/switch_goggles_on"/>
+            android:src="@mipmap/switch_goggles_on_72"/>
+
+        <ImageView
+            android:id="@+id/clear_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@mipmap/cancel_notification"/>
     </LinearLayout>
 </LinearLayout>

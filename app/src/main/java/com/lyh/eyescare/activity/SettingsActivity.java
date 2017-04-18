@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.hardware.Camera;
@@ -95,7 +94,7 @@ public class SettingsActivity extends AppCompatActivity implements CustomContrac
     private int blue;
     private int green;
     private String colorValue;
-    private Camera camera;
+    private static Camera mCamera;
 
     private boolean eyeshield;
     private boolean customEyeshield;
@@ -104,8 +103,9 @@ public class SettingsActivity extends AppCompatActivity implements CustomContrac
     private List<AppInfo> mAppInfos;
     private AppInfoManager mAppInfoManager;
     private CustomPresenter mCustomPresenter;
-    private SpUtil mSpUtil;
-    private MyBroadCast receiver;
+    private static SpUtil mSpUtil;
+    //private ServiceBroadCast receiver;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,13 +133,13 @@ public class SettingsActivity extends AppCompatActivity implements CustomContrac
             startActivityForResult(intent, RESULT_ACTION_USAGE_ACCESS_SETTINGS);
         }
 
-        receiver = new MyBroadCast();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("a");
-        filter.addAction("b");
-        filter.addAction("c");
-        filter.addAction("d");
-        registerReceiver(receiver, filter);
+        //receiver = new ServiceBroadCast();
+//        IntentFilter filter = new IntentFilter();
+//        filter.addAction("a");
+//        filter.addAction("b");
+//        filter.addAction("c");
+//        filter.addAction("d");
+//        registerReceiver(receiver, filter);
 
         init();
         initStatus();
@@ -206,9 +206,9 @@ public class SettingsActivity extends AppCompatActivity implements CustomContrac
     private void startEyeshield() {
         Intent intent = new Intent(SettingsActivity.this, EyesCareService.class);
         intent.putExtra(Constants.STATUS, EyesCareService.TYPE_OPEN);
-        intent.putExtra(Constants.COLOR, Color.argb(alpha, red, green, blue));
         startService(intent);
         mSpUtil.putBoolean(Constants.EYESHIELD, true);
+        mSpUtil.putInt(Constants.COLOR_ARGB, Color.argb(alpha, red, green, blue));
         ColorManager.changeColor(Color.argb(alpha, red, green, blue));
     }
 
@@ -231,6 +231,33 @@ public class SettingsActivity extends AppCompatActivity implements CustomContrac
         intent.putExtra(Constants.STATUS, EyesCareService.TYPE_CLOSE);
         startService(intent);
         mSpUtil.putBoolean(Constants.EYESHIELD, false);
+    }
+
+    public static void openLight() {
+        try {
+            mCamera = Camera.open();
+            mCamera.startPreview();
+            Camera.Parameters parameter = mCamera.getParameters();
+            parameter.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+            mCamera.setParameters(parameter);
+            mCamera.startPreview();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mSpUtil.putBoolean(Constants.LIGHT, true);
+    }
+
+    public static void closeLight() {
+        try {
+            Camera.Parameters parameter = mCamera.getParameters();
+            parameter.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+            mCamera.setParameters(parameter);
+            mCamera.stopPreview();
+            mCamera.release();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mSpUtil.putBoolean(Constants.LIGHT, false);
     }
 
 
@@ -270,6 +297,7 @@ public class SettingsActivity extends AppCompatActivity implements CustomContrac
             mSwitchCustomSetting.setChecked(false);
             stopCustomEyeshield();
         }
+        switchLight.setChecked(mSpUtil.getBoolean(Constants.LIGHT));
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -299,6 +327,12 @@ public class SettingsActivity extends AppCompatActivity implements CustomContrac
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //unregisterReceiver(receiver);
     }
 
     @Override
@@ -343,20 +377,11 @@ public class SettingsActivity extends AppCompatActivity implements CustomContrac
                             != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(SettingsActivity.this, new String[]{Manifest.permission.CAMERA}, 1);
                     } else {
-                        camera = Camera.open();
-                        camera.startPreview();
-                        Camera.Parameters parameter = camera.getParameters();
-                        parameter.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-                        camera.setParameters(parameter);
-                        camera.startPreview();
+                        openLight();
                         switchLight.setChecked(true);
                     }
                 } else {
-                    Camera.Parameters parameter = camera.getParameters();
-                    parameter.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                    camera.setParameters(parameter);
-                    camera.stopPreview();
-                    camera.release();
+                    closeLight();
                     switchLight.setChecked(false);
                 }
                 break;
@@ -396,21 +421,30 @@ public class SettingsActivity extends AppCompatActivity implements CustomContrac
 
     }
 
-    class MyBroadCast extends BroadcastReceiver {
+    public class ServiceBroadCast extends BroadcastReceiver {
+
+        public ServiceBroadCast() {
+        }
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent.getAction().equals("a")){
-                Log.d("11111","111111111");
+            if (intent.getAction().equals("a")) {
+                Log.d("11111", "111111111");
             }
-            if(intent.getAction().equals("b")){
-                Log.d("11111","2222222222222");
+            if (intent.getAction().equals("b")) {
+                Log.d("11111", "2222222222222");
             }
-            if(intent.getAction().equals("c")){
-                Log.d("11111","3333333333");
+            if (intent.getAction().equals("c")) {
+                Log.d("11111", "3333333333");
             }
-            if(intent.getAction().equals("d")){
-                Log.d("11111","4444444444444");
+            if (intent.getAction().equals("d")) {
+                Log.d("11111", "4444444444444");
+                if (mSpUtil.getBoolean(Constants.EYESHIELD)) {
+                    stopEyeshield();
+                } else {
+                    startEyeshield();
+                }
+
             }
 
         }
