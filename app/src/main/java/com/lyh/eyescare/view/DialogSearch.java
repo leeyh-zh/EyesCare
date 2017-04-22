@@ -56,7 +56,7 @@ public class DialogSearch extends BaseDialog implements CustomContract.View {
     }
 
     @Override
-    public void showProgressBar(boolean show) {
+    public void showProgressBar() {
 
     }
 
@@ -78,7 +78,7 @@ public class DialogSearch extends BaseDialog implements CustomContract.View {
     private OnDialogSearchListener mOnDialogSearchListener;
 
     //define interface
-    public static interface OnDialogSearchListener {
+    public interface OnDialogSearchListener {
         void onDialogSearchClick(AppInfo data);
     }
 

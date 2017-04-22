@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -33,13 +32,12 @@ public class CustomSettingActivity extends BaseActivity
     private TextView mEditSearch;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
-    private customPagerAdapter mPagerAdapter;
+    private CustomPagerAdapter mPagerAdapter;
     private CustomPresenter mCustomPresenter;
     private DialogSearch mDialogSearch;
 
     private List<String> titles;
     private List<Fragment> fragmentList;
-    private ProgressBar mProgressBar;
 
     @Override
     public int getLayoutId() {
@@ -53,7 +51,6 @@ public class CustomSettingActivity extends BaseActivity
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mTopLayout = (RelativeLayout) findViewById(R.id.top_layout);
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mTopLayout.setPadding(0, SystemBarHelper.getStatusBarHeight(this), 0, 0);
         mCustomPresenter = new CustomPresenter(this, this);
         mCustomPresenter.loadAppInfo(this);
@@ -97,6 +94,8 @@ public class CustomSettingActivity extends BaseActivity
             case R.id.edit_search:
                 mDialogSearch.show();
                 break;
+            default:
+                break;
         }
     }
 
@@ -119,27 +118,27 @@ public class CustomSettingActivity extends BaseActivity
         fragmentList = new ArrayList<>();
         fragmentList.add(userAppFragment);
         fragmentList.add(sysAppFragment);
-        mPagerAdapter = new customPagerAdapter(getSupportFragmentManager(), fragmentList, titles);
+        mPagerAdapter = new CustomPagerAdapter(getSupportFragmentManager(), fragmentList, titles);
         mViewPager.setAdapter(mPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
     @Override
-    public void showProgressBar(boolean show) {
+    public void showProgressBar() {
         //mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
 
-    public class customPagerAdapter extends FragmentStatePagerAdapter {
+    public class CustomPagerAdapter extends FragmentStatePagerAdapter {
 
         private List<Fragment> fragmentList = new ArrayList<>();
         private List<String> titles = new ArrayList<>();
 
-        public customPagerAdapter(FragmentManager fm) {
+        public CustomPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
-        public customPagerAdapter(FragmentManager fm, List<Fragment> fragmentList, List<String> titles) {
+        public CustomPagerAdapter(FragmentManager fm, List<Fragment> fragmentList, List<String> titles) {
             super(fm);
             this.fragmentList = fragmentList;
             this.titles = titles;

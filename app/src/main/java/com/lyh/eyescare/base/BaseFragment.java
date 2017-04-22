@@ -14,8 +14,6 @@ import android.view.ViewGroup;
 
 /**
  * description: Fragment父类
- * author: xiaodifu
- * date: 2016/7/8.
  */
 public abstract class BaseFragment extends Fragment {
 

@@ -10,6 +10,7 @@ import org.litepal.crud.DataSupport;
  * Created by lyh on 2017/4/1.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class AppInfo extends DataSupport implements Parcelable {
     private long id;
     private String packageName;
@@ -96,7 +97,7 @@ public class AppInfo extends DataSupport implements Parcelable {
                 ", alpha=" + alpha +
                 ", red=" + red +
                 ", green=" + green +
-                ", bule=" + blue +
+                ", blue=" + blue +
                 '}';
     }
 
@@ -124,12 +125,12 @@ public class AppInfo extends DataSupport implements Parcelable {
         this.green = green;
     }
 
-    public int getBule() {
+    public int getBlue() {
         return blue;
     }
 
-    public void setBule(int bule) {
-        this.blue = bule;
+    public void setBlue(int blue) {
+        this.blue = blue;
     }
 
 

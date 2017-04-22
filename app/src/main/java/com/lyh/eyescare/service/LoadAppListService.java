@@ -83,8 +83,6 @@ public class LoadAppListService extends IntentService {
                 //Logger.d("有应用卸载，个数是 = " + dbList.size());
                 if (commlist.size() != 0)
                     mAppInfoManager.deleteAppInfo(commlist);//将多的从数据库删除
-            } else {
-                //Logger.d("应用没多没少，正常");
             }
         } else {
             //数据库只插入一次

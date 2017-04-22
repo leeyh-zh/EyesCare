@@ -24,12 +24,12 @@ import java.util.Locale;
 
 public class AppInfoManager {
 
-    private PackageManager mPackageManager;
-    private Context mContext;
+    private final PackageManager mPackageManager;
+    private final Context mContext;
 
     public AppInfoManager(Context context) {
         mContext = context;
-        mPackageManager = context.getPackageManager();
+        mPackageManager = mContext.getPackageManager();
     }
 
 
@@ -96,21 +96,6 @@ public class AppInfoManager {
     }
 
     /**
-     * 更新数据库app状态
-     */
-    public void updateAppStatus(String packageName, boolean isEyesCare, boolean isCustomLight, boolean isCustomColor) {
-        ContentValues values = new ContentValues();
-        values.put("isEyesCare", isEyesCare);
-        values.put("isCustomLight", isCustomLight);
-        values.put("isCustomColor", isCustomColor);
-        DataSupport.updateAll(AppInfo.class, values, "packageName = ?", packageName);
-    }
-
-    public void updateAppStatus(String packageName, ContentValues values) {
-        DataSupport.updateAll(AppInfo.class, values, "packageName = ?", packageName);
-    }
-
-    /**
      * 更改是否启动自定义设置
      */
     public void isCustomColor(String packageName, boolean open) {
@@ -123,11 +108,10 @@ public class AppInfoManager {
      * 模糊匹配
      */
     public List<AppInfo> queryBlurryList(String appName) {
-        List<AppInfo> infos = DataSupport.where("appName like ?", "%" + appName + "%").find(AppInfo.class);
-        return infos;
+        return DataSupport.where("appName like ?", "%" + appName + "%").find(AppInfo.class);
     }
 
-    private Comparator appInfoListComparator = new Comparator() {
+    private final Comparator appInfoListComparator = new Comparator() {
         @Override
         public int compare(Object o1, Object o2) {
             AppInfo appInfo1 = (AppInfo) o1;
@@ -135,7 +119,7 @@ public class AppInfoManager {
             String one = appInfo1.getAppName();
             String two = appInfo2.getAppName();
             Collator collator = Collator.getInstance(Locale.CHINA);
-            int flag = 0;
+            int flag;
             if (collator.compare(one, two) < 0) {
                 flag = -1;
             } else if (collator.compare(one, two) > 0) {

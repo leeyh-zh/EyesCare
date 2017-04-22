@@ -40,7 +40,7 @@
         <item name="android:progressDrawable">@drawable/seekbar_horizontal</item>
         <item name="android:minHeight">4.0px</item>
         <item name="android:thumb">@mipmap/detail_icon_schedule_ball_on</item>
-        <item name="android:thumbOffset">10px</item>
+        <item name="android:thumbOffset">10dp</item>
     </style>
 
     <style name="AnimationActivity" parent="@android:style/Animation.Activity">
@@ -67,9 +67,23 @@
         <item name="android:windowCloseOnTouchOutside">false</item>
     </style>
 
-    <style name="AnimationBottomFade">
-        <item name="android:windowEnterAnimation">@anim/item_pop_in_bottom</item>
-        <item name="android:windowExitAnimation">@anim/item_pop_out_bottom</item>
+    <style name="colorBotton">
+        <item name="android:layout_width">@dimen/color_button_size</item>
+        <item name="android:layout_height">@dimen/color_button_size</item>
+        <item name="android:layout_margin">@dimen/button_marginright</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:background">@drawable/botton_color_shape</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
+    </style>
+
+    <style name="colorSettingBotton">
+        <item name="android:layout_width">@dimen/pop_button_width</item>
+        <item name="android:layout_height">@dimen/pop_button_height</item>
+        <item name="android:background">#546E7A</item>
+        <item name="android:padding">@dimen/color_text_padding</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
     </style>
 
 </resources>

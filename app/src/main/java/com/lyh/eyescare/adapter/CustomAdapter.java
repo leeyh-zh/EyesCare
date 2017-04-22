@@ -12,10 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lyh.eyescare.CustomContract;
-import com.lyh.eyescare.CustomPresenter;
 import com.lyh.eyescare.R;
 import com.lyh.eyescare.bean.AppInfo;
-import com.lyh.eyescare.manager.AppInfoManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,16 +24,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.AppInfoVie
     private List<AppInfo> mAppInfo = new ArrayList<>();
     private Activity mContext;
     private PackageManager packageManager;
-    private AppInfoManager mAppInfoManager;
-
-    private final AppInfoManager appInfoManager;
-    private CustomPresenter mCustomPresenter;
 
     public CustomAdapter(Activity mContext) {
         this.mContext = mContext;
         packageManager = mContext.getPackageManager();
-        mAppInfoManager = new AppInfoManager(mContext);
-        appInfoManager = new AppInfoManager(mContext);
     }
 
     public void setInfos(List<AppInfo> appInfo) {
@@ -73,7 +65,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.AppInfoVie
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
     //define interface
-    public static interface OnRecyclerViewItemClickListener {
+    public interface OnRecyclerViewItemClickListener {
         void onItemClick(View view, AppInfo data);
     }
 
@@ -85,7 +77,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.AppInfoVie
      * 初始化数据
      */
     private void initData(final AppInfo appInfo, final AppInfoViewHolder holder, final int position) {
-        mCustomPresenter = new CustomPresenter(this, mContext);
         holder.mAppName.setText(packageManager.getApplicationLabel(appInfo.getApplicationInfo()));
         holder.mPackageName = appInfo.getPackageName();
         ApplicationInfo applicationInfo = appInfo.getApplicationInfo();
@@ -112,7 +103,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.AppInfoVie
     }
 
     @Override
-    public void showProgressBar(boolean show) {
+    public void showProgressBar() {
 
     }
 

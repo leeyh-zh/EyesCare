@@ -15,7 +15,7 @@ import java.util.List;
 public interface CustomContract {
     interface View extends BaseView<Presenter> {
         void loadAppInfoSuccess(List<AppInfo> list);
-        void showProgressBar(boolean show);
+        void showProgressBar();
     }
 
     interface Presenter extends BasePresenter {

@@ -30,6 +30,7 @@ import com.lyh.eyescare.manager.AppInfoManager;
 import com.lyh.eyescare.manager.ColorManager;
 import com.lyh.eyescare.utils.SpUtil;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class EyesCareService extends AccessibilityService {
     private AppInfoManager mAppInfoManager;
     private List<AppInfo> list;
     private int mStatus;
-    private int mColor;
+    private static int mColor;
     private Message mMessage;
     private static SpUtil mSpUtil;
     private int alpha;
@@ -65,11 +66,11 @@ public class EyesCareService extends AccessibilityService {
     private int bule;
     private String currentPackageName;
 
-
+    private final MyHandler mHandler = new MyHandler(this);
     private EyesCareReceiver receiver;
-    public  final String GOGGLES_ACTION = "com.lyh.eyescare.switch.goggles";
-    public  final String LIGHT_ACTION = "com.lyh.eyescare.switch.light";
-    public  final String CANCEL_ACTION = "com.lyh.eyescare.switch.cancel";
+    public final String GOGGLES_ACTION = "com.lyh.eyescare.switch.goggles";
+    public final String LIGHT_ACTION = "com.lyh.eyescare.switch.light";
+    public final String CANCEL_ACTION = "com.lyh.eyescare.switch.cancel";
     private boolean isGoggles = false;
     private boolean isCustom = false;
     private boolean isLight = false;
@@ -137,78 +138,85 @@ public class EyesCareService extends AccessibilityService {
     class LauncherTopApp implements Runnable {
         @Override
         public void run() {
-            while (!Thread.interrupted()) {
-                while (isCustom) {
-                    try {
-                        Thread.sleep(500);
-                        currentPackageName = getLauncherTopApp(EyesCareService.this,
-                                mActivityManager);
+            while (isCustom) {
+                try {
+                    Thread.sleep(500);
+                    currentPackageName = getLauncherTopApp(EyesCareService.this,
+                            mActivityManager);
 
-                        Log.d("1111", "currentPackageName = " + currentPackageName);
-
-                        if (mSpUtil.getBoolean(Constants.EYESHIELD, false)) {
-                            if (!TextUtils.isEmpty(currentPackageName)) {
-                                list = mAppInfoManager.getAllAppInfos();
-                            }
-                            for (int i = 0; i < list.size(); i++) {
-                                if (currentPackageName.equals(list.get(i).getPackageName())) {
-                                    if (list.get(i).isCustomPattern()) {
-                                        if (list.get(i).isCustomLight() && list.get(i).isCustomColor()) {
-                                            mColor = Color.argb(list.get(i).getAlpha(), list.get(i).getRed(), list.get(i).getGreen(), list.get(i).getBule());
-                                        } else {
-                                            if (list.get(i).isCustomLight()) {
-                                                alpha = list.get(i).getAlpha();
-                                            } else {
-                                                alpha = mSpUtil.getInt(Constants.ALPHA, 26);
-                                            }
-                                            if (list.get(i).isCustomColor()) {
-                                                red = list.get(i).getRed();
-                                                green = list.get(i).getGreen();
-                                                bule = list.get(i).getBule();
-                                            } else {
-                                                red = mSpUtil.getInt(Constants.RED, 54);
-                                                green = mSpUtil.getInt(Constants.GREEN, 36);
-                                                bule = mSpUtil.getInt(Constants.BLUE, 0);
-                                            }
-                                            mColor = Color.argb(alpha, red, green, bule);
-                                        }
-                                    }
-                                    break;
-                                } else if (!TextUtils.isEmpty(currentPackageName) &&
-                                        !currentPackageName.equals(list.get(i).getPackageName())) {
-                                    alpha = mSpUtil.getInt(Constants.ALPHA, 26);
-                                    red = mSpUtil.getInt(Constants.RED, 54);
-                                    green = mSpUtil.getInt(Constants.GREEN, 36);
-                                    bule = mSpUtil.getInt(Constants.BLUE, 0);
-                                    mColor = Color.argb(alpha, red, green, bule);
-                                }
-                            }
-                            mMessage = mHandler.obtainMessage();
-                            mMessage.what = 0;
-                            mMessage.obj = mColor;
-                            //mHandler.sendMessage(mMessage);
-                            mHandler.sendMessageDelayed(mMessage, 50);
+                    if (mSpUtil.getBoolean(Constants.EYESHIELD, false)) {
+                        if (!TextUtils.isEmpty(currentPackageName)) {
+                            list = mAppInfoManager.getAllAppInfos();
                         }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        Log.d("1111", "run: 未知错误");
+                        for (AppInfo appInfo : list) {
+                            if (currentPackageName.equals(appInfo.getPackageName())) {
+                                if (appInfo.isCustomPattern()) {
+                                    if (appInfo.isCustomLight() && appInfo.isCustomColor()) {
+                                        mColor = Color.argb(appInfo.getAlpha(), appInfo.getRed(), appInfo.getGreen(), appInfo.getBlue());
+                                    } else {
+                                        if (appInfo.isCustomLight()) {
+                                            alpha = appInfo.getAlpha();
+                                        } else {
+                                            alpha = mSpUtil.getInt(Constants.ALPHA, 26);
+                                        }
+                                        if (appInfo.isCustomColor()) {
+                                            red = appInfo.getRed();
+                                            green = appInfo.getGreen();
+                                            bule = appInfo.getBlue();
+                                        } else {
+                                            red = mSpUtil.getInt(Constants.RED, 54);
+                                            green = mSpUtil.getInt(Constants.GREEN, 36);
+                                            bule = mSpUtil.getInt(Constants.BLUE, 0);
+                                        }
+                                        mColor = Color.argb(alpha, red, green, bule);
+                                    }
+                                }
+                                break;
+                            } else if (!TextUtils.isEmpty(currentPackageName) &&
+                                    !currentPackageName.equals(appInfo.getPackageName())) {
+                                alpha = mSpUtil.getInt(Constants.ALPHA, 26);
+                                red = mSpUtil.getInt(Constants.RED, 54);
+                                green = mSpUtil.getInt(Constants.GREEN, 36);
+                                bule = mSpUtil.getInt(Constants.BLUE, 0);
+                                mColor = Color.argb(alpha, red, green, bule);
+                            }
+                        }
+                        mMessage = mHandler.obtainMessage();
+                        mMessage.what = 0;
+                        mMessage.obj = mColor;
+                        mHandler.sendMessage(mMessage);
                     }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    Log.d("1111", "run: 未知错误");
                 }
             }
         }
     }
 
-    private Handler mHandler = new Handler() {
+    private static class MyHandler extends Handler {
+
+        private final WeakReference<EyesCareService> mService;
+
+        public MyHandler(EyesCareService service) {
+            mService = new WeakReference<EyesCareService>(service);
+        }
+
         @Override
         public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 0:
+            EyesCareService service = mService.get();
+            if (service != null) {
+                if (msg.what == 0) {
                     mColor = (int) msg.obj;
                     ColorManager.changeColor(mColor);
+                }
             }
+            removeMessages(msg.what);
+            super.handleMessage(msg);
         }
-    };
+    }
+
+    ;
 
     /**
      * 获取栈顶应用包名
@@ -250,6 +258,8 @@ public class EyesCareService extends AccessibilityService {
                 R.mipmap.flash_light_on_72 : R.mipmap.flash_light_off_72);
         contentView.setImageViewResource(R.id.switch_goggles, isGoggles ?
                 R.mipmap.switch_goggles_on_72 : R.mipmap.switch_goggles_off_72);
+        contentView.setTextViewText(R.id.notification_title, getText(isGoggles ?
+                R.string.notification_title_on : R.string.notification_title_off));
 
         contentView.setOnClickPendingIntent(R.id.switch_light,
                 PendingIntent.getBroadcast(EyesCareService.this, 11, new Intent().setAction(LIGHT_ACTION), PendingIntent.FLAG_UPDATE_CURRENT));
@@ -272,9 +282,6 @@ public class EyesCareService extends AccessibilityService {
         mNotificationManager.notify(0, mNotification);
     }
 
-
-//    boolean
-
     class EyesCareReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -284,23 +291,25 @@ public class EyesCareService extends AccessibilityService {
                     mNotificationManager.cancelAll();
                     break;
                 case LIGHT_ACTION:
-                    if (!isLight) {
-                        SettingsActivity.openLight();
-                    } else {
-                        SettingsActivity.closeLight();
-                    }
+                    if (!isLight) SettingsActivity.openLight();
+                    else SettingsActivity.closeLight();
                     isLight = !isLight;
                     showNotification();
                     break;
                 case GOGGLES_ACTION:
                     isGoggles = !isGoggles;
-                    if (!isGoggles) {
-                        closeGoggles();
-                    } else {
-                        openGoggles();
-                    }
+                    if (!isGoggles) closeGoggles();
+                    else openGoggles();
+                    break;
+                default:
                     break;
             }
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
     }
 }

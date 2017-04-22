@@ -11,14 +11,12 @@ public class Constants {
     public static final String GREEN = "green";
     public static final String BLUE = "blue";
     public static final String STATUS = "status";
-    public static final String SETTINGS = "settings";
     public static final String COLORVALUE = "colorValue";
     public static final String DEFAULTVALUE = "#362400";
     public static final String EYESHIELD = "eyeshield";
     public static final String LIGHT = "light";
     public static final String CUSTOM_EYESHIELD = "custom_eyeshield";
     public static final String COLOR_ARGB = "color_argb";
-    public static final String ACCESSIBILITY = "accessibility";
     public static final int[][] FilterBlue = {{21, 14, 0}, {37, 25, 0}, {54, 36, 0}, {75, 50, 0}, {97, 64, 0}};
     public static final int[][] CoolColors = {{0, 0, 32}, {0, 3, 25}, {0, 5, 36}, {0, 7, 50}, {0, 9, 64}};
     public static final int[][] WarmTone = {{14, 2, 0}, {25, 4, 0}, {36, 6, 0}, {50, 8, 0}, {64, 10, 0}};

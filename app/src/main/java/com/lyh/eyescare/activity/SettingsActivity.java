@@ -17,8 +17,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -335,25 +333,6 @@ public class SettingsActivity extends AppCompatActivity implements CustomContrac
         //unregisterReceiver(receiver);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-        switch (itemId) {
-            case R.id.close:
-                finish();
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     @OnClick({R.id.switch_eyes_root, R.id.switch_light_root, R.id.switch_custom_setting_root, R.id.color_setting, R.id.app_color_setting})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -408,6 +387,8 @@ public class SettingsActivity extends AppCompatActivity implements CustomContrac
                 startActivity(new Intent(SettingsActivity.this, CustomSettingActivity.class));
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 break;
+            default:
+                break;
         }
     }
 
@@ -417,7 +398,7 @@ public class SettingsActivity extends AppCompatActivity implements CustomContrac
     }
 
     @Override
-    public void showProgressBar(boolean show) {
+    public void showProgressBar() {
 
     }
 

@@ -16,7 +16,7 @@ import java.util.List;
 public class MyApplication extends LitePalApplication {
 
     private static MyApplication application;
-    private static List<BaseActivity> activityList; //acticity管理
+    private List<BaseActivity> activityList; //acticity管理
 
     @Override
     public void onCreate() {

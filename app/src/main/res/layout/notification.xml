@@ -15,18 +15,15 @@
         android:orientation="horizontal"
         android:padding="5dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/cool"/>
-
-
         <TextView
+            android:drawableStart="@mipmap/cool"
+            android:id="@+id/notification_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="护目镜[未启用]"/>
-
+            android:gravity="center"
+            android:drawablePadding="5dp"
+            android:text="@string/notification_title_off"/>
 
     </LinearLayout>
 

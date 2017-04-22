@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="@dimen/color_button_size"
+              android:layout_width="@dimen/pop_button_width"
               android:layout_height="wrap_content"
+              android:gravity="center"
               android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="@dimen/color_button_size"
+        android:layout_width="@dimen/pop_button_width"
         android:layout_height="wrap_content"
         android:background="@mipmap/pop_top_bg"
         android:gravity="center"
@@ -13,14 +14,8 @@
 
         <Button
             android:id="@+id/menu1"
-            android:layout_width="@dimen/pop_button_width"
-            android:layout_height="@dimen/pop_button_height"
-            android:background="#546E7A"
-            android:padding="@dimen/color_text_padding"
-            android:text="-2"
-            android:textSize="@dimen/button_text_size"
-            android:textColor="@android:color/white"
-            />
+            style="@style/colorSettingBotton"
+            android:text="-2"/>
 
         <ImageView
             android:layout_width="match_parent"
@@ -29,14 +24,8 @@
 
         <Button
             android:id="@+id/menu2"
-            android:layout_width="@dimen/pop_button_width"
-            android:layout_height="@dimen/pop_button_height"
-            android:background="#546E7A"
-            android:padding="@dimen/color_text_padding"
-            android:text="-1"
-            android:textSize="@dimen/button_text_size"
-            android:textColor="@android:color/white"
-            />
+            style="@style/colorSettingBotton"
+            android:text="-1"/>
 
         <ImageView
             android:layout_width="match_parent"
@@ -45,14 +34,8 @@
 
         <Button
             android:id="@+id/menu3"
-            android:layout_width="@dimen/pop_button_width"
-            android:layout_height="@dimen/pop_button_height"
-            android:background="#546E7A"
-            android:padding="@dimen/color_text_padding"
-            android:text="默认"
-            android:textSize="@dimen/button_text_size"
-            android:textColor="@android:color/white"
-            />
+            style="@style/colorSettingBotton"
+            android:text="默认"/>
 
         <ImageView
             android:layout_width="match_parent"
@@ -61,14 +44,8 @@
 
         <Button
             android:id="@+id/menu4"
-            android:layout_width="@dimen/pop_button_width"
-            android:layout_height="@dimen/pop_button_height"
-            android:background="#546E7A"
-            android:padding="@dimen/color_text_padding"
-            android:text="+1"
-            android:textSize="@dimen/button_text_size"
-            android:textColor="@android:color/white"
-            />
+            style="@style/colorSettingBotton"
+            android:text="+1"/>
 
         <ImageView
             android:layout_width="match_parent"
@@ -77,14 +54,8 @@
 
         <Button
             android:id="@+id/menu5"
-            android:layout_width="@dimen/pop_button_width"
-            android:layout_height="@dimen/pop_button_height"
+            style="@style/colorSettingBotton"
             android:layout_marginBottom="23dp"
-            android:background="#546E7A"
-            android:padding="@dimen/color_text_padding"
-            android:text="+2"
-            android:textSize="@dimen/button_text_size"
-            android:textColor="@android:color/white"
-            />
+            android:text="+2"/>
     </LinearLayout>
 </LinearLayout>

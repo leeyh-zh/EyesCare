@@ -14,7 +14,6 @@ import com.lyh.eyescare.activity.CustomItemSettingActivity;
 import com.lyh.eyescare.adapter.CustomAdapter;
 import com.lyh.eyescare.base.BaseFragment;
 import com.lyh.eyescare.bean.AppInfo;
-import com.lyh.eyescare.manager.AppInfoManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +87,7 @@ public class SysAppFragment extends BaseFragment implements CustomContract.View 
     }
 
     @Override
-    public void showProgressBar(boolean show) {
+    public void showProgressBar() {
 
     }
 }

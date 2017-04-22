@@ -24,7 +24,6 @@
             android:id="@+id/app_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/switch_compat"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:textColor="@color/black"

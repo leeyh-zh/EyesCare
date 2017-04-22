@@ -133,7 +133,7 @@ public class CustomItemSettingActivity extends AppCompatActivity {
         alpha = mAppInfo.getAlpha();
         red = mAppInfo.getRed();
         green = mAppInfo.getGreen();
-        blue = mAppInfo.getBule();
+        blue = mAppInfo.getBlue();
     }
 
     private void initView() {
@@ -304,7 +304,8 @@ public class CustomItemSettingActivity extends AppCompatActivity {
                     mAppInfo.setCustomColor(true);
                 }
                 break;
-
+            default:
+                break;
         }
     }
 
@@ -324,7 +325,6 @@ public class CustomItemSettingActivity extends AppCompatActivity {
                 if (mPopWindow != null) {
                     mPopWindow.dissmiss();
                 }
-                String showContent = "";
                 switch (v.getId()) {
                     case R.id.menu1:
                         settingRGB(id, R.id.menu1);
@@ -340,6 +340,8 @@ public class CustomItemSettingActivity extends AppCompatActivity {
                         break;
                     case R.id.menu5:
                         settingRGB(id, R.id.menu5);
+                        break;
+                    default:
                         break;
                 }
             }

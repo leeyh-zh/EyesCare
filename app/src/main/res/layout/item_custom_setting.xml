@@ -304,92 +304,60 @@
                     android:id="@+id/scrollView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scrollbarSize="2dp">
+                    android:scrollbarSize="1dp">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <Button
                             android:id="@+id/btn_no_color"
-                            android:layout_width="@dimen/color_button_size"
-                            android:layout_height="@dimen/color_button_size"
+                            style="@style/colorBotton"
                             android:backgroundTint="#434343"
-                            android:padding="0dp"
-                            android:text="仅变暗"
-                            android:textColor="@color/white"
-                            android:textSize="12sp"/>
+                            android:text="仅变暗"/>
 
                         <Button
                             android:id="@+id/btn_filter_blue"
-                            android:layout_width="@dimen/color_button_size"
-                            android:layout_height="@dimen/color_button_size"
+                            style="@style/colorBotton"
                             android:backgroundTint="#435D6B"
-                            android:padding="0dp"
-                            android:text="滤蓝光"
-                            android:textColor="@color/white"
-                            android:textSize="12sp"/>
+                            android:text="滤蓝光"/>
 
                         <Button
                             android:id="@+id/btn_cool_colors"
-                            android:layout_width="@dimen/color_button_size"
-                            android:layout_height="@dimen/color_button_size"
+                            style="@style/colorBotton"
                             android:backgroundTint="#5D4743"
-                            android:padding="0dp"
-                            android:text="冷色调"
-                            android:textColor="@color/white"
-                            android:textSize="12sp"/>
+                            android:text="冷色调"/>
 
                         <Button
                             android:id="@+id/btn_warm_tone"
-                            android:layout_width="@dimen/color_button_size"
-                            android:layout_height="@dimen/color_button_size"
+                            style="@style/colorBotton"
                             android:backgroundTint="#43475D"
-                            android:padding="0dp"
-                            android:text="暖色调"
-                            android:textColor="@color/white"
-                            android:textSize="12sp"/>
+                            android:text="暖色调"/>
 
                         <Button
                             android:id="@+id/btn_eye_green"
-                            android:layout_width="@dimen/color_button_size"
-                            android:layout_height="@dimen/color_button_size"
+                            style="@style/colorBotton"
                             android:backgroundTint="#456043"
-                            android:padding="0dp"
-                            android:text="护眼绿"
-                            android:textColor="@color/white"
-                            android:textSize="12sp"/>
+                            android:text="护眼绿"/>
 
                         <Button
                             android:id="@+id/btn_ink_blue"
-                            android:layout_width="@dimen/color_button_size"
-                            android:layout_height="@dimen/color_button_size"
+                            style="@style/colorBotton"
                             android:backgroundTint="#815443"
-                            android:padding="0dp"
-                            android:text="水墨蓝"
-                            android:textColor="@color/white"
-                            android:textSize="12sp"/>
+                            android:text="水墨蓝"/>
 
                         <Button
                             android:id="@+id/btn_tea_black"
-                            android:layout_width="@dimen/color_button_size"
-                            android:layout_height="@dimen/color_button_size"
+                            style="@style/colorBotton"
                             android:backgroundTint="#43557E"
-                            android:padding="0dp"
-                            android:text="黑茶色"
-                            android:textColor="@color/white"
-                            android:textSize="12sp"/>
+                            android:text="黑茶色"/>
 
                         <Button
                             android:id="@+id/btn_strawberry_powder"
-                            android:layout_width="@dimen/color_button_size"
-                            android:layout_height="@dimen/color_button_size"
+                            style="@style/colorBotton"
                             android:backgroundTint="#5E4478"
-                            android:padding="0dp"
-                            android:text="草莓粉"
-                            android:textColor="@color/white"
-                            android:textSize="12sp"/>
+                            android:text="草莓粉"/>
                     </LinearLayout>
                 </HorizontalScrollView>
             </LinearLayout>

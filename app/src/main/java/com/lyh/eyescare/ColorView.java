@@ -1,6 +1,5 @@
 package com.lyh.eyescare;
 
-import android.accessibilityservice.AccessibilityService;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.support.annotation.Nullable;
@@ -17,7 +16,6 @@ import android.widget.LinearLayout;
 public class ColorView extends LinearLayout {
     private WindowManager mWindowManager;
     private WindowManager.LayoutParams mLayoutParams;
-    private AccessibilityService mService;
     private View colorWindow;
 
     public ColorView(Context context) {
@@ -30,7 +28,6 @@ public class ColorView extends LinearLayout {
 
     public ColorView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mService = (AccessibilityService) context;
         mWindowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
         initView();
     }

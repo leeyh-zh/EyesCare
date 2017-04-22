@@ -74,7 +74,7 @@ public class ColorManager {
 
     public static String toHexEncoding(int red, int green, int bule) {
         String R, G, B;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         R = Integer.toHexString(red).toUpperCase();
         G = Integer.toHexString(green).toUpperCase();
         B = Integer.toHexString(bule).toUpperCase();

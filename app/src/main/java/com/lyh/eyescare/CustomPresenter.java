@@ -55,14 +55,13 @@ public class CustomPresenter implements CustomContract.Presenter {
         protected List<AppInfo> doInBackground(Void... params) {
             List<AppInfo> appInfos = mAppInfoManager.getAllAppInfos();
             Iterator<AppInfo> infoIterator = appInfos.iterator();
-            mView.showProgressBar(true);
+            mView.showProgressBar();
             while (infoIterator.hasNext()) {
                 AppInfo appInfo = infoIterator.next();
                 try {
                     ApplicationInfo applicationInfo = mPackageManager.getApplicationInfo(appInfo.getPackageName(), PackageManager.GET_UNINSTALLED_PACKAGES);
                     if (appInfo == null || mPackageManager.getApplicationIcon(applicationInfo) == null) {
                         infoIterator.remove();
-                        continue;
                     } else {
                         appInfo.setApplicationInfo(applicationInfo);
                         if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
@@ -83,7 +82,7 @@ public class CustomPresenter implements CustomContract.Presenter {
         protected void onPostExecute(List<AppInfo> appInfoList) {
             super.onPostExecute(appInfoList);
             mView.loadAppInfoSuccess(appInfoList);
-            mView.showProgressBar(false);
+            mView.showProgressBar();
         }
     }
 
@@ -104,7 +103,6 @@ public class CustomPresenter implements CustomContract.Presenter {
                     ApplicationInfo applicationInfo = mPackageManager.getApplicationInfo(info.getPackageName(), PackageManager.GET_UNINSTALLED_PACKAGES);
                     if (appInfos == null || mPackageManager.getApplicationIcon(applicationInfo) == null) {
                         infoIterator.remove(); //将有错的app移除
-                        continue;
                     } else {
                         info.setApplicationInfo(applicationInfo);
                         if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {

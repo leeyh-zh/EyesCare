@@ -83,7 +83,7 @@ public class UserAppFragment extends BaseFragment implements CustomContract.View
     }
 
     @Override
-    public void showProgressBar(boolean show) {
+    public void showProgressBar() {
 
     }
 }

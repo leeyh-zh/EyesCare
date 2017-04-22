@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.lyh.eyescare.R;
 import com.lyh.eyescare.constant.Constants;
 import com.lyh.eyescare.manager.ColorManager;
-import com.lyh.eyescare.service.BackService;
 import com.lyh.eyescare.utils.SpUtil;
 import com.lyh.eyescare.view.CustomPopWindow;
 
@@ -69,10 +68,7 @@ public class ColorSettingActivity extends AppCompatActivity {
     private int blue;
     private int green;
     private String tvColor;
-    private BackService curservice;
     private boolean eyeProtectionOpen;
-    private ColorManager mColorManager;
-    private CustomPopWindow customPopWindow;
     private CustomPopWindow popWindow;
     private SpUtil mSpUtil;
 
@@ -238,6 +234,8 @@ public class ColorSettingActivity extends AppCompatActivity {
             case R.id.btn_strawberry_powder:
                 showPopTop(btnStrawberryPowder);
                 break;
+            default:
+                break;
         }
         redSeekBar.setProgress(red);
         greenSeedBar.setProgress(green);
@@ -250,7 +248,7 @@ public class ColorSettingActivity extends AppCompatActivity {
         popWindow = new CustomPopWindow.PopupWindowBuilder(this)
                 .setView(contentView)
                 .create();
-        popWindow.showAsDropDown(button, 0, -(button.getHeight() / 4 + popWindow.getHeight()));
+        popWindow.showAsDropDown(button, -(popWindow.getWidth() - button.getWidth()) / 2, -(button.getHeight() / 3 * 2 + popWindow.getHeight()));
     }
 
     private void handleLogic(View contentView, final int id) {
@@ -260,7 +258,6 @@ public class ColorSettingActivity extends AppCompatActivity {
                 if (popWindow != null) {
                     popWindow.dissmiss();
                 }
-                String showContent = "";
                 switch (v.getId()) {
                     case R.id.menu1:
                         settingRGB(id, R.id.menu1);
@@ -276,6 +273,8 @@ public class ColorSettingActivity extends AppCompatActivity {
                         break;
                     case R.id.menu5:
                         settingRGB(id, R.id.menu5);
+                        break;
+                    default:
                         break;
                 }
             }
